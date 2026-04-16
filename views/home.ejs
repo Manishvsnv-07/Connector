@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Account</title>
+        <link rel="stylesheet" href="output.css">
+    </head>
+
+    <body>
+        <div class="main relative w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
+            <div
+                class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
+                <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
+                    <button>Logo</button>
+                    <a href="/home"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-[#ab9ff27a]  lg:w-[11vw] h-12"><img
+                            src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Home</span></a>
+                    <a href="/Vclips"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
+                            class="hidden lg:inline">Vclips</span></a>
+                    <a href="/post"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Post</span></a>
+                    <a href="/Search"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Search</span></a>
+                    <a href="/profile"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Profile</span></a>
+                </div>
+            </div>
+
+            <div class="right w-full h-screen border flex justify-center border-zinc-700 bg-zinc-900">
+
+                <div class="feed w-full sm:h-[99vh] h-[88vh] flex flex-col overflow-y-scroll">
+                    <% alluserspost.forEach((post)=>{ %>
+                        <div class="post flex flex-col md:flex-row justify-center items-center">
+                            <% if(post.user){ %>
+                                <div
+                                    class="userspost relative m-4 flex flex-col px-3 py-2 gap-3 border border-zinc-700 justify-center items-center">
+                                    <div class="postheader flex justify-between w-full">
+                                        <div class="leftheader flex gap-3">
+                                            <img src="<%= post.user.image %>" class="w-7 rounded-full" alt="">
+                                            <a href="/home/<%= post.user._id %>"
+                                                class="text-gray-400 hover:scale-[1.05] hover:cursor-pointer hover:text-white">
+                                                <h1>@<%= post.user.username %>
+                                                </h1>
+                                            </a>
+                                        </div>
+                                        <div class="rightheader">
+                                            <% if(post.user.follower.some(id=> id.equals(userdata._id))){ %>
+                                                <button
+                                                    class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                                    onclick="followuser('<%= post.user._id %>',this)">Unfollow</button>
+                                                <% } else{ %>
+                                                    <button
+                                                        class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                                        onclick="followuser('<%= post.user._id %>',this)">Follow</button>
+                                                    <% } %>
+                                        </div>
+                                    </div>
+                                    <% if(post.image==="" ){ %>
+                                        <video src="<%= post.videos %>" autoplay muted loop poster="images/default.png"
+                                            data-id="<%= post._id %>"
+                                            class="videoplay h-[76vh] w-[80vw] sm:w-[50vw] lg:w-[35vw] xl:w-[25vw] object-cover rounded-2xl"></video>
+                                        <img src="images/play.svg"
+                                            class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11"
+                                            alt="">
+                                        <% } else{ %>
+                                            <img src="<%= post.image %>"
+                                                class="w-[90vw] sm:w-[60vw] lg:w-[30vw] xl:[30vw]" alt="">
+                                            <% } %>
+                                                <div id="userinteract-<%= post._id %>"
+                                                    class="likecommentmusic flex w-full px-3 h-7 justify-between items-center">
+                                                    <div class="likeorcomment flex gap-5 sm:gap-11">
+                                                        <% if(post.image==="" ){ %>
+                                                            <div class="view flex gap-2 w-7 mr-2">
+                                                                <img src="images/view.svg" class="w-5" alt="view">
+                                                                <h2 class="font-bold">
+                                                                    <%= post.views.length %>
+                                                                </h2>
+                                                            </div>
+                                                            <% } %>
+                                                                <div class="like flex gap-2 w-7 mr-2">
+
+                                                                    <% if(post.likes.includes(userdata._id)){ %>
+                                                                        <img src="images/liked.svg"
+                                                                            class="liked   w-5 hover:scale-[1.2] hover:cursor-pointer"
+                                                                            data-id="<%= post._id %>"
+                                                                            onclick="likepost('<%= post._id %>')">
+                                                                        <img src="images/unliked.svg"
+                                                                            class="unliked w-5 hover:scale-[1.2] hover:cursor-pointer hidden"
+                                                                            data-id="<%= post._id %>"
+                                                                            onclick="likepost('<%= post._id %>')">
+                                                                        <% } else { %>
+                                                                            <img src="images/liked.svg"
+                                                                                class="liked   w-5 hover:scale-[1.2] hover:cursor-pointer hidden"
+                                                                                data-id="<%= post._id %>"
+                                                                                onclick="likepost('<%= post._id %>')">
+                                                                            <img src="images/unliked.svg"
+                                                                                class="unliked w-5 hover:scale-[1.2] hover:cursor-pointer"
+                                                                                data-id="<%= post._id %>"
+                                                                                onclick="likepost('<%= post._id %>')">
+                                                                            <% } %>
+                                                                                <h2 class="likecount font-bold font-sans"
+                                                                                    data-id="<%= post._id %>">
+                                                                                    <%= post.likes.length %>
+                                                                                </h2>
+                                                                </div>
+                                                                <div class="flex gap-2 w-7 mr-2">
+                                                                    <img src="images/comment.svg"
+                                                                        onclick="openbox(`<%= post._id %>`)"
+                                                                        class="comment w-5 hover:scale-[1.2] hover:cursor-pointer"
+                                                                        alt="">
+                                                                    <h2 class="commentcount font-bold font-sans"
+                                                                        data-id="<%= post._id %>">
+                                                                        <%= post.comments.length %>
+                                                                    </h2>
+                                                                </div>
+                                                    </div>
+                                                    <div class="flex gap-5 ml-10 sm:ml-0">
+                                                        <% if(post.image==="" ){ %>
+                                                            <img src="images/offsound.svg"
+                                                                class="playsound w-5 hover:scale-[1.2] hover:cursor-pointer"
+                                                                alt="">
+                                                            <% }%>
+                                                                <% if(userdata.walletAddress &&
+                                                                    post.user.walletAddress){ %>
+                                                                    <div onclick="opensol('<%= post._id %>')"
+                                                                        class="solona flex rounded-md border border-zinc-700 bg-transparent px-2 hover:scale-[1.2] hover:cursor-pointer">
+                                                                        <img src="images/solona.svg" class="w-5 z-10"
+                                                                            alt="">
+                                                                        <h1 class="text-white font-semibold">Send</h1>
+                                                                    </div>
+                                                                    <% } %>
+                                                    </div>
+                                                </div>
+                                                <%if(post.image==="" ){ %>
+                                                    <p onclick="postdescription('<%= post._id %>')"
+                                                        id="postdescription-<%= post._id %>"
+                                                        class="pdescription max-h-[27vh] w-[90vw] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-5 line-clamp-2 font-thin hover:cursor-pointer">
+                                                        <% let r=Math.random() %>
+                                                            <% if(r>0.1 && r<0.2 ){ %>
+                                                                    <span class="text-blue-500">₥</span>
+                                                                    <% } else if(r>0.2 && r<0.3){ %>
+                                                                            <span class="text-blue-500">µ</span>
+                                                                            <% } else if(r>0.3){ %>
+                                                                                <span class="text-blue-500">✓</span>
+                                                                                <% } else if(r<0.1){ %>
+                                                                                    <span class="text-blue-500">⌀</span>
+                                                                                    <% } %>
+                                                                                        <%= post.description %>
+                                                    </p>
+                                                    <% } else{ %>
+                                                        <p onclick="postdescription('<%= post._id %>')"
+                                                            id="postdescription-<%= post._id %>"
+                                                            class="pdescription max-h-[27vh] w-[90vw] sm:w-[55vw] md:w-[60vw] lg:w-[34vw] xl:w-[30vw] left-5 line-clamp-2 font-thin hover:cursor-pointer">
+                                                            <% let r=Math.random() %>
+                                                                <% if(r>0.1 && r<0.2 ){ %>
+                                                                        <span class="text-blue-500">₥</span>
+                                                                        <% } else if(r>0.2 && r<0.3){ %>
+                                                                                <span class="text-blue-500">µ</span>
+                                                                                <% } else if(r>0.3){ %>
+                                                                                    <span class="text-blue-500">✓</span>
+                                                                                    <% } else if(r<0.1){ %>
+                                                                                        <span
+                                                                                            class="text-blue-500">⌀</span>
+                                                                                        <% } %>
+                                                                                            <%= post.description %>
+                                                        </p>
+                                                        <% } %>
+                                </div>
+
+
+                                <div id="commentbox-<%= post._id %>"
+                                    class="commentbox hidden m-4 px-3 py-2 gap-5 h-[70vh] border border-zinc-700 flex flex-col justify-center ">
+
+                                    <div class="flex items-center gap-5">
+                                        <div>
+                                            <img src="images/back.svg"
+                                                class="backcomment-<%= post._id %> hidden md:inline w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                                alt="">
+                                            <img src="images/up.svg"
+                                                class="upcomment-<%= post._id %> inline md:hidden w-7 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                                alt="">
+                                        </div>
+                                        <p>Creative <strong class="text-yellow-300">Comments</strong></p>
+                                    </div>
+
+                                    <div data-id="<%= post._id %>"
+                                        class="userscommentbox w-[80vw] sm:w-[60vw] md:w-[30vw] flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                                        <% post.comments.reverse().forEach((c)=>{ %>
+                                            <div
+                                                class="eachcomment border flex justify-start items-start gap-2 px-3 py-2 border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] min-h-[11vh]">
+                                                <h1 class="nameofuser text-blue-600 shrink-0">
+                                                    <%= c.nameofuser %>
+                                                </h1>
+                                                <p class="usercomment wrap-break-word">
+                                                    <%= c.comment %>
+                                                </p>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+
+                                    <div class="flex mb-3 justify-center items-center gap-3 ">
+                                        <textarea id="comment-<%= post._id %>" placeholder="Comment Creatively"
+                                            class="w-[65vw] sm:w-[52vw] md:w-[25vw]  border pt-3 border-zinc-700 resize-none  rounded-md px-2 bg-transparent"></textarea>
+                                        <button type="submit"><img src="images/send.svg"
+                                                class="invert w-[9vw] sm:w-[7vw] md:w-[4vw] px-2 hover:scale-[1.07] hover:cursor-pointer"
+                                                onclick="sendcomment(`<%= post._id %>`,'<%= userdata.username %>')"
+                                                alt=""></button>
+                                    </div>
+                                </div>
+
+                                <div id="solbox-<%= post._id %>"
+                                    class="hidden flex flex-col justify-between w-[80vw] sm:w-[60vw] md:w-[30vw] px-3 border border-zinc-700 h-[70vh]">
+                                    <div class="flex items-center gap-5">
+                                        <div>
+                                            <img src="images/up.svg" id="upsol-<%= post._id %>"
+                                                class="inline md:hidden w-7 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                                alt="">
+                                            <img src="images/back.svg" id="backsol-<%= post._id %>"
+                                                class="hidden md:inline w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                                alt="">
+                                        </div>
+                                        <p>Creator <strong class="text-yellow-300">Supporters</strong></p>
+                                    </div>
+                                    <div class="solsenders h-[70vh] flex flex-col overflow-y-scroll justify-start">
+                                        <div
+                                            class="senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-center shrink-0">
+                                            <p class="text-[17px]"><strong class="text-yellow-300">0.5</strong> Sol Send
+                                                By <strong class="text-purple-300">@its_manish_vaishnav</strong></p>
+                                        </div>
+                                    </div>
+                                    <div class="h-[20vh] flex flex-col justify-center items-center gap-5 mb-2">
+                                        <div class="solbtn flex gap-9">
+                                            <button
+                                                class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                                onclick="selectsol(this,0.5)">0.5</button>
+                                            <button
+                                                class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                                onclick="selectsol(this,1)">1</button>
+                                            <button
+                                                class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                                onclick="selectsol(this,2)">2</button>
+                                        </div>
+                                        <button
+                                            onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>')"
+                                            class="rounded-md bg-purple-400 px-2 w-[14vw] sm:w-[9vw] h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
+                                    </div>
+                                </div>
+
+                                <% }%>
+                        </div>
+
+
+
+                        <% }) %>
+
+                </div>
+            </div>
+            <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
+                <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
+                <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
+                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            </div>
+        </div>
+        <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+        <script src="/script.js"></script>
+    </body>
+
+    </html>

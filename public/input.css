@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Quicksand", sans-serif;
+}
+.solsenders::-webkit-scrollbar {
+    width: 9px;
+}
+.solsenders::-webkit-scrollbar-track {
+    background: transparent;
+}
+.solsenders::-webkit-scrollbar-thumb {
+    background: #3f3f46; /* zinc-700 */
+    border-radius: 999px;
+}
+.solsenders::-webkit-scrollbar-thumb:hover {
+    background: #52525b; /* zinc-600 */
+}
+
+
+.userscommentbox::-webkit-scrollbar {
+    width: 9px;
+}
+.userscommentbox::-webkit-scrollbar-track {
+    background: transparent;
+}
+.userscommentbox::-webkit-scrollbar-thumb {
+    background: #3f3f46; /* zinc-700 */
+    border-radius: 999px;
+}
+.userscommentbox::-webkit-scrollbar-thumb:hover {
+    background: #52525b; /* zinc-600 */
+}
+
+
+.vdescription::-webkit-scrollbar {
+    width: 9px;
+}
+.vdescription::-webkit-scrollbar-track {
+    background: transparent;
+}
+.vdescription::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.32); /* zinc-700 */
+    border-radius: 999px;
+}
+.vdescription::-webkit-scrollbar-thumb:hover {
+    background: #52525b; /* zinc-600 */
+}
+
+
+
+
+
+
+.feed::-webkit-scrollbar {
+    width: 5px;
+}
+.feed::-webkit-scrollbar-track {
+    background: transparent;
+}
+.feed::-webkit-scrollbar-thumb {
+    background: #3a3a40; /* zinc-700 */
+    border-radius: 999px;
+}
+.feed::-webkit-scrollbar-thumb:hover {
+    background: #3a3a40; /* zinc-600 */
+}
+

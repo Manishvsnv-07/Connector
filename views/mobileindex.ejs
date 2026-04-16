@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body>
+
+    <div class="main w-full relative h-screen flex bg-zinc-900">
+                <div
+                    class="right flex text-white text-xl w-full h-screen bg-transparent flex-col items-center justify-center">
+                    <form action="/login" method="post">
+                        <div class="righttop w-full flex flex-col gap-7 my-7 justify-center items-center">
+                            <h1 class="font-sans font-bold">Log Into Account</h1>
+                            <input type="text" name="username"
+                                class="border border-gray-500 bg-transparent px-3  w-[85vw] md:w-xl h-13 rounded-md"
+                                placeholder="Enter Username">
+                            <input type="password" name="password"
+                                class="border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] md:w-xl h-13"
+                                placeholder="Password">
+                            <button
+                                class="bg-blue-700 px-2 py-2 w-[85vw] md:w-xl rounded-md hover:scale-[1.02] hover:cursor-pointer">Login</button>
+                        </div>
+                    </form>
+                    <div>
+                        <h1>Or</h1>
+                    </div>
+                    <div class="rightbottom flex flex-col justify-center gap-7 my-5 items-center">
+                        <form action="/create" method="post">
+                            <button
+                                class="rounded-3xl w-[85vw] md:w-xl bg-transparent h-13 px-2 py-2 border hover:scale-[1.02] hover:cursor-pointer border-gray-500">Create
+                                An Account</button>
+                        </form>
+                    </div>
+                </div>
+    </div>
+</body>
+
+</html>

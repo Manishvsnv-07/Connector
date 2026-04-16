@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account</title>
+    <link rel="stylesheet" href="/output.css">
+</head>
+
+<body>
+    <div class="main relative w-full h-screen flex text-white bg-zinc-900">
+        <div
+                class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
+                <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
+                    <button>Logo</button>
+                    <a href="/home"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-[#ab9ff27a]  lg:w-[11vw] h-12"><img
+                            src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Home</span></a>
+                    <a href="/Vclips"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
+                            class="hidden lg:inline">Vclips</span></a>
+                    <a href="/post"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Post</span></a>
+                    <a href="/Search"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Search</span></a>
+                    <a href="/profile"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Profile</span></a>
+                </div>
+            </div>
+        <div class="right w-full h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+
+            <div class="Searchbox w-[80vw] sm:w-[40vw] md:w-[30vw] h-screen">
+                <div class="searching relative p-2 flex justify-between items-center gap-2">
+                    <input type="text" id="searchinput" placeholder="Search Your Friend"
+                        class="w-full h-11 p-2 border border-zinc-700 rounded-md">
+                    <img src="images/search.svg" class="absolute right-5 w-5 sm:w-7 hover:scale-[1.1] hover:cursor-pointer"
+                        alt="">
+                </div>
+
+                <div
+                    class="searchedusers flex-1 h-[75vh] sm:h-[87vh] border border-zinc-700 p-2 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                </div>
+            </div>
+        </div>
+        <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
+                <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
+                <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
+                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            </div>
+    </div>
+    <script src="/script.js"></script>
+</body>
+
+</html>

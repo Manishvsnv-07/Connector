@@ -1,0 +1,10 @@
+<div class="footers flex flex-col gap-5 justify-center items-center">
+                <% if(!userdata.walletAddress=="" ){ %>
+                    <a href="/profile/Disconnectphantom"
+                        class="rounded-md bg-[#ab9ff2] w-[11vw] h-[5vh] px-2 text-black text-[15px] hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Disconnect
+                        Phantom</a>
+                    <% }%>
+                        <a href="/logout"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-red-600 rounded-md w-[11vw] h-12"><img
+                                src="images/logout.svg" class="rounded-full w-7" alt="">Logout</a>
+            </div>

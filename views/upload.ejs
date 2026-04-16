@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body>
+
+    <% if(success.length> 0) { %>
+        <div
+            class="w-[15vw] fixed top-4 left-[42.5%] h-[5vh] rounded-md text-white font-bold bg-green-500 flex items-center justify-center z-50">
+            <%= success %>
+        </div>
+        <% } %>
+
+            <% if(error.length> 0) { %>
+                <div
+                    class="w-[15vw] fixed top-4 left-[42.5%] h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50">
+                    <%= error %>
+                </div>
+                <% } %>
+
+                    <% if(undefined.length> 0) { %>
+                        <div
+                            class="w-[15vw] fixed top-4 left-[42.5%] h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50">
+                            <%= undefined %>
+                        </div>
+                        <% } %>
+                            <div class="main relative w-full h-screen flex text-white bg-zinc-900">
+                                <div
+                                    class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
+                                    <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
+                                        <button>Logo</button>
+                                        <a href="/home"
+                                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-[#ab9ff27a]  lg:w-[11vw] h-12"><img
+                                                src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                                class="hidden lg:inline">Home</span></a>
+                                        <a href="/Vclips"
+                                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                                src="images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
+                                                class="hidden lg:inline">Vclips</span></a>
+                                        <a href="/post"
+                                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                                src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                                class="hidden lg:inline">Post</span></a>
+                                        <a href="/Search"
+                                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                                src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
+                                                class="hidden lg:inline">Search</span></a>
+                                        <a href="/profile"
+                                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                                src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7"
+                                                alt=""><span class="hidden lg:inline">Profile</span></a>
+                                    </div>
+                                </div>
+                                <div
+                                    class="right  w-full h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+
+                                    <form action="/post" method="post" enctype="multipart/form-data">
+                                        <div class="uploadbox w-[80vw] h-[75vh] flex flex-col md:flex-row gap-7 overflow-y-auto items-center md:items-start justify-start rounded-md">
+
+                                            <div class="img flex justify-center items-center w-full md:w-1/2">
+                                                <img id="previwimg" src="images/upload.png"
+                                                    class="aspect-9/11 border border-zinc-700 rounded-md h-[60vh] object-cover"
+                                                    alt="">
+
+                                                <div class="videobox hidden relative">
+                                                    <video id="videopreview"
+                                                        class="aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover"
+                                                        autoplay muted playsinline loop></video>
+
+                                                    <img src="images/offsound.svg" class="vmusicoff absolute bottom-5 right-5 w-5"
+                                                        alt="">
+                                                </div>
+                                            </div>
+
+                                            <!-- CONTENT BOX -->
+                                            <div class="content-D flex flex-col gap-7 w-full md:w-1/2">
+
+                                                <!-- FILE INPUT -->
+                                                <div class="relative w-full h-11 flex items-center justify-center">
+                                                    <input type="file" id="fileInput" name="media"
+                                                        accept="image/*,video/*"
+                                                        class="absolute inset-0 opacity-0 cursor-pointer z-10">
+
+                                                    <button onclick="document.getElementById('fileInput').click()"
+                                                        class="border border-zinc-700 h-11 w-full rounded-md">
+                                                        Upload File
+                                                    </button>
+                                                </div>
+
+                                                <!-- TEXTAREA -->
+                                                <textarea name="description" placeholder="About Your Content"
+                                                    class="resize-none w-full h-[25vh] border outline-none border-zinc-700 rounded-md bg-transparent text-white p-2 overflow-y-auto"></textarea>
+
+                                                <!-- TAGS -->
+                                                <div
+                                                    class="flex flex-col border border-zinc-700 rounded-lg px-3 py-2 gap-4">
+                                                    <div id="tagsContainer" class="flex gap-2 cursor-text">
+                                                        <input id="tagInput" placeholder="Put Tags Wisely..."
+                                                            class="border-none outline-none bg-transparent text-md w-full" />
+                                                    </div>
+                                                    <div id="tagPills" class="flex flex-wrap gap-3 mt-2"></div>
+                                                </div>
+
+                                                <input type="hidden" name="tags" id="tagsData" />
+
+                                                <!-- BUTTON -->
+                                                <button type="submit" class="bg-blue-700 rounded-md w-full h-11">
+                                                    Post It
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
+                                    <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
+                                    <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
+                                    <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
+                                    <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
+                                    <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9"
+                                            alt=""></a>
+                                </div>
+
+                                <script src="script.js" defer></script>
+</body>
+
+</html>

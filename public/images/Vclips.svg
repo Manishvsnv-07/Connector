@@ -1,0 +1,7 @@
+<svg width="200" height="320" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="320" rx="40" fill="#ab9ff2"/>
+
+  <!-- Play Icon -->
+  <polygon points="85,130 85,190 135,160" fill="#000000"/>
+</svg>

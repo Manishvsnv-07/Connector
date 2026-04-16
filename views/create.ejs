@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body>
+    <form action="/create/account" class="w-full" method="post">
+        <div class="main w-full h-screen flex bg-zinc-900">
+            <div class="left md:flex w-[55vw] h-screen bg-black hidden flex-col justify-center items-center">
+                <img src="images/thumbnail.jpeg" class="h-[80vh] rounded-md" alt="">
+                <div class="flex gap-5 justify-center items-center">
+                    <h1 class="text-white"><strong class="text-red-500">Creator</strong> And <strong>User</strong> First
+                        !</h1>
+                </div>
+            </div>
+            <div
+                class="right text-white text-xl w-full md:w-[45vw] h-screen bg-transparent gap-7 flex flex-col items-center justify-center">
+                <h1 class="font-sans font-bold">Create An Account</h1>
+                <input type="email" name="email"
+                    class="border border-gray-500 bg-transparent px-3 w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
+                    placeholder="Email">
+                <input type="text" name="name"
+                    class="border border-gray-500 bg-transparent px-3  w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
+                    placeholder="Your Name">
+                <input type="text" name="username"
+                    class="border border-gray-500 bg-transparent px-3  w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
+                    placeholder="Enter Username">
+                <input type="password" name="password"
+                    class=" border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
+                    placeholder="Password">
+                <button
+                    class="bg-blue-700 px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer">Create
+                    An
+                    Account</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
