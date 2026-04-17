@@ -68,3 +68,16 @@
     background: #3a3a40; /* zinc-600 */
 }
 
+.manage::-webkit-scrollbar {
+    width: 5px;
+}
+.manage::-webkit-scrollbar-track {
+    background: transparent;
+}
+.manage::-webkit-scrollbar-thumb {
+    background: #3a3a40; /* zinc-700 */
+    border-radius: 999px;
+}
+.manage::-webkit-scrollbar-thumb:hover {
+    background: #3a3a40; /* zinc-600 */
+}

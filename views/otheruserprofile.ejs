@@ -4,48 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Account</title>
+    <title>itachi</title>
     <link rel="stylesheet" href="/output.css">
 </head>
 
 <body>
-    <div class="main w-full h-screen flex text-white bg-zinc-900">
-        <div class="left w-[14vw] h-screen flex flex-col justify-between items-center py-2 bg-zinc-900">
-            <div class="flex gap-5 flex-col justify-center items-center">
-                <button>Logo</button>
-                <a href="/home"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-[#ab9ff27a] rounded-md w-[11vw] h-12"><img
-                        src="/images/home.svg" class="rounded-full w-7" alt=""><span class="hidden lg:inline">Home</span></a>
-                <a href="/Vclips"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-zinc-800 rounded-md w-[11vw] h-12"><img
-                        src="/images/Vclips.svg" class="w-5" alt="">Vclips</a>
-                <a href="/post"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-zinc-800 rounded-md w-[11vw] h-12"><img
-                        src="/images/post.svg" class="rounded-full w-7" alt="">post</a>
-                <a href="/Search"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-zinc-800 rounded-md w-[11vw] h-12"><img
-                        src="/images/Search.svg" class="w-5" alt="">Search</a>
-                <a href="/profile"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-zinc-800 rounded-md w-[11vw] h-12"><img
-                        src="<%= userdata.image %>" class="rounded-full w-7" alt="">Profile</a>
+    <div class="main relative w-full h-screen flex text-white bg-zinc-900">
+        <div
+                class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
+                <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
+                    <button>Logo</button>
+                    <a href="/home"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-[#ab9ff27a]  lg:w-[11vw] h-12"><img
+                            src="/images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Home</span></a>
+                    <a href="/Vclips"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="/images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
+                            class="hidden lg:inline">Vclips</span></a>
+                    <a href="/post"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="/images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Post</span></a>
+                    <a href="/Search"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="/images/Search.svg" class="w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Search</span></a>
+                    <a href="/profile"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Profile</span></a>
+                </div>
             </div>
-            <div class="footers flex flex-col gap-5 justify-center items-center">
-                <a href="/logout"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-red-600 rounded-md w-[11vw] h-12"><img
-                        src="/images/logout.svg" class="rounded-full w-7" alt="">Logout</a>
-            </div>
-
-        </div>
-        <div class="right w-[86vw] h-screen border relative border-zinc-700 bg-zinc-900">
-            <div class="aboutuser flex gap-5 h-1/3  justify-center items-center">
-                <img src="<%= userdata.image %>" class="w-40 h-40 rounded-full" alt="">
-                <div class="userdetails flex flex-col gap-3">
-                    <h1>@<%= userdata.username %>
+        <div class="right w-full h-screen border relative border-zinc-700 bg-zinc-900">
+            <div class="aboutuser flex gap-5 h-[40%] sm:h-1/3 w-full py-5 sm:py-3 justify-center items-center">
+                <div class="w-[20%] flex justify-center items-center">
+                    <img src="<%= userdata.image %>" class="w-40 h-40 rounded-full" alt="">
+                </div>
+                <div class="userdetails flex flex-col w-[50%] sm:w-[40%] gap-3">
+                    <h1 class="w-full">@<%= userdata.username %>
                     </h1>
-                    <h2>
+                    <h2 class="w-full">
                         <%= userdata.name %>
                     </h2>
-                    <div class="popularity flex gap-4">
+                    <div class="popularity w-full flex gap-4">
                         <button>
                             <%= userdata.follower.length %> Follower
                         </button>
@@ -54,37 +56,36 @@
                         </button>
                     </div>
 
-                    <p class="w-65 h-7 truncate">
+                    <p class="w-full h-7 truncate">
                         <%= userdata.bio %>
                     </p>
                     <div class="flex gap-4">
                         <% if(userdata.walletAddress){ %>
                             <button
-                                class="rounded-md bg-[#ab9ff2] w-[13vw] h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected
+                                class="rounded-md bg-[#ab9ff2] h-[3vh] sm:h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected
                                 ✓</button>
                             <% } else{ %>
                                 <button
-                                    class="rounded-md bg-[#ab9ff2] w-[13vw] h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Not
+                                    class="rounded-md bg-[#ab9ff2] h-[3vh] sm:h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Not
                                     Connected ✕</button>
                                 <% } %>
                     </div>
                 </div>
             </div>
             <div
-                class="usersposts h-2/3 overflow-y-scroll grid grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
+                class="usersposts h-[60%] sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
 
                 <% userdata.posts.reverse().forEach((post)=>{ %>
                     <div
-                        class="userspost w-[20vw] aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
-                        <div class="postheader flex justify-between">
-                            <div class="leftheader flex gap-3">
+                        class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
+                        <div class="postheader flex justify-between w-full">
+                            <div class="header flex gap-3 w-full">
                                 <img src="<%= userdata.image %>" class="w-7 rounded-full" alt="">
-                                <h1>@<%= userdata.username %>
-                                </h1>
+                                <h1 class="truncate"><%= userdata.username %></h1>
                             </div>
                         </div>
                         <% if(post.image==="" ){ %>
-                            <a href="/profile/viewpost/<%= post._id%>" class="block w-full h-full"><video
+                            <a href="/profile/viewpost/<%= post._id %>" class="block w-full h-full"><video
                                     src="<%= post.videos %>" autoplay muted
                                     class="w-full h-full object-cover"></video></a>
                             <% } else{ %>
@@ -95,6 +96,14 @@
                     <% }) %>
 
             </div>
+        </div>
+
+        <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
+                <a href="/home"><img src="/images/home.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Vclips"><img src="/images/Vclips.svg" class="w-6" alt=""></a>
+                <a href="/post"><img src="/images/post.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Search"><img src="/images/Search.svg" class="w-9" alt=""></a>
+                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
         </div>
     </div>
     <script src="/script.js"></script>
