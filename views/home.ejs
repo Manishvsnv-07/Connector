@@ -84,20 +84,18 @@
                                             class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11"
                                             alt="">
                                         <% } else{ %>
-                                            <img src="<%= post.image %>"
-                                                class="w-[90vw] sm:w-[60vw] lg:w-[30vw] xl:[30vw]" alt="">
+                                            <img src="<%= post.image %>" data-id="<%= post._id %>"
+                                                class="postsimg w-[90vw] sm:w-[60vw] lg:w-[30vw] xl:[30vw]" alt="">
                                             <% } %>
                                                 <div id="userinteract-<%= post._id %>"
                                                     class="likecommentmusic flex w-full px-3 h-7 justify-between items-center">
                                                     <div class="likeorcomment flex gap-5 sm:gap-11">
-                                                        <% if(post.image==="" ){ %>
                                                             <div class="view flex gap-2 w-7 mr-2">
                                                                 <img src="images/view.svg" class="w-5" alt="view">
                                                                 <h2 class="font-bold">
                                                                     <%= post.views.length %>
                                                                 </h2>
                                                             </div>
-                                                            <% } %>
                                                                 <div class="like flex gap-2 w-7 mr-2">
 
                                                                     <% if(post.likes.includes(userdata._id)){ %>

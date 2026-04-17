@@ -190,19 +190,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 playicon.forEach(p => {
                     p.classList.add("hidden")
                 })
-
-                if (!viewedVideos.has(video)) {
-                    viewedVideos.add(video)
-                    let t = (video.duration * 30) / 100
-                    let view = Math.round(t)
-                    setTimeout(() => {
-                        let postid = video.dataset.id;
-                        fetch("/view/" + postid,
-                            {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" }
-                            })
-                    }, view * 1000);
+                if(video.tagName === "VIDEO"){
+                    if (!viewedVideos.has(video)) {
+                        viewedVideos.add(video)
+                        let t = (video.duration * 30) / 100
+                        let view = Math.round(t)
+                        setTimeout(() => {
+                            let postid = video.dataset.id;
+                            fetch("/view/" + postid,
+                                {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" }
+                                })
+                        }, view * 1000);
+                    }
                 }
 
                 if (musicon) {
@@ -222,6 +223,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     videoplay.forEach(video => {
         observer.observe(video)
+    })
+
+    let viewedPosts = new WeakSet()
+    let postsimg = document.querySelectorAll(".postsimg")
+    const imgobserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const el = entry.target;
+            if (el.tagName === "IMG") {
+                if (!viewedPosts.has(el)) {
+                    viewedPosts.add(el)
+                    let postid = el.dataset.id;
+                    fetch("/view/" + postid,
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" }
+                        })
+                }
+            }
+        })
+    })
+
+    postsimg.forEach(img => {
+        imgobserver.observe(img)
     })
 
     let currentIndex = 0;
@@ -337,9 +361,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let disconnect = document.querySelector(".disconnect")
     let dissure = document.querySelector(".dissure")
     let canceldisconnect = document.querySelector(".canceldisconnect")
-    disconnect.addEventListener("click",()=>{
+    disconnect?.addEventListener("click", () => {
         dissure.classList.remove("hidden")
-        canceldisconnect.addEventListener("click",()=>{
+        canceldisconnect?.addEventListener("click", () => {
             dissure.classList.add("hidden")
         })
     })
@@ -348,13 +372,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let logoutbtn = document.querySelector(".logoutbtn")
     let logoutsure = document.querySelector(".logoutsure")
     let cancellogout = document.querySelector(".cancellogout")
-    logoutbtn.addEventListener("click",()=>{
+    logoutbtn?.addEventListener("click", () => {
         logoutsure.classList.remove("hidden")
-        cancellogout.addEventListener("click",()=>{
+        cancellogout?.addEventListener("click", () => {
             logoutsure.classList.add("hidden")
         })
     })
 
+
+    // let createbtn = document.querySelector(".createbtn")
+    // let verifybtn = document.querySelector(".verifybtn")
+    // let otpbox = document.querySelector(".otpbox")
+    // createbtn.addEventListener("click",()=>{
+    //     createbtn.classList.add("hidden")
+    //     verifybtn.classList.remove("hidden")
+    //     otpbox.classList.remove("hidden")
+    // })
 
 });
 

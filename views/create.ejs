@@ -9,6 +9,19 @@
 </head>
 
 <body>
+
+    <% if(exists.length > 0) { %>
+    <div class="fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50 px-2">
+        <%= exists %>
+    </div>
+<% } %>
+
+<% if(Infoerror.length > 0) { %>
+    <div class="fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50 px-2">
+        <%= Infoerror %>
+    </div>
+<% } %>
+
     <form action="/create/account" class="w-full" method="post">
         <div class="main w-full h-screen flex bg-zinc-900">
             <div class="left md:flex w-[55vw] h-screen bg-black hidden flex-col justify-center items-center">
@@ -33,10 +46,15 @@
                 <input type="password" name="password"
                     class=" border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
                     placeholder="Password">
+                <!-- <input type="number" name="otp"
+                    class="otpbox hidden border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
+                    placeholder="We Send Otp Verify Its You"> -->
                 <button
-                    class="bg-blue-700 px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer">Create
+                    class="createbtn bg-blue-700 px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer">Create
                     An
                     Account</button>
+                <!-- <button
+                    class="verifybtn hidden bg-green-400 px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Verify</button>     -->
             </div>
         </div>
     </form>

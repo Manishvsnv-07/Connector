@@ -67,24 +67,37 @@ app.get("/", (req, res) => {
     }
 })
 
-app.post("/create", (req, res) => {
-    res.render("create")
+app.get("/create", (req, res) => {
+    let exists = req.flash("exists")
+    let Infoerror = req.flash("Infoerror")
+    res.render("create",{exists,Infoerror})
 })
 
 app.post("/create/account", async (req, res) => {
-    const { name, email, username, password } = req.body;
-    let hash = await bcrypt.hash(req.body.password, 10)
-    const createuser = new user({
-        email,
-        name,
-        username,
-        password: hash,
-        image: "/images/default.png",
-    })
-    await createuser.save()
-    let token = jwt.sign({ email }, process.env.JWT_KEY)
-    res.cookie("token", token)
-    res.redirect("/home")
+    try {
+        const { name, email, username, password } = req.body;
+        let u = await user.findOne({ email: req.body.email })
+        if (u) {
+            req.flash("exists", "User Already Exists")
+            return res.redirect("/create")
+        }
+        let hash = await bcrypt.hash(req.body.password, 10)
+        const createuser = new user({
+            email,
+            name,
+            username,
+            password: hash,
+            image: "/images/default.png",
+        })
+        await createuser.save()
+        let token = jwt.sign({ email: req.body.email, id: createuser._id }, process.env.JWT_KEY, { expiresIn: "7d" })
+        res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict", secure: false })
+        res.redirect("/home")
+    } catch (error) {
+        req.flash("Infoerror","Please Fill All Data")
+        return res.redirect("/create")
+    }
+
 })
 
 app.get("/profile", islogged, async (req, res) => {
@@ -161,8 +174,8 @@ const upload = multer({
 app.post("/post", upload.single("media"), islogged, async (req, res) => {
     try {
 
-        if(!req.file){
-            req.flash("Undefined","Select Post First")
+        if (!req.file) {
+            req.flash("Undefined", "Select Post First")
             return res.redirect("/post")
         }
 
@@ -190,7 +203,7 @@ app.post("/post", upload.single("media"), islogged, async (req, res) => {
 })
 
 app.get("/logout", (req, res) => {
-    res.cookie("token", "")
+    res.clearCookie("token")
     res.redirect("/")
 })
 app.post("/logout", (req, res) => {
@@ -198,13 +211,14 @@ app.post("/logout", (req, res) => {
 })
 
 app.post("/login", async (req, res) => {
-    const { username, password } = req.body;
+    try {
+        const { username, password } = req.body;
     let finduser = await user.findOne({ username: req.body.username })
     if (finduser) {
         let checkpassword = await bcrypt.compare(req.body.password, finduser.password)
         if (checkpassword) {
-            let token = jwt.sign({ email: finduser.email }, process.env.JWT_KEY)
-            res.cookie("token", token)
+            let token = jwt.sign({ email: finduser.email, id: finduser._id }, process.env.JWT_KEY, { expiresIn: "7d" })
+            res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false, sameSite: "strict" })
             res.redirect("/home");
         }
         else {
@@ -216,6 +230,10 @@ app.post("/login", async (req, res) => {
         req.flash("error", "Email Or Password Is Wrong");
         res.redirect("/")
     }
+    } catch (error) {
+        res.send("Something Went Wrong")
+    }
+    
 })
 
 function islogged(req, res, next) {
@@ -431,7 +449,7 @@ app.post("/view/:postid", islogged, async (req, res) => {
     }
 })
 
-app.get("/mobilestart",(req,res)=>{
+app.get("/mobilestart", (req, res) => {
     res.render("mobileindex")
 })
 
