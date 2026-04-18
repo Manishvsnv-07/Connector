@@ -10,54 +10,63 @@
 
 <body>
 
-    <% if(exists.length > 0) { %>
-    <div class="fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50 px-2">
-        <%= exists %>
+    <div id="errorMsg"
+        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50 px-2">
     </div>
-<% } %>
 
-<% if(Infoerror.length > 0) { %>
-    <div class="fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50 px-2">
-        <%= Infoerror %>
-    </div>
-<% } %>
-
-    <form action="/create/account" class="w-full" method="post">
-        <div class="main w-full h-screen flex bg-zinc-900">
-            <div class="left md:flex w-[55vw] h-screen bg-black hidden flex-col justify-center items-center">
-                <img src="images/thumbnail.jpeg" class="h-[80vh] rounded-md" alt="">
-                <div class="flex gap-5 justify-center items-center">
-                    <h1 class="text-white"><strong class="text-red-500">Creator</strong> And <strong>User</strong> First
-                        !</h1>
-                </div>
-            </div>
-            <div
-                class="right text-white text-xl w-full md:w-[45vw] h-screen bg-transparent gap-7 flex flex-col items-center justify-center">
-                <h1 class="font-sans font-bold">Create An Account</h1>
-                <input type="email" name="email"
-                    class="border border-gray-500 bg-transparent px-3 w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
-                    placeholder="Email">
-                <input type="text" name="name"
-                    class="border border-gray-500 bg-transparent px-3  w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
-                    placeholder="Your Name">
-                <input type="text" name="username"
-                    class="border border-gray-500 bg-transparent px-3  w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
-                    placeholder="Enter Username">
-                <input type="password" name="password"
-                    class=" border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
-                    placeholder="Password">
-                <!-- <input type="number" name="otp"
-                    class="otpbox hidden border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
-                    placeholder="We Send Otp Verify Its You"> -->
-                <button
-                    class="createbtn bg-blue-700 px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer">Create
-                    An
-                    Account</button>
-                <!-- <button
-                    class="verifybtn hidden bg-green-400 px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Verify</button>     -->
+    <div class="main w-full h-screen flex bg-zinc-900">
+        <div class="left md:flex w-[55vw] h-screen bg-black hidden flex-col justify-center items-center">
+            <img src="images/thumbnail.jpeg" class="h-[80vh] rounded-md" alt="">
+            <div class="flex gap-5 justify-center items-center">
+                <h1 class="text-white"><strong class="text-red-500">Creator</strong> And
+                    <strong>User</strong> First
+                    !
+                </h1>
             </div>
         </div>
-    </form>
+        <div class="right w-full md:w-[45vw] h-screen bg-transparent gap-7 flex flex-col items-center justify-center">
+            <div
+                class="dataform relative w-full md:w-[45vw] h-screen bg-transparent gap-7 flex flex-col items-center justify-center text-white">
+                <img src="images/back.svg" class="backindex hidden xl:block absolute top-5 left-5 w-5 hover:scale-[1.09] hover:cursor-pointer" alt="">
+                <img src="images/back.svg" class="lgbackindex xl:hidden absolute top-5 left-5 w-5 hover:scale-[1.09] hover:cursor-pointer" alt="">
+                <h1 class="font-sans font-bold">Create An Account</h1>
+                <input type="email" name="email" id="email"
+                    class="border border-gray-500 bg-transparent px-3 w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
+                    placeholder="Email">
+                <input type="text" name="name" id="name"
+                    class="border border-gray-500 bg-transparent px-3  w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
+                    placeholder="Your Name">
+                <input type="text" name="username" id="username"
+                    class="border border-gray-500 bg-transparent px-3  w-[85vw] sm:w-[65vw] md:w-[35vw] h-13 rounded-md"
+                    placeholder="Enter Username">
+                <p class="validusername text-xs hidden text-zinc-500 mt-1 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md">
+                    In Special Characters Use Only <span class="text-zinc-300">.</span> or <span
+                        class="text-zinc-300">_</span> (e.g. creator_07)
+                </p>
+                <input type="password" name="password" id="password"
+                    class=" border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
+                    placeholder="Password">
+                <button
+                    class="sendotp hidden bg-white px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Verify</button>
+            </div>
+
+            <div
+                class="verifyotp relative hidden w-full md:w-[45vw] h-screen bg-transparent gap-7 flex flex-col items-center justify-center text-white">
+                <div class="absolute left-5 top-5">
+                    <img src="images/back.svg" class="backcreate w-5 hover:scale-[1.09] hover:cursor-pointer" alt="">
+                </div>
+                <h1 class="font-sans font-bold">Verify An Account</h1>
+                <input type="number" name="otp" id="otp"
+                    class="otpbox border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
+                    placeholder="Verification Code">
+                <p class="text-zinc-500 text-xs px-2">Verification Code Has Been Sent To Your Email ✅</p>    
+                <button
+                    class="verifybtn bg-green-400 px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Create An Account</button>
+            </div>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 
 </html>

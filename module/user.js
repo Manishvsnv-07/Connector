@@ -7,7 +7,10 @@ const userschema = mongoose.Schema({
         type: String, required: [true, "Needed"], 
         unique: true,
         trim: true,
-        lowercase: true
+        lowercase: true,
+        minlength:3,
+        maxlength:20,
+        match: /^[a-zA-Z][a-zA-Z0-9._]*[a-zA-Z0-9]$/
     },
     password: { type: String, required: [true, "Needed"] },
     bio: { type: String, default: "I Am Villain." },

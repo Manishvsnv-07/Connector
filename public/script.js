@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 playicon.forEach(p => {
                     p.classList.add("hidden")
                 })
-                if(video.tagName === "VIDEO"){
+                if (video.tagName === "VIDEO") {
                     if (!viewedVideos.has(video)) {
                         viewedVideos.add(video)
                         let t = (video.duration * 30) / 100
@@ -379,17 +379,130 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
+    let uname = document.getElementById("username")
+    uname.addEventListener("input", (e) => {
+        const regex = /^[a-zA-Z][a-zA-Z0-9._]*[a-zA-Z0-9]$/
+        if (!regex.test(e.target.value)) {
+            let validusername = document.querySelector(".validusername")
+            validusername.classList.remove("hidden")
+            validusername.classList.remove("text-zinc-500")
+            validusername.classList.add("text-red-500")
+            validusername.innerHTML = `In Special Characters Use Only <span class="text-zinc-300">.</span> or <span
+                        class="text-zinc-300">_</span> (e.g. creator_07)`
+        }
+        if (regex.test(e.target.value)) {
+            let validusername = document.querySelector(".validusername")
+            validusername.classList.remove("hidden")
+            validusername.classList.add("text-zinc-500")
+            validusername.textContent = "Valid Syntax Username ✔️"
+            validusername.classList.remove("text-red-500")
+        }
+    })
 
-    // let createbtn = document.querySelector(".createbtn")
-    // let verifybtn = document.querySelector(".verifybtn")
-    // let otpbox = document.querySelector(".otpbox")
-    // createbtn.addEventListener("click",()=>{
-    //     createbtn.classList.add("hidden")
-    //     verifybtn.classList.remove("hidden")
-    //     otpbox.classList.remove("hidden")
-    // })
+    let backindex = document.querySelector(".backindex")
+    backindex.addEventListener("click", () => {
+        window.location.href = "/"
+    })
+    let lgbackindex = document.querySelector(".lgbackindex")
+    lgbackindex.addEventListener("click", () => {
+        window.location.href = "/mobilestart"
+    })
 
 });
+
+
+let sendotp = document.querySelector(".sendotp")
+let username1 = false;
+let name1 = false;
+let email1 = false;
+let password1 = false;
+
+function checkall() {
+    if (username1 && name1 && email1 && password1) {
+        sendotp.classList.remove("hidden")
+    }
+    else{
+        sendotp.classList.add("hidden")
+    }
+}
+document.getElementById("name").addEventListener("input", () => {
+    name1 = true;
+    checkall()
+})
+document.getElementById("email").addEventListener("input", () => {
+    email1 = true;
+    checkall()
+})
+document.getElementById("password").addEventListener("input", () => {
+    password1 = true;
+    checkall()
+})
+document.getElementById("username").addEventListener("input", () => {
+    username1 = true;
+    checkall()
+})
+
+
+sendotp.addEventListener("click", async () => {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    sendotp.textContent = "Verifying..."
+    const res = await fetch("/sendotp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, username, password, email })
+    })
+    const data = await res.json();
+
+    if (res.ok) {
+        let verifyotp = document.querySelector(".verifyotp")
+        let dataform = document.querySelector(".dataform")
+        verifyotp.classList.remove("hidden")
+        dataform.classList.add("hidden")
+    }
+    if (!res.ok) {
+        const errorDiv = document.getElementById("errorMsg");
+        errorDiv.textContent = data.message;
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+        }, 3000);
+    }
+})
+
+let verifybtn = document.querySelector(".verifybtn")
+verifybtn.addEventListener("click", async () => {
+    const otp = document.getElementById("otp").value
+    const response = await fetch("/create/account", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp })
+    })
+    const data = await response.json();
+    if (response.ok) {
+        window.location.href = "/home"
+    }
+    else{
+        const errorDiv = document.getElementById("errorMsg");
+        errorDiv.textContent = data.message;
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+        }, 3000);
+    }
+})
+
+let backcreate = document.querySelector(".backcreate")
+backcreate.addEventListener("click", () => {
+    let verifyotp = document.querySelector(".verifyotp")
+    let dataform = document.querySelector(".dataform")
+    verifyotp.classList.add("hidden")
+    dataform.classList.remove("hidden")
+})
 
 async function likepost(userid) {
     await fetch("/like/" + userid, {
