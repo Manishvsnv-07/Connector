@@ -10,17 +10,21 @@
 
 <body>
 
-<% if(error.length > 0) { %>
-    <div class="w-[15vw] fixed top-4 left-[42.5%] h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50">
-        <%= error %>
-    </div>
-<% } %>
-    <div class="main w-full relative h-screen flex bg-zinc-900">
+    <% if(error.length> 0) { %>
+        <div
+            class="w-[15vw] fixed top-4 left-[42.5%] h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50">
+            <%= error %>
+        </div>
+        <% } %>
+            <div class="main w-full relative h-screen flex bg-zinc-900">
                 <div class="left w-full xl:w-[55vw] h-screen bg-black flex flex-col justify-center items-center">
                     <img src="images/thumbnail.jpeg" class="h-[80vh] rounded-md" alt="">
                     <div class="flex gap-5 justify-center items-center">
-                        <h1 class="text-white"><strong class="text-red-500">Creator</strong> And <strong>User</strong> First !</h1>
-                        <a href="/mobilestart"><button class="inline xl:hidden h-[5vh] rounded-md bg-white text-black px-2 font-semibold hover:scale-[1.07] hover:cursor-pointer">Let's Go »</button></a>
+                        <h1 class="text-white"><strong class="text-red-500">Creator</strong> And <strong>User</strong>
+                            First !</h1>
+                        <a href="/mobilestart"><button
+                                class="inline xl:hidden h-[5vh] rounded-md bg-white text-black px-2 font-semibold hover:scale-[1.07] hover:cursor-pointer">Let's
+                                Go »</button></a>
                     </div>
                 </div>
                 <div
@@ -31,9 +35,18 @@
                             <input type="text" name="username"
                                 class="border border-gray-500 bg-transparent px-3  w-xl h-13 rounded-md"
                                 placeholder="Enter Username">
-                            <input type="password" name="password"
-                                class="border border-gray-500 bg-transparent px-3 rounded-md w-xl h-13"
-                                placeholder="Password">
+                            <div class="relative">
+                                <input type="password" name="password" id="password"
+                                    class="border border-gray-500 bg-transparent px-3 rounded-md w-xl h-13"
+                                    placeholder="Password">
+                                <img src="images/viewoff.svg"
+                                    class="w-5 absolute right-3 top-4 brightness-50 hover:scale-[1.07] hover:cursor-pointer hover:brightness-100"
+                                    id="toggleviewoff" alt="">
+                                <img src="images/view.svg"
+                                    class="w-5 hidden absolute right-3 top-4 brightness-100 hover:scale-[1.07] hover:cursor-pointer"
+                                    id="toggleviewon" alt="">
+                            </div>
+
                             <button
                                 class="bg-white px-2 py-2 w-xl rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Login</button>
                         </div>
@@ -49,7 +62,8 @@
                         </form>
                     </div>
                 </div>
-    </div>
+            </div>
+            <script src="script.js"></script>
 </body>
 
 </html>

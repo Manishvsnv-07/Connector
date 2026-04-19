@@ -43,9 +43,13 @@
                     In Special Characters Use Only <span class="text-zinc-300">.</span> or <span
                         class="text-zinc-300">_</span> (e.g. creator_07)
                 </p>
-                <input type="password" name="password" id="password"
-                    class=" border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
-                    placeholder="Password">
+                <div class="relative">
+                    <input type="password" name="password" id="password"
+                        class=" border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] sm:w-[65vw] md:w-[35vw] h-13"
+                        placeholder="Password">
+                    <img src="images/viewoff.svg" class="w-5 absolute right-3 top-4 brightness-50 hover:scale-[1.07] hover:cursor-pointer hover:brightness-100" id="toggleviewoff" alt="">    
+                    <img src="images/view.svg" class="w-5 hidden absolute right-3 top-4 brightness-100 hover:scale-[1.07] hover:cursor-pointer" id="toggleviewon" alt="">    
+                </div>
                 <button
                     class="sendotp hidden bg-white px-2 py-2 w-[85vw] sm:w-[65vw] md:w-[35vw] rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Verify</button>
             </div>

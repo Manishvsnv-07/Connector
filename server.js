@@ -14,6 +14,9 @@ import nacl from "tweetnacl"
 import bs58 from "bs58"
 import mongoose from "mongoose";
 import nodemailer from "nodemailer"
+import pinataSDK from "@pinata/sdk";
+import { Metaplex, keypairIdentity } from "@metaplex-foundation/js";
+import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
 
 cloudinary.config({
     api_key: process.env.CLOUDINARY_APIKEY,
@@ -95,8 +98,8 @@ app.post("/sendotp", async (req, res) => {
             return res.status(400).json({ message: "Please Fill All Data" })
         }
         const usernameregex = /^[a-zA-Z][a-zA-Z0-9._]*[a-zA-Z0-9]$/
-        if(!usernameregex.test(username)){
-            return res.status(400).json({message:"Invalid Username Syntax"})
+        if (!usernameregex.test(username)) {
+            return res.status(400).json({ message: "Invalid Username Syntax" })
         }
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
         req.session.otpdata = {
@@ -171,14 +174,14 @@ app.post("/create/account", async (req, res) => {
     try {
         const { otp } = req.body;
         const sessionData = req.session.otpdata;
-        if (!sessionData) {   
+        if (!sessionData) {
             return res.status(400).json({ message: "Session expired, resend OTP" });
         }
         if (Date.now() > sessionData.expiry) {
-            delete req.session.otpdata; 
+            delete req.session.otpdata;
             return res.status(400).json({ message: "OTP expired, resend OTP" });
         }
-        if (otp.toString() !== sessionData.otp.toString()) {            
+        if (otp.toString() !== sessionData.otp.toString()) {
             return res.status(400).json({ message: "Invalid OTP" });
         }
         let hash = await bcrypt.hash(sessionData.password, 10)
@@ -274,30 +277,90 @@ app.post("/post", upload.single("media"), islogged, async (req, res) => {
     try {
 
         if (!req.file) {
-            req.flash("Undefined", "Select Post First")
-            return res.redirect("/post")
+            return res.status(400).json({ message: "Select Post First" })
         }
 
         const result = await uploadToCloudinary(req.file.buffer, req.file.mimetype)
         const isimage = req.file.mimetype.startsWith("image/");
         const isvideo = req.file.mimetype.startsWith("video/");
         const { description } = req.body;
+        const isMintNft = req.body.isMintNft === "true"
         let userdata = await user.findOne({ email: req.datahere.email })
         const postcreate = new post({
             user: userdata._id,
             description,
             tags: JSON.parse(req.body.tags || '[]'),
             image: isimage ? result.secure_url : "",
-            videos: isvideo ? result.secure_url : ""
+            videos: isvideo ? result.secure_url : "",
+            nftMint: null,
+            nftMetaDataUri: null,
+            isNftMint: false
         })
         await postcreate.save()
         userdata.posts.push(postcreate._id)
         await userdata.save()
-        req.flash("success", "Upload Success 🥳")
-        res.redirect('/post')
+
+        if (isMintNft) {
+            return res.json({
+                post: {
+                    _id: postcreate._id,
+                    description: postcreate.description,
+                    imageUri: isimage ? result.secure_url : ""
+                }
+            })
+        }
+
+        res.status(200).json({ success: "Post Successfully" })
 
     } catch (err) {
         res.status(500).send(err.message);
+    }
+})
+
+app.post("/nft/mint", async (req, res) => {
+    try {
+        const { postid, postdescription, postimg, walletAddress } = req.body;
+        const metadata = {
+            name: "Connector Mint",
+            description: postdescription || "Connector NFT Minting",
+            image: postimg,
+            attributes: [
+                { trait_type: "Platform", value: "Connector" },
+                { trait_type: "Post ID", value: postid }
+            ]
+        }
+        const result = await pinata.pinJSONToIPFS(metadata)
+        const metaDataUri = `https://gateway.pinata.cloud/ipfs/${result.IpfsHash}`;
+
+        const connection = new Connection(
+            clusterApiUrl("devnet"), "confirmed"
+        )
+
+        const secretKey = bs58.decode(process.env.SOLANA_PRIVATE_KEY);
+        const serverKeypair = Keypair.fromSecretKey(secretKey);
+        console.log(serverKeypair.publicKey.toString());
+        
+        const metaplex = Metaplex.make(connection)
+            .use(keypairIdentity(serverKeypair));
+
+        const { nft } = await metaplex.nfts().create({
+            uri: metaDataUri,
+            name: "Connector NFT",
+            sellerFeeBasisPoints: 500,
+            tokenOwner: new PublicKey(walletAddress)
+        })
+
+        await post.findByIdAndUpdate(postid, {
+            nftMint: nft.address.toString(),
+            nftMetaDataUri: metaDataUri,
+            isNftMint: true
+        });
+
+        res.status(200).json({ success:"NFT Mint Successfully"});
+
+    } catch (error) {
+        console.error("Mint error:", error)
+        res.status(500).json({ success: false, error: error.message })
     }
 })
 
@@ -336,7 +399,7 @@ app.post("/login", async (req, res) => {
 })
 
 function islogged(req, res, next) {
-    if(!req.cookies.token){
+    if (!req.cookies.token) {
         return res.redirect("/")
     }
     if (req.cookies.token === "") {
@@ -554,6 +617,14 @@ app.post("/view/:postid", islogged, async (req, res) => {
 app.get("/mobilestart", (req, res) => {
     res.render("mobileindex")
 })
+
+
+// PINATA NFT MINTING
+
+const pinata = new pinataSDK(
+    process.env.PINATA_KEY,
+    process.env.PINATA_SECRET
+)
 
 app.listen(port, () => {
     console.log(`my port at ${port}`);

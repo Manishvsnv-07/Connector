@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const MAX_TAGS = 6;
+    const MAX_TAGS = 5;
     window.tags = [];
     const container = document.getElementById('maintagcontainer');
     const input = document.getElementById('tagInput');
@@ -91,12 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
             pillsContainer.appendChild(el);
         });
 
-
+        document.getElementById('tagsData').value = JSON.stringify(tags);
 
         if (tags.length >= MAX_TAGS) {
             input.disabled = true;
             input.placeholder = '';
-            hint.textContent = 'Max 6 tags reached. Remove one to add more.';
+            hint.textContent = 'Max 5 tags reached.';
             hint.className = 'text-xs text-yellow-500 mt-1';
         } else {
             input.disabled = false;
@@ -380,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     let uname = document.getElementById("username")
-    uname.addEventListener("input", (e) => {
+    uname?.addEventListener("input", (e) => {
         const regex = /^[a-zA-Z][a-zA-Z0-9._]*[a-zA-Z0-9]$/
         if (!regex.test(e.target.value)) {
             let validusername = document.querySelector(".validusername")
@@ -400,15 +400,31 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     let backindex = document.querySelector(".backindex")
-    backindex.addEventListener("click", () => {
+    backindex?.addEventListener("click", () => {
         window.location.href = "/"
     })
     let lgbackindex = document.querySelector(".lgbackindex")
-    lgbackindex.addEventListener("click", () => {
+    lgbackindex?.addEventListener("click", () => {
         window.location.href = "/mobilestart"
     })
 
+    let toggleviewoff = document.getElementById("toggleviewoff")
+    let toggleviewon = document.getElementById("toggleviewon")
+    let inputpassword = document.getElementById("password")
+    toggleviewoff?.addEventListener("click",()=>{
+        inputpassword.type = "text"
+        toggleviewon.classList.remove("hidden")
+        toggleviewoff.classList.add("hidden")
+    })
+    toggleviewon?.addEventListener("click",()=>{
+        inputpassword.type = "password"
+        toggleviewon.classList.add("hidden")
+        toggleviewoff.classList.remove("hidden")
+    })
+
 });
+
+
 
 
 let sendotp = document.querySelector(".sendotp")
@@ -425,25 +441,25 @@ function checkall() {
         sendotp.classList.add("hidden")
     }
 }
-document.getElementById("name").addEventListener("input", () => {
+document.getElementById("name")?.addEventListener("input", () => {
     name1 = true;
     checkall()
 })
-document.getElementById("email").addEventListener("input", () => {
+document.getElementById("email")?.addEventListener("input", () => {
     email1 = true;
     checkall()
 })
-document.getElementById("password").addEventListener("input", () => {
+document.getElementById("password")?.addEventListener("input", () => {
     password1 = true;
     checkall()
 })
-document.getElementById("username").addEventListener("input", () => {
+document.getElementById("username")?.addEventListener("input", () => {
     username1 = true;
     checkall()
 })
 
 
-sendotp.addEventListener("click", async () => {
+sendotp?.addEventListener("click", async () => {
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -474,7 +490,7 @@ sendotp.addEventListener("click", async () => {
 })
 
 let verifybtn = document.querySelector(".verifybtn")
-verifybtn.addEventListener("click", async () => {
+verifybtn?.addEventListener("click", async () => {
     const otp = document.getElementById("otp").value
     const response = await fetch("/create/account", {
         method: "POST",
@@ -497,7 +513,7 @@ verifybtn.addEventListener("click", async () => {
 })
 
 let backcreate = document.querySelector(".backcreate")
-backcreate.addEventListener("click", () => {
+backcreate?.addEventListener("click", () => {
     let verifyotp = document.querySelector(".verifyotp")
     let dataform = document.querySelector(".dataform")
     verifyotp.classList.add("hidden")
@@ -860,3 +876,4 @@ async function searcheduserprofile(searcheduserid) {
         document.body.innerHTML = html;
     }
 }
+

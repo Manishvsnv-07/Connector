@@ -8,7 +8,19 @@ const postschema = mongoose.Schema({
     videos:String,
     likes:[{type:mongoose.Schema.Types.ObjectId,ref:"user"}],
     comments: [{comment:String,nameofuser:String}],
-    views:[{type:mongoose.Schema.Types.ObjectId,ref:"post"}]
+    views:[{type:mongoose.Schema.Types.ObjectId,ref:"post"}],
+    nftMint:{
+        type:String,
+        default:null
+    },
+    nftMetaDataUri:{
+        type:String,
+        default:null
+    },
+    isNftMint:{
+        type:Boolean,
+        default:false
+    }
 })
 
 export const post = mongoose.model("post",postschema)
