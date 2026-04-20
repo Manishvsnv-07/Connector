@@ -273,25 +273,40 @@ const upload = multer({
         }
     }
 });
-app.post("/post", upload.single("media"), islogged, async (req, res) => {
+
+const uploadfield = upload.fields([
+    {name:"media",maxCount:1},
+    {name:"thumbnail",maxCount:1}
+])
+app.post("/post", uploadfield, islogged, async (req, res) => {
     try {
 
-        if (!req.file) {
+        const mediaFile = req.files["media"]?.[0]
+        console.log("Media File",mediaFile);
+        
+        const ThumbnailFile = req.files["thumbnail"]?.[0]
+        console.log("Thumbnail File",ThumbnailFile)
+        if (!mediaFile) {
             return res.status(400).json({ message: "Select Post First" })
         }
 
-        const result = await uploadToCloudinary(req.file.buffer, req.file.mimetype)
-        const isimage = req.file.mimetype.startsWith("image/");
-        const isvideo = req.file.mimetype.startsWith("video/");
+        const result = await uploadToCloudinary(mediaFile.buffer, mediaFile.mimetype)
+        const result_thumb = ThumbnailFile ? await uploadToCloudinary(ThumbnailFile.buffer, ThumbnailFile.mimetype) : null;
+        const isimage = mediaFile.mimetype.startsWith("image/");
+        const isvideo = mediaFile.mimetype.startsWith("video/");
+        const isthumbnail = ThumbnailFile ?.mimetype.startsWith("image/") ?? false;
         const { description } = req.body;
         const isMintNft = req.body.isMintNft === "true"
+        console.log(req.body.tgs);
+        
         let userdata = await user.findOne({ email: req.datahere.email })
         const postcreate = new post({
             user: userdata._id,
             description,
-            tags: JSON.parse(req.body.tags || '[]'),
+            tags: JSON.parse(req.body.tgs || '[]'),
             image: isimage ? result.secure_url : "",
             videos: isvideo ? result.secure_url : "",
+            thumbnail:isthumbnail ? result_thumb.secure_url : "",
             nftMint: null,
             nftMetaDataUri: null,
             isNftMint: false
@@ -413,14 +428,12 @@ function islogged(req, res, next) {
 }
 
 
-app.post("/follow", islogged, async (req, res) => {
+app.post("/follow/:followeduserid", islogged, async (req, res) => {
     let mydata = await user.findOne({ email: req.datahere.email })
-    let otheruserdata = await user.findOne({ _id: req.body.followeduser });
+    let otheruserdata = await user.findOne({ _id: req.params.followeduserid });
     if (otheruserdata.follower.includes(mydata._id)) {
-        otheruserdata.follower.splice(otheruserdata.follower.indexOf(mydata._id), 1)
-        mydata.following.splice(mydata.following.indexOf(otheruserdata._id), 1)
-        await otheruserdata.save()
-        await mydata.save()
+        await user.updateOne({_id:otheruserdata._id},{$pull:{follower:mydata._id}})
+        await user.updateOne({_id:mydata._id},{$pull:{following:otheruserdata._id}})
         return res.json({ following: false })
     }
     otheruserdata.follower.push(mydata._id);
@@ -519,6 +532,15 @@ app.get("/profile/deletepost/:postid", islogged, async (req, res) => {
     res.redirect("/profile")
 })
 
+app.post("/updatepost",async(req,res)=>{
+    try {        
+        let mypost = await post.findByIdAndUpdate(req.body.mypostid,{description:req.body.udescription})
+        res.json({success:true})
+    } catch (error) {
+        return res.json({success:false})
+    }
+})
+
 app.post("/profile/Connectphantom", islogged, async (req, res) => {
     try {
         const { publicKey, signature, message } = req.body;
@@ -594,7 +616,7 @@ app.get("/search/user", async (req, res) => {
 })
 
 app.get("/Search/:id", islogged, async (req, res) => {
-    let userdata = await user.findOne({ _id: req.params.id })
+    let userdata = await user.findOne({ _id: req.params.id }).populate("posts")
     let mydata = await user.findOne({ email: req.datahere.email })
     if (userdata._id.toString() === mydata._id.toString()) {
         return res.redirect("/profile")
@@ -604,14 +626,15 @@ app.get("/Search/:id", islogged, async (req, res) => {
 
 app.post("/view/:postid", islogged, async (req, res) => {
     let p = await post.findOne({ _id: req.params.postid })
-    let userdata = await user.findOne({ email: req.datahere.email })
-    if (p.views.includes(userdata._id.toString())) {
-
+    if(!p){
+        return res.status(404).json({message:"User Not Found"})
     }
-    else {
+    let userdata = await user.findOne({ email: req.datahere.email })
+    if (!p.views.includes(userdata._id.toString())) {
         p.views.push(userdata._id)
         await p.save()
     }
+    res.json({success:true})
 })
 
 app.get("/mobilestart", (req, res) => {

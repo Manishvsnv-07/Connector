@@ -17,9 +17,13 @@ async function handleUpload() {
     const description = document.getElementById("description").value;
     const imageFile = document.getElementById("fileInput").files[0]
     const tags = document.getElementById("tagsData").value
+    const thumbnail = document.getElementById("thumbnail").files[0]
+    console.log("Thumbnail Nft.js Done ✔️",thumbnail);
+    
     const formdata = new FormData()
     formdata.append("description", description)
     formdata.append("media", imageFile)
+    formdata.append("thumbnail",thumbnail)
     formdata.append("tgs", tags)
     formdata.append("isMintNft", String(isNFT));
     const res = await fetch("/post", {

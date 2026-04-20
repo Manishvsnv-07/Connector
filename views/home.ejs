@@ -51,7 +51,7 @@
 
                 <div class="feed w-full sm:h-[99vh] h-[88vh] flex flex-col overflow-y-scroll">
                     <% alluserspost.forEach((post)=>{ %>
-                        <div class="post flex flex-col md:flex-row justify-center items-center">
+                        <div class="post relative flex justify-center items-center">
                             <% if(post.user){ %>
                                 <div
                                     class="userspost relative m-4 flex flex-col px-3 py-2 gap-3 border border-zinc-700 justify-center items-center">
@@ -65,19 +65,22 @@
                                             </a>
                                         </div>
                                         <div class="rightheader">
-                                            <% if(post.user.follower.some(id=> id.equals(userdata._id))){ %>
-                                                <button
+                                            <% if(post.user._id.toString() !== userdata._id.toString()){ %>
+
+                                                <% if(post.user.follower.some(id=> id.equals(userdata._id))){ %>
+                                                    <button
                                                     class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
                                                     onclick="followuser('<%= post.user._id %>',this)">Unfollow</button>
-                                                <% } else{ %>
-                                                    <button
+                                                    <% } else{ %>
+                                                        <button
                                                         class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
                                                         onclick="followuser('<%= post.user._id %>',this)">Follow</button>
-                                                    <% } %>
+                                                        <% } %>
+                                            <% } %>
                                         </div>
                                     </div>
                                     <% if(post.image==="" ){ %>
-                                        <video src="<%= post.videos %>" autoplay muted loop poster="images/default.png"
+                                        <video src="<%= post.videos %>" autoplay muted loop poster="<%= post.thumbnail %>"
                                             data-id="<%= post._id %>"
                                             class="videoplay h-[76vh] w-[80vw] sm:w-[50vw] lg:w-[35vw] xl:w-[25vw] object-cover rounded-2xl"></video>
                                         <img src="images/play.svg"
@@ -85,7 +88,7 @@
                                             alt="">
                                         <% } else{ %>
                                             <img src="<%= post.image %>" data-id="<%= post._id %>"
-                                                class="postsimg w-[90vw] sm:w-[60vw] lg:w-[30vw] xl:[30vw]" alt="">
+                                                class="postsimg w-[90vw] sm:w-[60vw] lg:w-[30vw] xl:[30vw] aspect-9/11" alt="">
                                             <% } %>
                                                 <div id="userinteract-<%= post._id %>"
                                                     class="likecommentmusic flex w-full px-3 h-7 justify-between items-center">
@@ -188,15 +191,15 @@
 
 
                                 <div id="commentbox-<%= post._id %>"
-                                    class="commentbox hidden m-4 px-3 py-2 gap-5 h-[70vh] border border-zinc-700 flex flex-col justify-center ">
+                                    class="commentbox hidden absolute bg-zinc-900 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 px-3 py-2 gap-5 h-[90%] border border-zinc-700 flex flex-col justify-center rounded-xl">
 
                                     <div class="flex items-center gap-5">
                                         <div>
                                             <img src="images/back.svg"
                                                 class="backcomment-<%= post._id %> hidden md:inline w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
                                                 alt="">
-                                            <img src="images/up.svg"
-                                                class="upcomment-<%= post._id %> inline md:hidden w-7 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                            <img src="images/back.svg"
+                                                class="upcomment-<%= post._id %> inline md:hidden w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
                                                 alt="">
                                         </div>
                                         <p>Creative <strong class="text-yellow-300">Comments</strong></p>
@@ -228,11 +231,11 @@
                                 </div>
 
                                 <div id="solbox-<%= post._id %>"
-                                    class="hidden flex flex-col justify-between w-[80vw] sm:w-[60vw] md:w-[30vw] px-3 border border-zinc-700 h-[70vh]">
+                                    class="hidden flex bg-zinc-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 flex-col justify-between w-[80vw] sm:w-[60vw] md:w-[30vw] px-3 border border-zinc-700 h-[70vh] rounded-xl">
                                     <div class="flex items-center gap-5">
                                         <div>
-                                            <img src="images/up.svg" id="upsol-<%= post._id %>"
-                                                class="inline md:hidden w-7 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                            <img src="images/back.svg" id="upsol-<%= post._id %>"
+                                                class="inline md:hidden w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
                                                 alt="">
                                             <img src="images/back.svg" id="backsol-<%= post._id %>"
                                                 class="hidden md:inline w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"

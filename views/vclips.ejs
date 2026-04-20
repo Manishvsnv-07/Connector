@@ -131,7 +131,7 @@
 
 
                                 <div id="commentvbox-<%= post._id %>"
-                                    class="commentbox hidden flex absolute right-0 bottom-0 w-[85vw] z-1000 bg-zinc-900 m-4 px-3 py-2 gap-5 h-[85vh] border border-zinc-700 sm:hidden flex-col justify-center ">
+                                    class="commentbox hidden flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] z-1000 bg-zinc-900 px-3 py-2 gap-5 h-[85vh] border border-zinc-700 sm:hidden flex-col justify-center ">
                                     <div class="flex items-center gap-5">
                                         <div>
                                             <img src="images/back.svg"
@@ -166,7 +166,7 @@
 
 
                                 <div id="solvbox-<%= post._id %>"
-                                    class="hidden flex absolute right-3 bottom-0 w-[85vw] z-1000 bg-zinc-900 sm:hidden flex-col justify-between px-3 border border-white h-[85vh]">
+                                    class="hidden flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] z-1000 bg-zinc-900 sm:hidden flex-col justify-between px-3 border border-white h-[85vh]">
                                     <div class="flex items-center gap-5">
                                         <img src="images/back.svg" id="backvsol-<%= post._id %>"
                                             class="w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
@@ -220,10 +220,7 @@
                                         <div class="flex items-center gap-5">
                                             <div>
                                                 <img src="images/back.svg"
-                                                    class="backcomment-<%= post._id %> hidden md:inline w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
-                                                    alt="">
-                                                <img src="images/up.svg"
-                                                    class="upcomment-<%= post._id %> inline md:hidden w-7 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                                    class="backpcomment-<%= post._id %> hidden md:inline w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
                                                     alt="">
                                             </div>
                                             <p>Creative <strong class="text-yellow-300">Comments</strong></p>

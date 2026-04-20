@@ -3,6 +3,7 @@ import mongoose, { Types } from "mongoose"
 const postschema = mongoose.Schema({
     user:{type:mongoose.Schema.Types.ObjectId,ref:"user"},
     image:String,
+    thumbnail:String,
     description:{type:String,default:Date.now},
     tags:{type:[String],validate:[arr => arr.length <= 5],default:[]},
     videos:String,

@@ -47,16 +47,21 @@
             <div
                 class="uploadbox w-[80vw] h-[75vh] flex flex-col md:flex-row gap-7 overflow-y-auto items-center md:items-start justify-start rounded-md">
 
-                <div class="img flex justify-center items-center w-full md:w-1/2">
+                <div class="flex justify-center items-center w-full md:w-1/2">
                     <img id="previwimg" src="images/upload.jpeg"
                         class="aspect-9/11 border border-zinc-700 rounded-md h-[60vh] object-cover" alt="">
-
+                    <img id="thumbnailpreview" class="hidden aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover"  alt="">
                     <div class="videobox hidden relative">
                         <video id="videopreview"
                             class="aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover" autoplay muted
                             playsinline loop></video>
 
                         <img src="images/offsound.svg" class="vmusicoff absolute bottom-5 right-5 w-5" alt="">
+                        <div class="w-7 h-7 flex justify-center items-center bg-transparent border border-zinc-600 rounded-md absolute top-3 left-3 z-100">
+                            <img src="images/edit.svg" class="w-5" alt="">
+                            <input type="file" name="thumbnail" id="thumbnail" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" >
+                        </div>
+
                     </div>
                 </div>
 

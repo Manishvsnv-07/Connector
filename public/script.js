@@ -1,13 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
+
     let inputfile = document.getElementById("fileInput")
     let uploadedimg = document.getElementById("previwimg")
     let uploadvideo = document.getElementById("videopreview")
     let videobox = document.querySelector(".videobox")
+    let thumbnailpreview = document.getElementById("thumbnailpreview")
+    if (inputfile) {
+        inputfile.onchange = function () {
+            let file = this.files[0]
+            let isVideo = file.type.startsWith("video/")
+            let isImage = file.type.startsWith("image/")
+            if (isVideo && file.size > 52428800) {
+                this.value = "images/upload.jpeg"
+                return alert("Video Size Is Too Big !!")
+            }
+            else if (isImage && file.size > 5242880) {
+                return alert("Image Size Is Too Big !!")
+                this.value = ""
+            }
+
+        }
+    }
+
     if (inputfile && uploadedimg) {
         inputfile.addEventListener("change", () => {
             let file = inputfile.files[0]
             if (file) {
                 if (file.type.startsWith("image/")) {
+                    if (file.size > 5242880) {
+                        return alert("Image Size Is Too Big !!")
+                    }
                     let reader = new FileReader();
                     reader.onload = function (e) {
                         uploadedimg.setAttribute("src", e.target.result)
@@ -17,6 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     reader.readAsDataURL(file)
                 }
                 else if (file.type.startsWith("video/")) {
+                    if (file.size > 52428800) {
+                        return alert("Video Size Is Too Big !!")
+                    }
                     uploadvideo.src = URL.createObjectURL(file)
                     videobox.classList.remove("hidden")
                     uploadedimg.classList.add("hidden")
@@ -30,6 +55,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     let vid = document.getElementById("videopreview")
     let v = document.querySelector(".vmusicoff")
+    let thumbnail = document.getElementById("thumbnail")
+    if (thumbnail) {
+        thumbnail.onchange = function () {
+            let t = this.files[0];
+            let isImg = t.type.startsWith("image/")
+            if (isImg && t.size < 5242880) {
+                let read = new FileReader();
+                read.onload = function (e) {
+                    thumbnailpreview.setAttribute("src", e.target.result)
+                    uploadedimg.classList.add("hidden")
+                    videobox.classList.add("hidden")
+                    thumbnailpreview.classList.remove("hidden")
+                    vid.muted = true;
+                }
+                read.readAsDataURL(t)
+            }
+            else {
+                return alert("Invalid Input")
+            }
+        }
+    }
     v?.addEventListener("click", () => {
         if (vid.muted) {
             v.src = "images/playsound.svg"
@@ -91,7 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
             pillsContainer.appendChild(el);
         });
 
-        document.getElementById('tagsData').value = JSON.stringify(tags);
+        let tagsdata = document.getElementById('tagsData') 
+        tagsdata.value = JSON.stringify(tags);
+        console.log(tagsdata.value);
+        
 
         if (tags.length >= MAX_TAGS) {
             input.disabled = true;
@@ -193,16 +242,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (video.tagName === "VIDEO") {
                     if (!viewedVideos.has(video)) {
                         viewedVideos.add(video)
-                        let t = (video.duration * 30) / 100
-                        let view = Math.round(t)
-                        setTimeout(() => {
-                            let postid = video.dataset.id;
-                            fetch("/view/" + postid,
-                                {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" }
-                                })
-                        }, view * 1000);
+                        const scheduleView = () => {
+                            let t = (video.duration * 30) / 100
+                            let view = Math.round(t)
+                            setTimeout(() => {
+                                let postid = video.dataset.id;
+                                fetch("/view/" + postid,
+                                    {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" }
+                                    })
+                            }, view * 1000);
+                        }
+
+                        if (video.duration && !isNaN(video.duration)) {
+                            scheduleView();
+                        } else {
+                            video.addEventListener("loadedmetadata", scheduleView, { once: true });
+                        }
                     }
                 }
 
@@ -242,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         })
-    })
+    },{threshold:0.5})
 
     postsimg.forEach(img => {
         imgobserver.observe(img)
@@ -296,24 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 800); // cooldown in ms
 
     }, { passive: false });
-
-    const uploadfile = document.getElementById("fileInput")
-    if (uploadfile) {
-        uploadfile.onchange = function () {
-            let file = this.files[0]
-            let isVideo = file.type.startsWith("video/")
-            let isImage = file.type.startsWith("image/")
-            if (isVideo && file.size > 52428800) {
-                alert("Video Size Is Too Big !!")
-                this.value = ""
-            }
-            else if (isImage && file.size > 5242880) {
-                alert("Image Size Is Too Big !!")
-                this.value = ""
-            }
-
-        }
-    }
 
 
     let dbtn = document.querySelector(".deletebtn")
@@ -411,15 +450,26 @@ document.addEventListener("DOMContentLoaded", () => {
     let toggleviewoff = document.getElementById("toggleviewoff")
     let toggleviewon = document.getElementById("toggleviewon")
     let inputpassword = document.getElementById("password")
-    toggleviewoff?.addEventListener("click",()=>{
+    toggleviewoff?.addEventListener("click", () => {
         inputpassword.type = "text"
         toggleviewon.classList.remove("hidden")
         toggleviewoff.classList.add("hidden")
     })
-    toggleviewon?.addEventListener("click",()=>{
+    toggleviewon?.addEventListener("click", () => {
         inputpassword.type = "password"
         toggleviewon.classList.add("hidden")
         toggleviewoff.classList.remove("hidden")
+    })
+
+
+    let edit = document.querySelector(".edit")
+    let editpost = document.querySelector(".editpost")
+    let close = document.getElementById("close")
+    edit?.addEventListener("click",()=>{
+        editpost.classList.remove("hidden")
+        close?.addEventListener("click",()=>{
+            editpost.classList.add("hidden")   
+        })
     })
 
 });
@@ -437,7 +487,7 @@ function checkall() {
     if (username1 && name1 && email1 && password1) {
         sendotp.classList.remove("hidden")
     }
-    else{
+    else {
         sendotp.classList.add("hidden")
     }
 }
@@ -501,7 +551,7 @@ verifybtn?.addEventListener("click", async () => {
     if (response.ok) {
         window.location.href = "/home"
     }
-    else{
+    else {
         const errorDiv = document.getElementById("errorMsg");
         errorDiv.textContent = data.message;
         errorDiv.classList.remove("hidden");
@@ -520,17 +570,17 @@ backcreate?.addEventListener("click", () => {
     dataform.classList.remove("hidden")
 })
 
-async function likepost(userid) {
-    await fetch("/like/" + userid, {
+async function likepost(postlikeid) {
+    await fetch("/like/" + postlikeid, {
         credentials: 'include',
         method: "GET"
     }).then(res => res.json()).then(data => {
-        let likecount = document.querySelector(`.likecount[data-id = "${userid}"]`)
+        let likecount = document.querySelector(`.likecount[data-id = "${postlikeid}"]`)
         likecount.innerText = data.likes;
     })
 
-    let liked = document.querySelector(`.liked[data-id= "${userid}"]`)
-    let unliked = document.querySelector(`.unliked[data-id = "${userid}"`)
+    let liked = document.querySelector(`.liked[data-id= "${postlikeid}"]`)
+    let unliked = document.querySelector(`.unliked[data-id = "${postlikeid}"`)
 
     liked.classList.toggle("hidden")
     unliked.classList.toggle("hidden")
@@ -557,7 +607,7 @@ async function likevpost(userid) {
 function vopenbox(coid) {
     let commentbox = document.getElementById(`commentbox-${coid}`)
     let l = document.getElementById(`vlikecommentmusic-${coid}`)
-    let back = document.querySelector(`.backcomment-${coid}`)
+    let back = document.querySelector(`.backpcomment-${coid}`)
     let up = document.querySelector(`.upcomment-${coid}`)
     commentbox.classList.remove("hidden")
     l.classList.add("hidden")
@@ -587,16 +637,15 @@ function vopenmbox(coid) {
 
 function openbox(coid) {
     let commentbox = document.getElementById(`commentbox-${coid}`)
+    console.log(coid);
+    
     let l = document.getElementById(`userinteract-${coid}`)
     let back = document.querySelector(`.backcomment-${coid}`)
-    let up = document.querySelector(`.upcomment-${coid}`)
     commentbox.classList.remove("hidden")
     l.classList.add("hidden")
     back?.addEventListener("click", () => {
-        l.classList.remove("hidden")
-        commentbox.classList.add("hidden")
-    })
-    up?.addEventListener("click", () => {
+        console.log('hello');
+        
         l.classList.remove("hidden")
         commentbox.classList.add("hidden")
     })
@@ -605,7 +654,6 @@ function openbox(coid) {
 
 function sendcomment(commentid, nameofuser) {
     let textarea = document.getElementById(`comment-${commentid}`)
-
     let comment = textarea.value
     fetch("/send/" + commentid, {
         method: "POST",
@@ -846,13 +894,12 @@ async function sendSolToCreator(toWalletAddress, creatorUsername) {
 
 
 async function followuser(followeduser, btn) {
-    const res = await fetch("/follow", {
+    const res = await fetch("/follow/"+followeduser, {
         method: "POST",
         credentials: 'include',
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ followeduser })
     })
 
     const data = await res.json();
@@ -877,3 +924,47 @@ async function searcheduserprofile(searcheduserid) {
     }
 }
 
+async function editpost(mypostid) {
+    let udescription = document.getElementById("udescription").value
+    if(!udescription){
+        const errorDiv = document.getElementById("errorMsg");
+        const te = document.querySelector(".te");
+        te.textContent = "Empty Not Allowed ✕";
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+        }, 1500);
+        return;
+    }
+    console.log(udescription)
+    const res = await fetch("/updatepost",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        credentials:"include",
+        body:JSON.stringify({mypostid,udescription})
+    })
+    let data = await res.json();
+    if(data.success){
+        const successMsg = document.getElementById("successMsg");
+        const ts = document.querySelector(".ts");
+        ts.textContent = "Post Updated ✓";
+        successMsg.classList.remove("hidden");
+
+        setTimeout(() => {
+            successMsg.classList.add("hidden");
+            window.location.href = `/profile/viewpost/${mypostid}`
+        }, 1500);
+    }
+    else {
+        const errorDiv = document.getElementById("errorMsg");
+        const te = document.querySelector(".te");
+        te.textContent = "Update Failed ✕";
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+        }, 1500);
+        return;
+    }
+}

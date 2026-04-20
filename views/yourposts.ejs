@@ -19,9 +19,12 @@
     </head>
 
     <body>
+        <div id="errorMsg"
+            class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2"><span class="te text-white"></span></div>
+        <div id="successMsg"
+            class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2"><span class="ts text-white"></span></div>
         <div class="main relative w-full h-screen flex text-white bg-zinc-900">
-            <div
-                class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
+            <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
                 <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
                     <button>Logo</button>
                     <a href="/home"
@@ -42,14 +45,15 @@
                             class="hidden lg:inline">Search</span></a>
                     <a href="/profile"
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
-                            src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                            src="<%= myposts.user.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
                             class="hidden lg:inline">Profile</span></a>
                 </div>
             </div>
-            <div class="right w-full h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+            <div
+                class="right relative w-full h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
 
                 <div
-                    class="feed relative max-w-auto h-screen flex flex-col overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
+                    class='feed relative max-w-auto h-screen flex flex-col <%= myposts.image !== "" ? "justify-center":"" %> overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden '>
                     <div
                         class="deletepopup hidden absolute top-5 left-21 w-[20vw] h-[15vh] flex flex-col justify-center items-center gap-5 rounded-md bg-zinc-900 border border-white px-2">
                         <h1>Are You Sure ?</h1>
@@ -60,7 +64,7 @@
                                 class="w-20 rounded-md bg-red-600 px-2 hover:scale-[1.07] hover:cursor-pointer">Delete</a>
                         </div>
                     </div>
-                    <div class="post flex justify-center items-center">
+                    <div class="post relative flex justify-center items-center">
                         <div class="userspost m-4 px-3 py-2 flex flex-col gap-3 border border-zinc-700">
                             <div class="postheader flex justify-between">
                                 <div class="leftheader flex gap-3">
@@ -78,12 +82,14 @@
                                 </div>
                             </div>
                             <% if(myposts.image==="" ){ %>
-                                <video src="<%= myposts.videos %>" autoplay muted loop poster="/images/default.png"
+                                <video src="<%= myposts.videos %>" autoplay muted loop data-id="<%= myposts._id %>"
                                     class="videoplay pointer-events-none h-[72vh] sm:h-[85vh] w-full  object-cover rounded-2xl"></video>
                                 <% } else{ %>
-                                    <img src="<%= myposts.image %>" class="w-[70vw] sm:w-[55vw] md:w-[40vw] lg:w-[30vw]" alt="">
+                                    <img src="<%= myposts.image %>" class="w-[70vw] sm:w-[55vw] md:w-[40vw] lg:w-[30vw] aspect-9/11"
+                                        alt="">
                                     <% } %>
-                                        <div id="userinteract-<%= myposts._id %>" class="likecommentsdelete flex gap-16 px-2 h-7 justify-between items-center">
+                                        <div id="userinteract-<%= myposts._id %>"
+                                            class="likecommentsdelete flex gap-16 px-2 h-7 justify-between items-center">
                                             <% if(myposts.image==="" ){ %>
                                                 <div class="view flex gap-2 w-7 mr-2">
                                                     <img src="/images/view.svg" class="w-5" alt="view">
@@ -152,18 +158,19 @@
                                         </p>
                         </div>
 
-                        <div id="commentbox-<%= myposts._id %>"
-                            class="hidden m-4 px-3 py-2 gap-5 h-[70vh] border border-zinc-700 flex flex-col justify-center ">
+                        <div id="commentbox-<%= myposts._id %>" 
+                            class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 px-3 py-2 gap-5 h-[90%] border border-zinc-700 flex flex-col bg-zinc-900 rounded-xl ">
                             <div class="flex items-center gap-5">
-                                        <img src="/images/back.svg" id="backcomment-<%= myposts._id %>"
-                                            class="w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
-                                        <p class="flex gap-2">People Comment<strong class="text-yellow-300">On Your Creation</strong></p>
-                                    </div>
-                            <div
-                                class="userscommentbox w-[30vw] flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                                <img src="/images/back.svg"
+                                    class="backcomment-<%= myposts._id %> w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
+                                <p class="flex gap-2">People Comment<strong class="text-yellow-300">On Your
+                                        Creation</strong></p>
+                            </div>
+                            <div data-id="<%= myposts._id %>"
+                                class="userscommentbox w-[65vw] sm:w-[60vw] md:w-[30vw] flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                                 <% myposts.comments.reverse().forEach((c)=>{ %>
                                     <div
-                                        class="eachcomment border flex justify-start items-start gap-2 px-3 py-2 border-zinc-700 w-[29vw] min-h-[11vh]">
+                                        class="eachcomment border flex justify-start items-start gap-2 px-3 py-2 border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] min-h-[11vh]">
                                         <h1 class="text-blue-600 shrink-0">
                                             <%= c.nameofuser %>
                                         </h1>
@@ -174,9 +181,9 @@
                                     <% }) %>
                             </div>
 
-                            <div class="flex mb-3 justify-center w-[30vw] items-center gap-3 ">
+                            <div class="flex mb-3 justify-center items-center gap-3 ">
                                 <textarea id="comment-<%= myposts._id %>" placeholder="Comment Creatively"
-                                    class="w-[25vw] border pt-3 border-zinc-700 resize-none  rounded-md px-2 bg-transparent"></textarea>
+                                    class="w-[52vw] sm:w-[25vw] border pt-3 border-zinc-700 resize-none  rounded-md px-2 bg-transparent"></textarea>
                                 <button onclick="sendcomment(`<%= myposts._id %>`,'<%= userdata.username %>')"
                                     class="w-16 bg-blue-700 rounded-md px-2" type="submit">Send</button>
                             </div>
@@ -186,6 +193,26 @@
 
 
 
+                </div>
+                <div
+                    class="editpost hidden w-[95vw] py-3 sm:py-0 sm:w-[85vw] lg:w-[70vw] h-[80vh] sm:h-[70vh] bg-zinc-900 border border-zinc-600 rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col sm:flex-row gap-3 sm:gap-0 items-center overflow-y-scroll sm:overflow-hidden">
+                    <div class="postshowbox w-full sm:w-1/2 h-full flex justify-center items-center">
+                        <% if(myposts.image==="" ) { %>
+                            <video src="<%= myposts.videos %>" class="aspect-9/11 h-[65vh]" autoplay muted></video>
+                            <% } else { %>
+                                <img src="<%= myposts.image %>" class="aspect-9/11 h-[65vh]" alt="">
+                                <% }%>
+                    </div>
+                    <div
+                        class="posteditbox w-full sm:w-1/2 h-full px-4 flex sm:border sm:border-zinc-800 justify-center items-center flex-col gap-7">
+                        <p class="text-xs"><strong>Update</strong> Your Description ✓</p>
+                        <textarea name="udescription" id="udescription"
+                            class="resize-none w-full h-[25vh] p-2 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border border-zinc-700 rounded-md"><%= myposts.description %></textarea>
+                        <button onclick="editpost('<%= myposts._id %>')"
+                            class="rounded-md h-[5vh] flex items-center hover:scale-[1.1] hover:cursor-pointer bg-white text-black px-2 border border-zinc-700">Update</button>
+                    </div>
+                    <img src="/images/close.svg" id="close"
+                        class="absolute top-5 right-5 hover:scale-[1.07] hover:cursor-pointer" alt="">
                 </div>
             </div>
 
@@ -198,7 +225,7 @@
             </div>
 
         </div>
-        <script src="/script.js"></script>
+        <script src="/script.js " defer></script>
     </body>
 
     </html>
