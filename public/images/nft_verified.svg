@@ -1,0 +1,99 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="none">
+
+  <defs>
+    <!-- Main purple gradient -->
+    <radialGradient id="gradMain" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#b6adf6"/>
+      <stop offset="100%" stop-color="#7a6cf4"/>
+    </radialGradient>
+
+    <!-- Subtle highlight -->
+    <linearGradient id="highlight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Soft outer glow -->
+    <filter id="outerGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Inner shadow -->
+    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dy="6"/>
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+      <feColorMatrix type="matrix"
+        values="0 0 0 0 0.3
+                0 0 0 0 0.3
+                0 0 0 0 0.6
+                0 0 0 0.4 0"/>
+      <feBlend in="SourceGraphic"/>
+    </filter>
+
+  </defs>
+
+  <!-- Badge shape -->
+  <path
+    d="M256 50
+       C300 50 320 80 350 90
+       C390 105 420 135 420 175
+       C420 210 450 230 450 256
+       C450 282 420 302 420 337
+       C420 377 390 407 350 422
+       C320 432 300 462 256 462
+       C212 462 192 432 162 422
+       C122 407 92 377 92 337
+       C92 302 62 282 62 256
+       C62 230 92 210 92 175
+       C92 135 122 105 162 90
+       C192 80 212 50 256 50 Z"
+    fill="url(#gradMain)"
+    filter="url(#outerGlow)"
+  />
+
+  <!-- Inner border -->
+  <path
+    d="M256 80
+       C290 80 305 105 330 115
+       C360 125 385 150 385 180
+       C385 210 410 225 410 256
+       C410 287 385 302 385 332
+       C385 362 360 387 330 397
+       C305 407 290 432 256 432
+       C222 432 207 407 182 397
+       C152 387 127 362 127 332
+       C127 302 102 287 102 256
+       C102 225 127 210 127 180
+       C127 150 152 125 182 115
+       C207 105 222 80 256 80 Z"
+    stroke="white"
+    stroke-opacity="0.85"
+    stroke-width="6"
+    fill="none"
+  />
+
+  <!-- Soft highlight overlay -->
+  <path
+    d="M256 50
+       C300 50 320 80 350 90
+       C280 120 200 120 162 90
+       C192 80 212 50 256 50 Z"
+    fill="url(#highlight)"
+  />
+
+  <!-- Checkmark -->
+  <path
+    d="M185 265 L235 315 L335 205"
+    stroke="white"
+    stroke-width="28"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#innerShadow)"
+  />
+
+</svg>

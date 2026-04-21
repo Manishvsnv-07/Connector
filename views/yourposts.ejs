@@ -20,9 +20,11 @@
 
     <body>
         <div id="errorMsg"
-            class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2"><span class="te text-white"></span></div>
+            class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2">
+            <span class="te text-white"></span></div>
         <div id="successMsg"
-            class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2"><span class="ts text-white"></span></div>
+            class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2">
+            <span class="ts text-white"></span></div>
         <div class="main relative w-full h-screen flex text-white bg-zinc-900">
             <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
                 <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
@@ -51,21 +53,22 @@
             </div>
             <div
                 class="right relative w-full h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
-
+                <div
+                    class="deletepopup hidden absolute top-5 left-1/2 -translate-x-1/2 z-100 w-[55vw] md:w-[30vw] lg:w-[20vw] h-[15vh] flex flex-col justify-center items-center gap-5 rounded-md bg-zinc-900 border border-white px-2">
+                    <h1>Are You Sure ?</h1>
+                    <div class="deleteornot flex gap-7">
+                        <button
+                            class="cancel rounded-md bg-zinc-800 px-2 hover:scale-[1.07] hover:cursor-pointer">Cancel</button>
+                        <a href="/profile/deletepost/<%= myposts._id %>"
+                            class="rounded-md bg-red-600 px-2 hover:scale-[1.07] hover:cursor-pointer">Delete</a>
+                    </div>
+                </div>
                 <div
                     class='feed relative max-w-auto h-screen flex flex-col <%= myposts.image !== "" ? "justify-center":"" %> overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden '>
-                    <div
-                        class="deletepopup hidden absolute top-5 left-21 w-[20vw] h-[15vh] flex flex-col justify-center items-center gap-5 rounded-md bg-zinc-900 border border-white px-2">
-                        <h1>Are You Sure ?</h1>
-                        <div class="deleteornot flex gap-7">
-                            <button
-                                class="cancel w-20 rounded-md bg-zinc-800 px-2 hover:scale-[1.07] hover:cursor-pointer">Cancel</button>
-                            <a href="/profile/deletepost/<%= myposts._id %>"
-                                class="w-20 rounded-md bg-red-600 px-2 hover:scale-[1.07] hover:cursor-pointer">Delete</a>
-                        </div>
-                    </div>
-                    <div class="post relative flex justify-center items-center">
-                        <div class="userspost m-4 px-3 py-2 flex flex-col gap-3 border border-zinc-700">
+
+                    <div class="post relative  flex justify-center items-center">
+                        <div
+                            class="userspost m-4 h-[90vh] sm:h-auto px-3 py-2 flex flex-col gap-3 border border-zinc-700">
                             <div class="postheader flex justify-between">
                                 <div class="leftheader flex gap-3">
                                     <img src="<%= myposts.user.image %>" class="w-7 rounded-full" alt="">
@@ -79,14 +82,28 @@
                                         <img src="/images/edit.svg"
                                             class="edit w-5 hover:scale-[1.2] hover:cursor-pointer" alt="">
                                         <% } %>
+
+                                            <% if(myposts.nftMint){ %>
+                                                <div class="relative"
+                                                    onmouseenter="this.querySelector('.nft-tooltip').classList.remove('hidden')"
+                                                    onmouseleave="this.querySelector('.nft-tooltip').classList.add('hidden')"
+                                                    onclick="this.querySelector('.nft-tooltip').classList.toggle('hidden')">
+                                                    <img src="/images/nft_verified.svg"
+                                                        class="verified-nft w-6 cursor-pointer" alt="">
+                                                    <div
+                                                        class="nft-tooltip hidden absolute bottom-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                                        NFT Verified ✓
+                                                    </div>
+                                                </div>
+                                                <% } %>
                                 </div>
                             </div>
                             <% if(myposts.image==="" ){ %>
                                 <video src="<%= myposts.videos %>" autoplay muted loop data-id="<%= myposts._id %>"
-                                    class="videoplay pointer-events-none h-[72vh] sm:h-[85vh] w-full  object-cover rounded-2xl"></video>
+                                    class="videoplay pointer-events-none  aspect-9/11 h-[80vh] w-[99vw] sm:w-[50vw] md:w-[45vw] lg:w-[35vw] xl:w-[25vw] object-cover rounded-2xl"></video>
                                 <% } else{ %>
-                                    <img src="<%= myposts.image %>" class="w-[70vw] sm:w-[55vw] md:w-[40vw] lg:w-[30vw] aspect-9/11"
-                                        alt="">
+                                    <img src="<%= myposts.image %>"
+                                        class="w-[70vw] sm:w-[55vw] md:w-[40vw] lg:w-[30vw] aspect-9/11" alt="">
                                     <% } %>
                                         <div id="userinteract-<%= myposts._id %>"
                                             class="likecommentsdelete flex gap-16 px-2 h-7 justify-between items-center">
@@ -158,11 +175,12 @@
                                         </p>
                         </div>
 
-                        <div id="commentbox-<%= myposts._id %>" 
+                        <div id="commentbox-<%= myposts._id %>"
                             class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 px-3 py-2 gap-5 h-[90%] border border-zinc-700 flex flex-col bg-zinc-900 rounded-xl ">
                             <div class="flex items-center gap-5">
                                 <img src="/images/back.svg"
-                                    class="backcomment-<%= myposts._id %> w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
+                                    class="backcomment-<%= myposts._id %> w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
+                                    alt="">
                                 <p class="flex gap-2">People Comment<strong class="text-yellow-300">On Your
                                         Creation</strong></p>
                             </div>

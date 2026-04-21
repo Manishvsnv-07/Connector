@@ -9,33 +9,42 @@
 </head>
 
 <body>
+    <div id="errorMsg"
+        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2">
+        <span class="te text-white"></span></div>
+    <div id="successMsg"
+        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2 font-semibold">
+        <span class="ts text-white"></span></div>
+    <div id="PhantomMsg"
+        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-[#ab9ff2]  border border-zinc-600  flex items-center justify-center z-50 px-2 font-semibold">
+        <span class="p text-black"></span>
+    </div>
     <div class="main relative w-full h-screen flex text-white bg-zinc-900">
-        <div
-                class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
-                <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                    <button>Logo</button>
-                    <a href="/home"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
-                            src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Home</span></a>
-                    <a href="/Vclips"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                            src="images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
-                            class="hidden lg:inline">Vclips</span></a>
-                    <a href="/post"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                            src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Post</span></a>
-                    <a href="/Search"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                            src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Search</span></a>
-                    <a href="/profile"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
-                            src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Profile</span></a>
-                </div>
+        <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
+            <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
+                <button>Logo</button>
+                <a href="/home"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
+                        src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Home</span></a>
+                <a href="/Vclips"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                        src="images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
+                        class="hidden lg:inline">Vclips</span></a>
+                <a href="/post"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                        src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Post</span></a>
+                <a href="/Search"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                        src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Search</span></a>
+                <a href="/profile"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
+                        src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Profile</span></a>
             </div>
+        </div>
         <div class="right w-full h-screen border relative border-zinc-700 bg-zinc-900">
             <div class="aboutuser flex gap-5 h-[40%] sm:h-1/3 w-full py-5 sm:py-3 justify-center items-center">
                 <div class="w-[35%] sm:w-[20%] flex justify-center items-center">
@@ -61,10 +70,11 @@
                     </p>
                     <div class="flex gap-4 flex-col sm:flex-row">
                         <a href="/profiles/edit"
-                            class="rounded-md bg-transparent  px-2 border font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center border-zinc-200">Manage Profile</a>
+                            class="rounded-md bg-transparent  px-2 border font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center border-zinc-200">Manage
+                            Profile</a>
                         <% if(userdata.walletAddress){ %>
                             <button
-                                class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected</button>
+                                class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected ✓</button>
                             <% } else{ %>
                                 <button onclick="Connectphantom()"
                                     class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Connect
@@ -77,17 +87,31 @@
                 class="usersposts h-[60%] sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
 
                 <% userdata.posts.reverse().forEach((post)=>{ %>
-                    <div
-                        class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
+                    <div class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
                         <div class="postheader flex justify-between w-full">
                             <div class="header flex gap-3 w-full">
                                 <img src="<%= userdata.image %>" class="w-7 rounded-full" alt="">
-                                <h1 class="truncate"><%= userdata.username %></h1>
+                                <h1 class="truncate">
+                                    <%= userdata.username %>
+                                </h1>
                             </div>
+                            <% let r = Math.random() %>
+                            <% if(r>0.1 && r<0.2){ %>
+                                <button class="w-7 text-yellow-200">✓</button>
+                            <% } else if(r>0.2 && r<0.3){ %>
+                                <button class="w-7 text-yellow-200">µ</button>
+                            <% } else if(r>0.3 && r<0.5){ %>
+                                <button class="w-7 text-yellow-200">⌀</button>
+                            <% } else if(r>0.5){ %>
+                                <button class="w-7 text-yellow-200">⌁</button>
+                            <% }  else if(r<0.1){ %>
+                                <button class="w-7 text-yellow-200">₿</button>
+                            <% } %>
                         </div>
                         <% if(post.image==="" ){ %>
                             <a href="/profile/viewpost/<%= post._id %>" class="block w-full h-full"><video
-                                    src="<%= post.videos %>" poster="<%= post.thumbnail %>" class="w-full h-full object-cover"></video></a>
+                                    src="<%= post.videos %>" poster="<%= post.thumbnail %>"
+                                    class="w-full h-full object-cover"></video></a>
                             <% } else{ %>
                                 <a href="/profile/viewpost/<%= post._id %>" class="block w-full h-full"><img
                                         src="<%= post.image %>" class="w-full h-full object-cover" alt="Your Post"></a>
@@ -99,11 +123,11 @@
         </div>
 
         <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
-                <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
-                <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
-                <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
-                <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
-                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
+            <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
+            <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
+            <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
+            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
         </div>
 
     </div>

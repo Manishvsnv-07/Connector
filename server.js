@@ -264,7 +264,7 @@ const upload = multer({
 
     fileFilter: (req, file, cb) => {
         // allowed types
-        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "video/mp4", "video/mkv"];
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg","image/gif", "video/mp4", "video/mkv"];
 
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true); // accept file
@@ -282,10 +282,7 @@ app.post("/post", uploadfield, islogged, async (req, res) => {
     try {
 
         const mediaFile = req.files["media"]?.[0]
-        console.log("Media File",mediaFile);
-        
         const ThumbnailFile = req.files["thumbnail"]?.[0]
-        console.log("Thumbnail File",ThumbnailFile)
         if (!mediaFile) {
             return res.status(400).json({ message: "Select Post First" })
         }
@@ -325,14 +322,30 @@ app.post("/post", uploadfield, islogged, async (req, res) => {
             })
         }
 
-        res.status(200).json({ success: "Post Successfully" })
+        return res.status(200).json({ success: "Post Successfully" })
 
     } catch (err) {
-        res.status(500).send(err.message);
+        return res.status(500).json({message:"Post Failed"});
     }
 })
 
-app.post("/nft/mint", async (req, res) => {
+const NftUpload = multer({
+    storage: storage,
+
+    fileFilter: (req, file, cb) => {
+        // allowed types
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/webp"];
+
+        if (allowedTypes.includes(file.mimetype)) {
+            cb(null, true); // accept file
+        } else {
+            cb(new Error("Videos Not Allowed As A Nft"), false); // reject
+        }
+    }
+});
+
+
+app.post("/nft/mint",NftUpload.single("media"), async (req, res) => {
     try {
         const { postid, postdescription, postimg, walletAddress } = req.body;
         const metadata = {
@@ -374,9 +387,15 @@ app.post("/nft/mint", async (req, res) => {
         res.status(200).json({ success:"NFT Mint Successfully"});
 
     } catch (error) {
-        console.error("Mint error:", error)
         res.status(500).json({ success: false, error: error.message })
     }
+})
+
+app.use((err,req,res,next)=>{
+    if(err.message === "Videos Not Allowed As A Nft"){
+        return res.status(400).json({success :false ,message:"Video As A NFT Not Allowed ✕"})
+    }
+    next(err)
 })
 
 app.get("/logout", (req, res) => {

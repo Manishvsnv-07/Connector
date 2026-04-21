@@ -11,10 +11,17 @@
 <body>
 
     <div id="errorMsg"
-        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md text-white font-bold bg-red-500 flex items-center justify-center z-50 px-2">
+        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-red-500  border border-zinc-600  flex items-center justify-center z-50 px-2">
+        <span class="te text-white"></span>
     </div>
+
     <div id="successMsg"
-        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md text-black font-bold bg-green-500 flex items-center justify-center z-50 px-2">
+        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-green-300  border border-zinc-600  flex items-center justify-center z-50 px-2">
+        <span class="ts text-black"></span>
+    </div>
+    <div id="PhantomMsg"
+        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-[#ab9ff2]  border border-zinc-600  flex items-center justify-center z-50 px-2">
+        <span class="p text-black"></span>
     </div>
     <div class="main relative w-full h-screen flex text-white bg-zinc-900">
         <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
@@ -50,16 +57,19 @@
                 <div class="flex justify-center items-center w-full md:w-1/2">
                     <img id="previwimg" src="images/upload.jpeg"
                         class="aspect-9/11 border border-zinc-700 rounded-md h-[60vh] object-cover" alt="">
-                    <img id="thumbnailpreview" class="hidden aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover"  alt="">
+                    <img id="thumbnailpreview"
+                        class="hidden aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover" alt="">
                     <div class="videobox hidden relative">
                         <video id="videopreview"
                             class="aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover" autoplay muted
                             playsinline loop></video>
 
                         <img src="images/offsound.svg" class="vmusicoff absolute bottom-5 right-5 w-5" alt="">
-                        <div class="w-7 h-7 flex justify-center items-center bg-transparent border border-zinc-600 rounded-md absolute top-3 left-3 z-100">
+                        <div
+                            class="w-7 h-7 flex justify-center items-center bg-transparent border border-zinc-600 rounded-md absolute top-3 left-3 z-100">
                             <img src="images/edit.svg" class="w-5" alt="">
-                            <input type="file" name="thumbnail" id="thumbnail" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" >
+                            <input type="file" name="thumbnail" id="thumbnail" accept="image/*"
+                                class="absolute inset-0 opacity-0 cursor-pointer">
                         </div>
 
                     </div>
@@ -86,7 +96,7 @@
                     <!-- TAGS -->
                     <div class="flex flex-col border border-zinc-700 rounded-lg px-3 py-2 gap-4">
                         <div id="tagsContainer" class="flex gap-2 cursor-text">
-                            <input id="tagInput" placeholder="Put Tags Wisely..."
+                            <input id="tagInput" placeholder="Tags will help your post go viral...."
                                 class="border-none outline-none bg-transparent text-md w-full" />
                         </div>
                         <div id="tagPills" class="flex flex-wrap gap-3 mt-1"></div>
@@ -106,7 +116,7 @@
                     </div>
                     <!-- BUTTON -->
                     <button type="submit" onclick="handleUpload()" id="upload"
-                        class="bg-blue-700 rounded-md w-full h-11">
+                        class="bg-[#ab9ff2] text-black font-semibold rounded-md w-full h-11">
                         Post It
                     </button>
 

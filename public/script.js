@@ -137,10 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
             pillsContainer.appendChild(el);
         });
 
-        let tagsdata = document.getElementById('tagsData') 
+        let tagsdata = document.getElementById('tagsData')
         tagsdata.value = JSON.stringify(tags);
         console.log(tagsdata.value);
-        
+
 
         if (tags.length >= MAX_TAGS) {
             input.disabled = true;
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         })
-    },{threshold:0.5})
+    }, { threshold: 0.5 })
 
     postsimg.forEach(img => {
         imgobserver.observe(img)
@@ -465,12 +465,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let edit = document.querySelector(".edit")
     let editpost = document.querySelector(".editpost")
     let close = document.getElementById("close")
-    edit?.addEventListener("click",()=>{
+    edit?.addEventListener("click", () => {
         editpost.classList.remove("hidden")
-        close?.addEventListener("click",()=>{
-            editpost.classList.add("hidden")   
+        close?.addEventListener("click", () => {
+            editpost.classList.add("hidden")
         })
     })
+
 
 });
 
@@ -638,14 +639,14 @@ function vopenmbox(coid) {
 function openbox(coid) {
     let commentbox = document.getElementById(`commentbox-${coid}`)
     console.log(coid);
-    
+
     let l = document.getElementById(`userinteract-${coid}`)
     let back = document.querySelector(`.backcomment-${coid}`)
     commentbox.classList.remove("hidden")
     l.classList.add("hidden")
     back?.addEventListener("click", () => {
         console.log('hello');
-        
+
         l.classList.remove("hidden")
         commentbox.classList.add("hidden")
     })
@@ -666,7 +667,7 @@ function sendcomment(commentid, nameofuser) {
     textarea.value = ""
     let cbox = document.querySelector(`.userscommentbox[data-id="${commentid}"]`)
     const cb = document.createElement('div')
-    cb.className = "eachcomment border flex justify-start items-start gap-2 px-3 py-2 border-zinc-700 w-full min-h-[11vh]"
+    cb.className = "eachcomment border flex justify-start items-start gap-2 px-3 py-2 border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] min-h-[11vh]"
     cb.innerHTML = `<h1 class="nameofuser text-blue-600 shrink-0">${nameofuser}</h1> <p class="usercomment wrap-break-word">${comment}</p>`
     cbox.prepend(cb)
 
@@ -694,7 +695,14 @@ const Connectphantom2 = async () => {
     const provider = window.solana;
 
     if (!provider?.isPhantom) {
-        alert("Please install Phantom wallet");
+        const errorDiv = document.getElementById("errorMsg");
+        const te = document.querySelector(".te");
+        te.textContent = "Please Install Phantom ✓";
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+        }, 1500);
         window.open("https://phantom.app/", "_blank");
         return;
     }
@@ -734,9 +742,17 @@ window.addEventListener("load", async () => {
 const Connectphantom = async () => {
     const provider = window.solana;
 
-    if (!provider?.isPhantom) {
-        alert("Please install Phantom wallet");
-        window.open("https://phantom.app/", "_blank");
+    if (!window.solana || !window.solana.isPhantom) {
+        const PhantomMsg = document.getElementById("PhantomMsg");
+        const p = document.querySelector(".p");
+        p.textContent = "Phantom Not Installed ✕";
+        PhantomMsg.classList.remove("hidden");
+
+        setTimeout(() => {
+            PhantomMsg.classList.add("hidden");
+            window.open("https://phantom.app/", "_blank");
+            window.location.reload()
+        }, 2000);
         return;
     }
 
@@ -744,7 +760,6 @@ const Connectphantom = async () => {
         // 1. Connect wallet
         const resp = await provider.connect();
         const publicKey = resp.publicKey.toString();
-
         // 2. Get message from backend
         const msgRes = await fetch("/auth/message", {
             credentials: "include"
@@ -774,14 +789,45 @@ const Connectphantom = async () => {
         const data = await verifyRes.json();
 
         if (data.success) {
-            alert("Wallet connected & verified ✅");
-            window.location.href = "/profile";
+            const successMsg = document.getElementById("successMsg");
+            const ts = document.querySelector(".ts");
+            ts.textContent = "Wallet connected & verified ✅";
+            successMsg.classList.remove("hidden");
+
+            setTimeout(() => {
+                successMsg.classList.add("hidden");
+                window.location.href = "/profile";
+            }, 2000);
         } else {
-            alert("Verification failed ❌");
+            const errorDiv = document.getElementById("errorMsg");
+            const te = document.querySelector(".te");
+            te.textContent = "Verification failed ❌";
+            errorDiv.classList.remove("hidden");
+
+            setTimeout(() => {
+                errorDiv.classList.add("hidden");
+                window.location.href = "/profile";
+            }, 2000);
+            return;
         }
 
     } catch (err) {
-        alert(err.message || "Connection failed");
+        if (err.code === 4001) {
+            const PhantomMsg = document.getElementById("PhantomMsg");
+            const p = document.querySelector(".p");
+            p.textContent = err;
+            PhantomMsg.classList.remove("hidden");
+            setTimeout(() => PhantomMsg.classList.add("hidden"), 2000);
+            return ;
+        }
+        else if(err.code === -32603){
+            const PhantomMsg = document.getElementById("PhantomMsg");
+            const p = document.querySelector(".p");
+            p.textContent = "Wallet Not Created ✕";
+            PhantomMsg.classList.remove("hidden");
+            setTimeout(() => PhantomMsg.classList.add("hidden"), 2000);
+            return;
+        }
     }
 };
 
@@ -790,14 +836,9 @@ function vopensol(soid) {
     let solbox = document.getElementById(`solbox-${soid}`)
     let l = document.getElementById(`vlikecommentmusic-${soid}`)
     let back = document.getElementById(`backsol-${soid}`)
-    let up = document.getElementById(`upsol-${soid}`)
     solbox.classList.remove("hidden")
     l.classList.add("hidden")
     back?.addEventListener("click", () => {
-        l.classList.remove("hidden")
-        solbox.classList.add("hidden")
-    })
-    up?.addEventListener("click", () => {
         l.classList.remove("hidden")
         solbox.classList.add("hidden")
     })
@@ -894,7 +935,7 @@ async function sendSolToCreator(toWalletAddress, creatorUsername) {
 
 
 async function followuser(followeduser, btn) {
-    const res = await fetch("/follow/"+followeduser, {
+    const res = await fetch("/follow/" + followeduser, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -926,7 +967,7 @@ async function searcheduserprofile(searcheduserid) {
 
 async function editpost(mypostid) {
     let udescription = document.getElementById("udescription").value
-    if(!udescription){
+    if (!udescription) {
         const errorDiv = document.getElementById("errorMsg");
         const te = document.querySelector(".te");
         te.textContent = "Empty Not Allowed ✕";
@@ -938,14 +979,14 @@ async function editpost(mypostid) {
         return;
     }
     console.log(udescription)
-    const res = await fetch("/updatepost",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        credentials:"include",
-        body:JSON.stringify({mypostid,udescription})
+    const res = await fetch("/updatepost", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ mypostid, udescription })
     })
     let data = await res.json();
-    if(data.success){
+    if (data.success) {
         const successMsg = document.getElementById("successMsg");
         const ts = document.querySelector(".ts");
         ts.textContent = "Post Updated ✓";
