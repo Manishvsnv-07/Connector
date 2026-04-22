@@ -18,7 +18,6 @@ async function handleUpload() {
     const imageFile = document.getElementById("fileInput").files[0]
     const tags = document.getElementById("tagsData").value
     const thumbnail = document.getElementById("thumbnail").files[0]
-    console.log(imageFile);
     if (isNFT) {
         if (!window.solana || !window.solana.isPhantom) {
             const PhantomMsg = document.getElementById("PhantomMsg");
@@ -57,7 +56,12 @@ async function handleUpload() {
             return;
         }
     }
-    uploadp.textContent = "Posting...."
+    uploadp.innerHTML = `
+  <div class="flex items-center justify-center gap-2 w-auto">
+    <span>Posting...</span>
+    <img src = "images/rocket.svg" class="w-9" style="animation: rocketLaunch 0.5s infinite alternate">
+  </div>
+`
 
     const formdata = new FormData()
     formdata.append("description", description)
@@ -80,7 +84,6 @@ async function handleUpload() {
 
             setTimeout(() => {
                 errorDiv.classList.add("hidden");
-                window.location.href = "/post"
             }, 2000);
             return;
         }
@@ -89,7 +92,7 @@ async function handleUpload() {
             const ts = document.querySelector(".ts");
             ts.textContent = "Post Successfully ✓";
             successMsg.classList.remove("hidden");
-
+            uploadp.textContent = `Post It`
             setTimeout(() => {
                 successMsg.classList.add("hidden");
                 window.location.href = "/profile"

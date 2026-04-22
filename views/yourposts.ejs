@@ -41,6 +41,10 @@
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                             src="/images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                             class="hidden lg:inline">Post</span></a>
+                    <a href="/Notify"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                        src="/images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Notify</span></a>         
                     <a href="/Search"
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                             src="/images/Search.svg" class="w-11 lg:w-7" alt=""><span
@@ -68,7 +72,7 @@
 
                     <div class="post relative  flex justify-center items-center">
                         <div
-                            class="userspost m-4 h-[90vh] sm:h-auto px-3 py-2 flex flex-col gap-3 border border-zinc-700">
+                            class="userspost m-4  h-auto px-3 py-2 flex flex-col gap-3 border border-zinc-700">
                             <div class="postheader flex justify-between">
                                 <div class="leftheader flex gap-3">
                                     <img src="<%= myposts.user.image %>" class="w-7 rounded-full" alt="">
@@ -100,7 +104,7 @@
                             </div>
                             <% if(myposts.image==="" ){ %>
                                 <video src="<%= myposts.videos %>" autoplay muted loop data-id="<%= myposts._id %>"
-                                    class="videoplay pointer-events-none  aspect-9/11 h-[80vh] w-[99vw] sm:w-[50vw] md:w-[45vw] lg:w-[35vw] xl:w-[25vw] object-cover rounded-2xl"></video>
+                                    class="videoplay pointer-events-none  aspect-9/11 h-[75vh] sm:h-[80vh] w-[99vw] sm:w-[50vw] md:w-[45vw] lg:w-[35vw] xl:w-[25vw] object-cover rounded-2xl"></video>
                                 <% } else{ %>
                                     <img src="<%= myposts.image %>"
                                         class="w-[70vw] sm:w-[55vw] md:w-[40vw] lg:w-[30vw] aspect-9/11" alt="">

@@ -1,3 +1,4 @@
+import { amount } from "@metaplex-foundation/js"
 import mongoose, { Types } from "mongoose"
 
 const postschema = mongoose.Schema({
@@ -8,7 +9,8 @@ const postschema = mongoose.Schema({
     tags:{type:[String],validate:[arr => arr.length <= 5],default:[]},
     videos:String,
     likes:[{type:mongoose.Schema.Types.ObjectId,ref:"user"}],
-    comments: [{comment:String,nameofuser:String}],
+    comments: [{comment:String,nameofuser:String,user:String}],
+    sol:[{amount:String,sender:String}],
     views:[{type:mongoose.Schema.Types.ObjectId,ref:"post"}],
     nftMint:{
         type:String,

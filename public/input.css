@@ -81,3 +81,24 @@
 .manage::-webkit-scrollbar-thumb:hover {
     background: #3a3a40; /* zinc-600 */
 }
+
+
+.Notificationbox::-webkit-scrollbar {
+    width: 5px;
+}
+.Notificationbox::-webkit-scrollbar-track {
+    background: transparent;
+}
+.Notificationbox::-webkit-scrollbar-thumb {
+    background: #3a3a40; /* zinc-700 */
+    border-radius: 999px;
+}
+.Notificationbox::-webkit-scrollbar-thumb:hover {
+    background: #3a3a40; /* zinc-600 */
+}
+
+
+@keyframes rocketLaunch {
+  0%   { transform: translateY(0) rotate(45deg); }
+  100% { transform: translateY(-6px) rotate(45deg); }
+}

@@ -6,7 +6,16 @@
 
 
 
+const PhantomMsg = document.getElementById("PhantomMsg");
+            const p = document.querySelector(".p");
+            p.textContent = "Phantom Not Connected ✕";
+            PhantomMsg.classList.remove("hidden");
 
+            setTimeout(() => {
+                PhantomMsg.classList.add("hidden");
+                window.location.href = "/profile"
+            }, 1500);
+            return;
 
 ------ Success Pop Up
 const successMsg = document.getElementById("successMsg");
@@ -30,3 +39,4 @@ const errorDiv = document.getElementById("errorMsg");
             errorDiv.classList.add("hidden");
         }, 1500);
         return;
+

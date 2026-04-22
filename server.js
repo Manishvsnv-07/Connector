@@ -1,4 +1,4 @@
-import dotenv from "dotenv"
+import dotenv, { populate } from "dotenv"
 dotenv.config();
 import express from "express"
 import { user } from "./module/user.js"
@@ -16,7 +16,15 @@ import mongoose from "mongoose";
 import nodemailer from "nodemailer"
 import pinataSDK from "@pinata/sdk";
 import { Metaplex, keypairIdentity } from "@metaplex-foundation/js";
-import { Connection, clusterApiUrl, Keypair, PublicKey } from "@solana/web3.js";
+import {
+    Connection,
+    PublicKey,
+    Transaction,
+    SystemProgram,
+    LAMPORTS_PER_SOL,
+    clusterApiUrl,
+    Keypair
+} from '@solana/web3.js';
 
 cloudinary.config({
     api_key: process.env.CLOUDINARY_APIKEY,
@@ -264,7 +272,7 @@ const upload = multer({
 
     fileFilter: (req, file, cb) => {
         // allowed types
-        const allowedTypes = ["image/jpeg", "image/png", "image/jpg","image/gif", "video/mp4", "video/mkv"];
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "video/mp4", "video/mkv"];
 
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true); // accept file
@@ -275,8 +283,8 @@ const upload = multer({
 });
 
 const uploadfield = upload.fields([
-    {name:"media",maxCount:1},
-    {name:"thumbnail",maxCount:1}
+    { name: "media", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 }
 ])
 app.post("/post", uploadfield, islogged, async (req, res) => {
     try {
@@ -291,11 +299,11 @@ app.post("/post", uploadfield, islogged, async (req, res) => {
         const result_thumb = ThumbnailFile ? await uploadToCloudinary(ThumbnailFile.buffer, ThumbnailFile.mimetype) : null;
         const isimage = mediaFile.mimetype.startsWith("image/");
         const isvideo = mediaFile.mimetype.startsWith("video/");
-        const isthumbnail = ThumbnailFile ?.mimetype.startsWith("image/") ?? false;
+        const isthumbnail = ThumbnailFile?.mimetype.startsWith("image/") ?? false;
         const { description } = req.body;
         const isMintNft = req.body.isMintNft === "true"
         console.log(req.body.tgs);
-        
+
         let userdata = await user.findOne({ email: req.datahere.email })
         const postcreate = new post({
             user: userdata._id,
@@ -303,7 +311,7 @@ app.post("/post", uploadfield, islogged, async (req, res) => {
             tags: JSON.parse(req.body.tgs || '[]'),
             image: isimage ? result.secure_url : "",
             videos: isvideo ? result.secure_url : "",
-            thumbnail:isthumbnail ? result_thumb.secure_url : "",
+            thumbnail: isthumbnail ? result_thumb.secure_url : "",
             nftMint: null,
             nftMetaDataUri: null,
             isNftMint: false
@@ -325,7 +333,7 @@ app.post("/post", uploadfield, islogged, async (req, res) => {
         return res.status(200).json({ success: "Post Successfully" })
 
     } catch (err) {
-        return res.status(500).json({message:"Post Failed"});
+        return res.status(500).json({ message: "Post Failed" });
     }
 })
 
@@ -345,7 +353,7 @@ const NftUpload = multer({
 });
 
 
-app.post("/nft/mint",NftUpload.single("media"), async (req, res) => {
+app.post("/nft/mint", NftUpload.single("media"), async (req, res) => {
     try {
         const { postid, postdescription, postimg, walletAddress } = req.body;
         const metadata = {
@@ -367,7 +375,7 @@ app.post("/nft/mint",NftUpload.single("media"), async (req, res) => {
         const secretKey = bs58.decode(process.env.SOLANA_PRIVATE_KEY);
         const serverKeypair = Keypair.fromSecretKey(secretKey);
         console.log(serverKeypair.publicKey.toString());
-        
+
         const metaplex = Metaplex.make(connection)
             .use(keypairIdentity(serverKeypair));
 
@@ -384,16 +392,16 @@ app.post("/nft/mint",NftUpload.single("media"), async (req, res) => {
             isNftMint: true
         });
 
-        res.status(200).json({ success:"NFT Mint Successfully"});
+        res.status(200).json({ success: "NFT Mint Successfully" });
 
     } catch (error) {
         res.status(500).json({ success: false, error: error.message })
     }
 })
 
-app.use((err,req,res,next)=>{
-    if(err.message === "Videos Not Allowed As A Nft"){
-        return res.status(400).json({success :false ,message:"Video As A NFT Not Allowed ✕"})
+app.use((err, req, res, next) => {
+    if (err.message === "Videos Not Allowed As A Nft") {
+        return res.status(400).json({ success: false, message: "Video As A NFT Not Allowed ✕" })
     }
     next(err)
 })
@@ -451,8 +459,8 @@ app.post("/follow/:followeduserid", islogged, async (req, res) => {
     let mydata = await user.findOne({ email: req.datahere.email })
     let otheruserdata = await user.findOne({ _id: req.params.followeduserid });
     if (otheruserdata.follower.includes(mydata._id)) {
-        await user.updateOne({_id:otheruserdata._id},{$pull:{follower:mydata._id}})
-        await user.updateOne({_id:mydata._id},{$pull:{following:otheruserdata._id}})
+        await user.updateOne({ _id: otheruserdata._id }, { $pull: { follower: mydata._id } })
+        await user.updateOne({ _id: mydata._id }, { $pull: { following: otheruserdata._id } })
         return res.json({ following: false })
     }
     otheruserdata.follower.push(mydata._id);
@@ -527,15 +535,28 @@ app.get("/like/:likeid", islogged, async (req, res) => {
 
 app.post("/send/:commentid", islogged, async (req, res) => {
     let commentpost = await post.findOne({ _id: req.params.commentid })
+    
     if (req.body.comment) {
-        commentpost.comments.push({ comment: req.body.comment, nameofuser: req.body.nameofuser })
+        commentpost.comments.push({ comment: req.body.comment, nameofuser: req.body.nameofuser,user:req.body.userid })
         await commentpost.save()
     }
     res.json({ comments: commentpost.comments.length })
 })
 
-app.post("/commentbox/:id", (req, res) => {
-    res.send("hello")
+app.post("/sendSol", islogged, async (req, res) => {
+try {
+    const { selectedAmount, toWalletAddress, postid } = req.body;
+    console.log(selectedAmount,toWalletAddress,postid);
+    
+    let findpost = await post.findById(postid)
+    let finduser = await user.findOne({ email: req.datahere.email })
+    findpost.sol.push({ amount: selectedAmount, sender: finduser.username })
+    await findpost.save()
+    return res.status(200).json({success:true})
+} catch (error) {
+    return res.status(500).json({success:false})
+}
+
 })
 
 
@@ -551,12 +572,12 @@ app.get("/profile/deletepost/:postid", islogged, async (req, res) => {
     res.redirect("/profile")
 })
 
-app.post("/updatepost",async(req,res)=>{
-    try {        
-        let mypost = await post.findByIdAndUpdate(req.body.mypostid,{description:req.body.udescription})
-        res.json({success:true})
+app.post("/updatepost", async (req, res) => {
+    try {
+        let mypost = await post.findByIdAndUpdate(req.body.mypostid, { description: req.body.udescription })
+        res.json({ success: true })
     } catch (error) {
-        return res.json({success:false})
+        return res.json({ success: false })
     }
 })
 
@@ -645,15 +666,15 @@ app.get("/Search/:id", islogged, async (req, res) => {
 
 app.post("/view/:postid", islogged, async (req, res) => {
     let p = await post.findOne({ _id: req.params.postid })
-    if(!p){
-        return res.status(404).json({message:"User Not Found"})
+    if (!p) {
+        return res.status(404).json({ message: "User Not Found" })
     }
     let userdata = await user.findOne({ email: req.datahere.email })
     if (!p.views.includes(userdata._id.toString())) {
         p.views.push(userdata._id)
         await p.save()
     }
-    res.json({success:true})
+    res.json({ success: true })
 })
 
 app.get("/mobilestart", (req, res) => {
@@ -661,12 +682,24 @@ app.get("/mobilestart", (req, res) => {
 })
 
 
-// PINATA NFT MINTING
-
 const pinata = new pinataSDK(
     process.env.PINATA_KEY,
     process.env.PINATA_SECRET
 )
+
+app.get("/Notify",islogged,async (req,res)=>{
+    let wholiked;
+    let userdata = await user.findOne({email:req.datahere.email}).populate({
+        path:"posts",
+        populate:{
+            path:"likes",
+            model:"user",
+            select:"username image"
+        }
+    })
+    
+    res.render("notify",{userdata})
+})
 
 app.listen(port, () => {
     console.log(`my port at ${port}`);

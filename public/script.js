@@ -12,10 +12,26 @@ document.addEventListener("DOMContentLoaded", () => {
             let isImage = file.type.startsWith("image/")
             if (isVideo && file.size > 52428800) {
                 this.value = "images/upload.jpeg"
-                return alert("Video Size Is Too Big !!")
+                const errorDiv = document.getElementById("errorMsg");
+                const te = document.querySelector(".te");
+                te.textContent = "Video Size Is Too Big !";
+                errorDiv.classList.remove("hidden");
+
+                setTimeout(() => {
+                    errorDiv.classList.add("hidden");
+                }, 1500);
+                return;
             }
             else if (isImage && file.size > 5242880) {
-                return alert("Image Size Is Too Big !!")
+                const errorDiv = document.getElementById("errorMsg");
+                const te = document.querySelector(".te");
+                te.textContent = "Image Size Is Too Big !";
+                errorDiv.classList.remove("hidden");
+
+                setTimeout(() => {
+                    errorDiv.classList.add("hidden");
+                }, 1500);
+                return;
                 this.value = ""
             }
 
@@ -28,7 +44,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (file) {
                 if (file.type.startsWith("image/")) {
                     if (file.size > 5242880) {
-                        return alert("Image Size Is Too Big !!")
+                        const errorDiv = document.getElementById("errorMsg");
+                        const te = document.querySelector(".te");
+                        te.textContent = "Image Size Is Too Big !";
+                        errorDiv.classList.remove("hidden");
+
+                        setTimeout(() => {
+                            errorDiv.classList.add("hidden");
+                        }, 1500);
+                        return;
                     }
                     let reader = new FileReader();
                     reader.onload = function (e) {
@@ -40,7 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 else if (file.type.startsWith("video/")) {
                     if (file.size > 52428800) {
-                        return alert("Video Size Is Too Big !!")
+                        this.value = "images/upload.jpeg"
+                        const errorDiv = document.getElementById("errorMsg");
+                        const te = document.querySelector(".te");
+                        te.textContent = "Video Size Is Too Big !";
+                        errorDiv.classList.remove("hidden");
+
+                        setTimeout(() => {
+                            errorDiv.classList.add("hidden");
+                        }, 1500);
+                        return;
                     }
                     uploadvideo.src = URL.createObjectURL(file)
                     videobox.classList.remove("hidden")
@@ -477,7 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
 let sendotp = document.querySelector(".sendotp")
 let username1 = false;
 let name1 = false;
@@ -607,34 +639,16 @@ async function likevpost(userid) {
 
 function vopenbox(coid) {
     let commentbox = document.getElementById(`commentbox-${coid}`)
-    let l = document.getElementById(`vlikecommentmusic-${coid}`)
-    let back = document.querySelector(`.backpcomment-${coid}`)
-    let up = document.querySelector(`.upcomment-${coid}`)
+    let l = document.getElementById(`userinteract-${coid}`)
+    let back = document.querySelector(`.vbackcomment-${coid}`)
     commentbox.classList.remove("hidden")
     l.classList.add("hidden")
     back?.addEventListener("click", () => {
         l.classList.remove("hidden")
         commentbox.classList.add("hidden")
     })
-    up?.addEventListener("click", () => {
-        l.classList.remove("hidden")
-        commentbox.classList.add("hidden")
-    })
-    fetch("/commentbox/" + coid, { method: 'POST' })
 }
 
-function vopenmbox(coid) {
-    let commentbox = document.getElementById(`commentvbox-${coid}`)
-    let l = document.getElementById(`userinteract-${coid}`)
-    let back = document.querySelector(`.backvcomment-${coid}`)
-    commentbox.classList.remove("hidden")
-    l.classList.add("hidden")
-    back?.addEventListener("click", () => {
-        l.classList.remove("hidden")
-        commentbox.classList.add("hidden")
-    })
-    fetch("/commentbox/" + coid, { method: 'POST' })
-}
 
 function openbox(coid) {
     let commentbox = document.getElementById(`commentbox-${coid}`)
@@ -650,16 +664,21 @@ function openbox(coid) {
         l.classList.remove("hidden")
         commentbox.classList.add("hidden")
     })
-    fetch("/commentbox/" + coid, { method: 'POST' })
 }
 
-function sendcomment(commentid, nameofuser) {
+function sendcomment(commentid, nameofuser, userid) {
     let textarea = document.getElementById(`comment-${commentid}`)
+    console.log(textarea);
+
+    console.log(userid);
+
     let comment = textarea.value
+    console.log(comment);
+
     fetch("/send/" + commentid, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ comment, nameofuser })
+        body: JSON.stringify({ comment, nameofuser, userid })
     }).then(res => res.json()).then(data => {
         let commentcount = document.querySelector(`.commentcount[data-id = "${commentid}"]`)
         commentcount.innerText = data.comments
@@ -690,41 +709,6 @@ function postdescription(pid) {
     description.classList.toggle("font-thin")
 }
 
-
-const Connectphantom2 = async () => {
-    const provider = window.solana;
-
-    if (!provider?.isPhantom) {
-        const errorDiv = document.getElementById("errorMsg");
-        const te = document.querySelector(".te");
-        te.textContent = "Please Install Phantom ✓";
-        errorDiv.classList.remove("hidden");
-
-        setTimeout(() => {
-            errorDiv.classList.add("hidden");
-        }, 1500);
-        window.open("https://phantom.app/", "_blank");
-        return;
-    }
-    let walletAddress;
-    try {
-        const resp = await provider.connect();
-        walletAddress = resp.publicKey.toString();
-    } catch (err) {
-        window.open("https://phantom.app/", "_blank");
-    }
-
-    const res = await fetch("/profile/Connectphantom", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ walletAddress })
-    });
-
-    const data = await res.json();
-};
 
 window.addEventListener("load", async () => {
     const provider = window.solana;
@@ -818,9 +802,9 @@ const Connectphantom = async () => {
             p.textContent = err;
             PhantomMsg.classList.remove("hidden");
             setTimeout(() => PhantomMsg.classList.add("hidden"), 2000);
-            return ;
+            return;
         }
-        else if(err.code === -32603){
+        else if (err.code === -32603) {
             const PhantomMsg = document.getElementById("PhantomMsg");
             const p = document.querySelector(".p");
             p.textContent = "Wallet Not Created ✕";
@@ -831,52 +815,30 @@ const Connectphantom = async () => {
     }
 };
 
-
-function vopensol(soid) {
-    let solbox = document.getElementById(`solbox-${soid}`)
-    let l = document.getElementById(`vlikecommentmusic-${soid}`)
-    let back = document.getElementById(`backsol-${soid}`)
-    solbox.classList.remove("hidden")
-    l.classList.add("hidden")
-    back?.addEventListener("click", () => {
-        l.classList.remove("hidden")
-        solbox.classList.add("hidden")
-    })
-}
-
-function vopenmsol(soid) {
-    let solbox = document.getElementById(`solvbox-${soid}`)
-    let l = document.getElementById(`userinteract-${soid}`)
-    let back = document.getElementById(`backvsol-${soid}`)
-    let up = document.getElementById(`upsol-${soid}`)
-    solbox.classList.remove("hidden")
-    l.classList.add("hidden")
-    back?.addEventListener("click", () => {
-        l.classList.remove("hidden")
-        solbox.classList.add("hidden")
-    })
-    up?.addEventListener("click", () => {
-        l.classList.remove("hidden")
-        solbox.classList.add("hidden")
-    })
-}
-
 function opensol(soid) {
     let solbox = document.getElementById(`solbox-${soid}`)
     let l = document.getElementById(`userinteract-${soid}`)
     let back = document.getElementById(`backsol-${soid}`)
-    let up = document.getElementById(`upsol-${soid}`)
     solbox.classList.remove("hidden")
     l.classList.add("hidden")
     back?.addEventListener("click", () => {
         l.classList.remove("hidden")
         solbox.classList.add("hidden")
     })
-    up?.addEventListener("click", () => {
+}
+
+function vopensol(soid) {
+    let solbox = document.getElementById(`solbox-${soid}`)
+    let l = document.getElementById(`userinteract-${soid}`)
+    let back = document.getElementById(`backsol-${soid}`)
+    solbox.classList.remove("hidden")
+    l.classList.add("hidden")
+    back?.addEventListener("click", () => {
         l.classList.remove("hidden")
         solbox.classList.add("hidden")
     })
 }
+
 
 let selectedAmount = null;
 function selectsol(btn, amount) {
@@ -888,18 +850,33 @@ function selectsol(btn, amount) {
     btn.classList.add("select");
     btn.classList.add("bg-zinc-700")
     selectedAmount = amount;
+
 }
 
 
-async function sendSolToCreator(toWalletAddress, creatorUsername) {
+async function sendSolToCreator(toWalletAddress, creatorUsername, postid) {
     try {
+        console.log(toWalletAddress, creatorUsername, postid);
+
+        let sendbtn = document.getElementById("sendbtn")
+        sendbtn.disabled = true;
         const provider = window.solana;
         0
-        if (!provider?.isPhantom) {
-            alert("Please install Phantom wallet");
-            window.open("https://phantom.app/", "_blank");
+
+        if (!window.solana || !window.solana.isPhantom) {
+            const PhantomMsg = document.getElementById("PhantomMsg");
+            const p = document.querySelector(".p");
+            p.textContent = "Phantom Not Installed ✕";
+            PhantomMsg.classList.remove("hidden");
+
+            setTimeout(() => {
+                PhantomMsg.classList.add("hidden");
+                window.open("https://phantom.app/", "_blank");
+                window.location.reload()
+            }, 2000);
             return;
         }
+
 
         const connection = new solanaWeb3.Connection(
             solanaWeb3.clusterApiUrl("devnet"),
@@ -910,7 +887,16 @@ async function sendSolToCreator(toWalletAddress, creatorUsername) {
         const toPubkey = new solanaWeb3.PublicKey(toWalletAddress);
 
         if (!selectedAmount) {
-            alert("Select Amount Fisrt !");
+            const PhantomMsg = document.getElementById("PhantomMsg");
+            const p = document.querySelector(".p");
+            p.textContent = `Select Amount First ¿`;
+            PhantomMsg.classList.remove("hidden");
+
+            setTimeout(() => {
+                PhantomMsg.classList.add("hidden");
+                window.location.reload()
+            }, 2000);
+            return;
         }
         const lamports = Math.round(selectedAmount * solanaWeb3.LAMPORTS_PER_SOL);
 
@@ -918,18 +904,62 @@ async function sendSolToCreator(toWalletAddress, creatorUsername) {
             solanaWeb3.SystemProgram.transfer({ fromPubkey, toPubkey, lamports })
         );
 
-        const { blockhash } = await connection.getLatestBlockhash();
-        transaction.recentBlockhash = blockhash;
+        const LatestBlockhash = await connection.getLatestBlockhash();
+        transaction.recentBlockhash = LatestBlockhash.blockhash;
         transaction.feePayer = fromPubkey;
 
+        const isDev = true;
         const signed = await provider.signTransaction(transaction);
-        const txid = await connection.sendRawTransaction(signed.serialize());
-        await connection.confirmTransaction(txid);
+        const txid = await connection.sendRawTransaction(signed.serialize(), {
+            skipPreflight: isDev,
+            preflightCommitment: 'confirmed'
+        });
+        await connection.confirmTransaction({
+            blockhash: LatestBlockhash.blockhash,
+            signature: txid,
+            lastValidBlockHeight: LatestBlockhash.lastValidBlockHeight
+        });
+        const res = await fetch("/sendSol", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ selectedAmount, toWalletAddress, postid })
+        })
+        let data = await res.json()
+        if (data.success) {
+            let solsenders = document.getElementById(`solsenders-${postid}`)
+            console.log(solsenders);
 
-        alert(`✅ ${amountSOL} SOL bhej diya @${creatorUsername} ko!`);
+            let div = document.createElement('div')
+            div.className = `senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-center shrink-0`
+            div.innerHTML = `<p class="text-[17px]"><strong class="text-yellow-300">${selectedAmount}</strong> Sol Send
+                                                            By <strong class="text-purple-300">${creatorUsername}</strong></p>`
+            solsenders.prepend(div)
+            const PhantomMsg = document.getElementById("PhantomMsg");
+            const p = document.querySelector(".p");
+            p.textContent = `🎉 ${selectedAmount} SOL sent to @${creatorUsername}!`;
+            PhantomMsg.classList.remove("hidden");
+
+            setTimeout(() => {
+                PhantomMsg.classList.add("hidden");
+            }, 2000);
+            return;
+        }
+
 
     } catch (err) {
-        alert("❌ Transaction fail: " + err.message);
+        const errorDiv = document.getElementById("errorMsg");
+        const te = document.querySelector(".te");
+        te.textContent = "Transaction Failed !";
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+        }, 1500);
+        return;
+    }
+    finally {
+        sendbtn.disabled = false;
     }
 }
 
@@ -957,7 +987,7 @@ async function followuser(followeduser, btn) {
 async function searcheduserprofile(searcheduserid) {
     const res = await fetch("/Search/" + searcheduserid, { method: "GET", credentials: "include" })
     if (res.type === "opaqueredirect") {
-        window.location.href = "/profile"
+        window.location.href = "/home"
     }
     else {
         const html = await res.text()

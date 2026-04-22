@@ -27,11 +27,11 @@
                             src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                             class="hidden lg:inline">Post</span></a>
                     <a href="/Notify"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
                         src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                         class="hidden lg:inline">Notify</span></a>         
                     <a href="/Search"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                             src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
                             class="hidden lg:inline">Search</span></a>
                     <a href="/profile"
@@ -40,19 +40,26 @@
                             class="hidden lg:inline">Profile</span></a>
                 </div>
             </div>
-        <div class="right w-full h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+        <div class="right w-full h-screen border flex sm:items-center justify-center border-zinc-700 bg-zinc-900">
 
-            <div class="Searchbox w-[80vw] sm:w-[40vw] md:w-[40vw] xl:w-[30vw] h-screen">
-                <div class="searching relative p-2 flex justify-between items-center gap-2">
-                    <input type="text" id="searchinput" placeholder="Search Your Friend"
-                        class="w-full h-11 p-2 border border-zinc-700 rounded-md">
-                    <img src="images/search.svg" class="absolute right-5 w-5 sm:w-7 hover:scale-[1.1] hover:cursor-pointer"
-                        alt="">
-                </div>
-
-                <div
-                    class="searchedusers flex-1  h-[85vh] sm:h-[87vh] border border-zinc-700 p-2 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                </div>
+            <div class="Notificationbox border w-[80vw] sm:w-[45vw] md:w-[40vw] xl:w-[30vw] h-[90vh] sm:h-screen p-3 flex flex-col gap-5 overflow-y-scroll ">
+                <% userdata.posts.forEach((post)=>{ %>
+                    <% post.likes.forEach((l)=>{ %>
+                <div class="notify w-full px-2 border border-zinc-700 h-16 flex justify-center items-center gap-5">
+                            <img src="<%= l.image %>" class="w-7 rounded-full" alt="">
+                            <h1 onclick="searcheduserprofile('<%= l._id %>')"><span class="hover:scale-[1.07] hover:cursor-pointer font-semibold hover:brightness-70">@<%= l.username %></span> Liked Your Post</h1>
+                            <% if(post.image === ""){ %>
+                                <% if(post.thumbnail === ""){ %>
+                                    <video src="<%= post.videos %>" class="aspect-9/11 h-14 w-14" autoplay muted></video>
+                                <% } else{ %>
+                                <img src="<%= post.thumbnail %>" class="aspect-9/11 h-14 w-14 rounded-md" alt="">
+                                <% } %>
+                            <% } else{ %>
+                                <img src="<%= post.image %>" class="w-11 rounded-md" alt="">
+                            <% } %>
+                        </div>
+                        <% }) %>
+                    <% })%>
             </div>
         </div>
         <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">

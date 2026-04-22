@@ -35,6 +35,10 @@
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                         src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                         class="hidden lg:inline">Post</span></a>
+                <a href="/Notify"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                        src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Notify</span></a>         
                 <a href="/Search"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                         src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
@@ -84,7 +88,7 @@
                 </div>
             </div>
             <div
-                class="usersposts h-[60%] sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
+                class="usersposts h-[52%]  sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
 
                 <% userdata.posts.reverse().forEach((post)=>{ %>
                     <div class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
