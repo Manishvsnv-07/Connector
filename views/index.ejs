@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram</title>
+    <title>Connector</title>
     <link rel="stylesheet" href="output.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 
 <body>
@@ -16,34 +17,34 @@
             <%= error %>
         </div>
         <% } %>
-            <div class="main w-full relative h-screen flex bg-zinc-900">
+            <div class="main w-full relative h-screen flex bg-[#9e8bc4]">
                 <div class="left w-full xl:w-[55vw] h-screen bg-black flex flex-col justify-center items-center">
-                    <img src="images/thumbnail.jpeg" class="h-[80vh] rounded-md" alt="">
-                    <div class="flex gap-5 justify-center items-center">
+                    <img src="images/logo.png" class="h-[80vh]" alt="">
+                    <div class="flex gap-5 w-full justify-center items-center">
                         <h1 class="text-white"><strong class="text-red-500">Creator</strong> And <strong>User</strong>
                             First !</h1>
                         <a href="/mobilestart"><button
-                                class="inline xl:hidden h-[5vh] rounded-md bg-white text-black px-2 font-semibold hover:scale-[1.07] hover:cursor-pointer">Let's
+                                class="inline xl:hidden h-[5vh] rounded-md bg-[#dac9fc] text-black px-2 font-semibold hover:scale-[1.07] hover:cursor-pointer">Let's
                                 Go »</button></a>
                     </div>
                 </div>
                 <div
-                    class="right xl:flex text-white text-xl w-[45vw] h-screen bg-transparent hidden flex-col items-center justify-center">
+                    class="right xl:flex text-black font-semibold w-[45vw] h-screen bg-transparent hidden flex-col items-center justify-center">
                     <form action="/login" method="post">
                         <div class="righttop w-full flex flex-col gap-7 my-7 justify-center items-center">
                             <h1 class="font-sans font-bold">Log Into Account</h1>
                             <input type="text" name="username"
-                                class="border border-gray-500 bg-transparent px-3  w-xl h-13 rounded-md"
+                                class="border border-zinc-600 bg-transparent px-3 outline-none  w-xl h-13 rounded-md"
                                 placeholder="Enter Username">
                             <div class="relative">
                                 <input type="password" name="password" id="password"
-                                    class="border border-gray-500 bg-transparent px-3 rounded-md w-xl h-13"
+                                    class="border border-zinc-600 bg-transparent px-3 outline-none rounded-md w-xl h-13"
                                     placeholder="Password">
                                 <img src="images/viewoff.svg"
-                                    class="w-5 absolute right-3 top-4 brightness-50 hover:scale-[1.07] hover:cursor-pointer hover:brightness-100"
+                                    class="w-5 absolute right-3 top-4 brightness-30 hover:scale-[1.07] hover:cursor-pointer"
                                     id="toggleviewoff" alt="">
                                 <img src="images/view.svg"
-                                    class="w-5 hidden absolute right-3 top-4 brightness-100 hover:scale-[1.07] hover:cursor-pointer"
+                                    class="w-5 hidden absolute right-3 top-4 brightness-30 hover:scale-[1.07] hover:cursor-pointer"
                                     id="toggleviewon" alt="">
                             </div>
 
@@ -54,13 +55,12 @@
                     <div>
                         <h1>Or</h1>
                     </div>
-                    <div class="rightbottom flex flex-col justify-center gap-7 my-5 items-center">
-                        <a href="/create">
+                   <a href="/create"><div class="rightbottom flex flex-col justify-center gap-7 my-5 items-center">
+                        
                             <button
-                                class="rounded-3xl w-xl bg-transparent h-13 px-2 py-2 border hover:scale-[1.02] hover:cursor-pointer border-gray-500">Create
-                                An Account</a>
-                        </form>
-                    </div>
+                                class="rounded-3xl w-xl bg-white h-13 px-2 py-2 border hover:scale-[1.02] hover:cursor-pointer border-zinc-600">Create
+                                An Account
+                    </div></a>
                 </div>
             </div>
             <script src="script.js"></script>

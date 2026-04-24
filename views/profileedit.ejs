@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Account</title>
+    <title><%= userdata.username %> • Connector</title>
     <link rel="stylesheet" href="/output.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 
 <body>
@@ -17,11 +18,11 @@
         </div>
         <% } %>
 
-            <div class="main relative w-full h-screen flex text-white bg-zinc-900">
+            <div class="main relative w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
                 <div
                     class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
                     <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                        <button>Logo</button>
+                        <img src="/images/logo.png" class="w-11 rounded-full" alt="">
                         <a href="/home"
                             class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
                                 src="/images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -34,10 +35,17 @@
                             class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                                 src="/images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                                 class="hidden lg:inline">Post</span></a>
+                        <% if(notifydata > 0){ %>
                         <a href="/Notify"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                        src="/images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                        class="hidden lg:inline">Notify</span></a>         
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="/images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
+                        <% } else { %>
+                        <a href="/Notify"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="/images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify</span></a>
+                        <% } %>         
                         <a href="/Search"
                             class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                                 src="/images/Search.svg" class="w-11 lg:w-7" alt=""><span
@@ -48,11 +56,11 @@
                                 class="hidden lg:inline">Profile</span></a>
                     </div>
                 </div>
-                <div class="right w-full h-screen border flex justify-center relative border-zinc-700 bg-zinc-900">
+                <div class="right w-full h-[91%] sm:h-screen border flex justify-center relative border-zinc-700 bg-zinc-900">
                     <div class="manage h-[90vh] sm:h-[98vh] flex flex-col gap-5 overflow-y-scroll ">
                         <form action="/update" method="post" enctype="multipart/form-data">
                             <div
-                                class="editbio relative w-[90vw] sm:w-[50vw] md:w-[45vw] lg:w-[40vw] h-[70vh] bg-transparent border flex py-5 m-2 items-center gap-5 flex-col border-zinc-700 rounded-md ">
+                                class="editbio relative w-[90vw] sm:w-[55vw] md:w-[50vw] lg:w-[60vw] h-[70vh] bg-transparent border flex py-5 m-2 items-center gap-5 flex-col border-zinc-700 rounded-md ">
                                 <div class="updateimg flex justify-center items-center gap-4">
                                     <img id="previewimgatprofile" src="<%= userdata.image %>"
                                         class="rounded-full w-[15vw] sm:w-[11vw] lg:w-[7vw]" alt="">
@@ -66,20 +74,20 @@
                                     </div>
                                 </div>
                                 <input type="text"
-                                    class="w-[60vw] sm:w-[35vw] h-[7vh] border border-zinc-700 rounded-md font-sans font-bold px-2"
+                                    class="w-[80vw] sm:w-[45vw]   h-[7vh] border border-zinc-700 rounded-md font-sans font-bold px-2"
                                     name="upname" placeholder="Update Name">
                                 <input type="text"
-                                    class="w-[60vw] sm:w-[35vw] h-[7vh] border border-zinc-700 rounded-md font-sans font-bold px-2"
+                                    class="w-[80vw] sm:w-[45vw]   h-[7vh] border border-zinc-700 rounded-md font-sans font-bold px-2"
                                     name="upusername" placeholder="Username">
                                 <textarea name="updescription" name="updescription" placeholder="Bio"
-                                    class="resize-none w-[60vw] sm:w-[35vw] h-[17vh] border border-zinc-700 rounded-md font-sans font-bold px-2 "></textarea>
+                                    class="resize-none w-[80vw] sm:w-[45vw]   h-[17vh] border border-zinc-700 rounded-md font-sans font-bold px-2 "></textarea>
                                 <button
                                     class="rounded-md h-[5vh] hover:scale-[1.1] hover:cursor-pointer bg-white text-black px-2 border border-zinc-700">Update</button>
                             </div>
                         </form>
 
                         <div
-                            class="logoutordisconnect w-[90vw] sm:w-[50vw] md:w-[45vw] lg:w-[40vw] flex flex-col justify-center items-start m-2 px-5 py-3 gap-5 border border-zinc-700 rounded-md">
+                            class="logoutordisconnect w-[90vw] sm:w-[55vw] md:w-[50vw] lg:w-[60vw] flex flex-col justify-center items-start m-2 px-5 py-3 gap-5 border border-zinc-700 rounded-md">
                             <% if(!userdata.walletAddress=="" ){ %>
                                 <div class="disconnectbox w-full flex flex-col sm:flex-row gap-7">
                                     <button
@@ -114,13 +122,13 @@
                 </div>
 
 
-                <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
-                    <a href="/home"><img src="/images/home.svg" class="rounded-full w-9" alt=""></a>
-                    <a href="/Vclips"><img src="/images/Vclips.svg" class="w-6" alt=""></a>
-                    <a href="/post"><img src="/images/post.svg" class="rounded-full w-9" alt=""></a>
-                    <a href="/Search"><img src="/images/Search.svg" class="w-9" alt=""></a>
-                    <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
-                </div>
+                <div class="flex sm:hidden w-full justify-between px-2 h-[9%] items-center">
+                <a href="/home"><img src="/images/home.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Vclips"><img src="/images/Vclips.svg" class="w-6" alt=""></a>
+                <a href="/post"><img src="/images/post.svg" class="rounded-full w-9" alt=""></a>
+                <a href="/Search"><img src="/images/Search.svg" class="w-9" alt=""></a>
+                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            </div>
 
             </div>
             <script src="/script.js" defer></script>

@@ -25,6 +25,7 @@ import {
     clusterApiUrl,
     Keypair
 } from '@solana/web3.js';
+import { notify } from "./module/notification.js"
 
 cloudinary.config({
     api_key: process.env.CLOUDINARY_APIKEY,
@@ -211,8 +212,9 @@ app.post("/create/account", async (req, res) => {
 })
 
 app.get("/profile", islogged, async (req, res) => {
-    let userdata = await user.findOne({ email: req.datahere.email }).populate("posts")
-    res.render("profile", { userdata })
+    let userdata = await user.findOne({ email: req.datahere.email }).populate("posts").populate("follower").populate("following")   
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
+    res.render("profile", { userdata, notifydata })
 })
 
 app.get('/image/:id', async (req, res) => {
@@ -222,6 +224,7 @@ app.get('/image/:id', async (req, res) => {
 
 app.get("/home", islogged, async (req, res) => {
     let userdata = await user.findOne({ email: req.datahere.email })
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
     const userd = await user.findById(userdata._id);
     const interestedTags = userdata.interestedTags;
     const alluserspost = await post.aggregate([
@@ -250,20 +253,22 @@ app.get("/home", islogged, async (req, res) => {
         },
         { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
     ]);
-    res.render("home", { alluserspost, userdata });
+    res.render("home", { alluserspost, userdata ,notifydata});
 })
 app.get("/post", islogged, async (req, res) => {
     let success = req.flash("success")
     let error = req.flash("error")
     let undefined = req.flash("Undefined")
     let userdata = await user.findOne({ email: req.datahere.email })
-    res.render("upload", { success, error, userdata, undefined });
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
+    res.render("upload", { success, error, userdata, undefined ,notifydata});
 })
 
 app.get("/Vclips", islogged, async (req, res) => {
     let alluserspost = await post.find().populate("user").then(posts => posts.filter(post => post.user !== null));
     let userdata = await user.findOne({ email: req.datahere.email })
-    res.render("vclips.ejs", { alluserspost, userdata });
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
+    res.render("vclips", { alluserspost, userdata, notifydata });
 })
 
 const storage = multer.memoryStorage();
@@ -291,10 +296,6 @@ app.post("/post", uploadfield, islogged, async (req, res) => {
 
         const mediaFile = req.files["media"]?.[0]
         const ThumbnailFile = req.files["thumbnail"]?.[0]
-        if (!mediaFile) {
-            return res.status(400).json({ message: "Select Post First" })
-        }
-
         const result = await uploadToCloudinary(mediaFile.buffer, mediaFile.mimetype)
         const result_thumb = ThumbnailFile ? await uploadToCloudinary(ThumbnailFile.buffer, ThumbnailFile.mimetype) : null;
         const isimage = mediaFile.mimetype.startsWith("image/");
@@ -456,18 +457,59 @@ function islogged(req, res, next) {
 
 
 app.post("/follow/:followeduserid", islogged, async (req, res) => {
-    let mydata = await user.findOne({ email: req.datahere.email })
-    let otheruserdata = await user.findOne({ _id: req.params.followeduserid });
-    if (otheruserdata.follower.includes(mydata._id)) {
-        await user.updateOne({ _id: otheruserdata._id }, { $pull: { follower: mydata._id } })
-        await user.updateOne({ _id: mydata._id }, { $pull: { following: otheruserdata._id } })
-        return res.json({ following: false })
+    try {
+        let mydata = await user.findOne({ email: req.datahere.email })
+        let otheruserdata = await user.findOne({ _id: req.params.followeduserid });
+        if (otheruserdata.follower.includes(mydata._id)) {
+            await user.updateOne({ _id: otheruserdata._id }, { $pull: { follower: mydata._id } })
+            await user.updateOne({ _id: mydata._id }, { $pull: { following: otheruserdata._id } })
+            await notify.findOneAndDelete({to:otheruserdata._id,from:mydata._id,type:"follow"})
+            return res.json({ following: false })
+        }
+        else{
+            await notify.create({
+                to:otheruserdata._id,
+                from:mydata._id,
+                isread:false,
+                type:"follow"
+            })
+            otheruserdata.follower.push(mydata._id);
+            mydata.following.push(otheruserdata._id)
+            await otheruserdata.save()
+            await mydata.save()
+            return res.json({ following: true })
+        }
+    } catch (error) {
+        return res.status(500).json({message:error})
     }
-    otheruserdata.follower.push(mydata._id);
-    mydata.following.push(otheruserdata._id)
-    await otheruserdata.save()
-    await mydata.save()
-    return res.json({ following: true })
+})
+
+app.post("/removeFollower/:removerid",islogged,async (req,res)=>{
+    try {        
+        let mydata = await user.findOne({email:req.datahere.email});
+        let removeuser = await user.findOne({_id:req.params.removerid})
+        mydata.follower.splice(mydata.follower.indexOf(removeuser._id),1)
+        removeuser.following.splice(removeuser.following.indexOf(mydata._id),1)
+        await mydata.save()
+        await removeuser.save()
+        res.status(200).json({success:true})
+    } catch (error) {
+        return res.status(500).json({success:false})
+    }
+})
+
+app.post("/removeFollowing/:removerid",islogged,async (req,res)=>{
+    try {        
+        let removeuser = await user.findOne({_id:req.params.removerid});
+        let mydata = await user.findOne({email:req.datahere.email});
+        mydata.following.splice(mydata.following.indexOf(removeuser._id),1)
+        removeuser.follower.splice(removeuser.follower.indexOf(mydata._id),1)
+        await mydata.save();
+        await removeuser.save();
+        res.status(200).json({success:true})
+    } catch (error) {
+        return res.status(500).json({success:false})
+    }
 })
 
 app.post("/update", upload.single("dp"), islogged, async (req, res) => {
@@ -507,7 +549,8 @@ app.post("/update", upload.single("dp"), islogged, async (req, res) => {
 app.get("/profiles/edit", islogged, async (req, res) => {
     let error = req.flash("error")
     let userdata = await user.findOne({ email: req.datahere.email })
-    res.render("profileedit", { error, userdata })
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
+    res.render("profileedit", { error, userdata ,notifydata })
 })
 
 app.get("/like/:likeid", islogged, async (req, res) => {
@@ -521,6 +564,22 @@ app.get("/like/:likeid", islogged, async (req, res) => {
             await user.findByIdAndUpdate(userlike._id, {
                 $addToSet: { interestedTags: { $each: likepost.tags } }
             })
+            if (likepost.user.toString() !== userlike._id.toString()) {
+                let alreadyLiked = await notify.findOne({
+                    to: likepost.user,
+                    from: userlike._id,
+                    type: "like",
+                    postid: likepost._id
+                })
+                if (!alreadyLiked) {
+                    await notify.create({
+                        to: likepost.user,
+                        from: userlike._id,
+                        type: "like",
+                        postid: likepost._id
+                    })
+                }
+            }
         }
         else {
             likepost.likes.splice(likepost.likes.indexOf(userlike._id), 1)
@@ -534,28 +593,56 @@ app.get("/like/:likeid", islogged, async (req, res) => {
 })
 
 app.post("/send/:commentid", islogged, async (req, res) => {
-    let commentpost = await post.findOne({ _id: req.params.commentid })
-    
-    if (req.body.comment) {
-        commentpost.comments.push({ comment: req.body.comment, nameofuser: req.body.nameofuser,user:req.body.userid })
-        await commentpost.save()
+    try {
+        let commentpost = await post.findOne({ _id: req.params.commentid })
+        if (req.body.comment) {
+            commentpost.comments.push({ comment: req.body.comment, nameofuser: req.body.nameofuser, user: req.body.userid })
+            await commentpost.save()
+            const savedComment = commentpost.comments[commentpost.comments.length - 1]
+            console.log(savedComment._id);
+            
+            res.json({success:true,cid:savedComment._id,comments: commentpost.comments.length})
+        }
+    } catch (error) {
+       return res.json({success:false})
     }
-    res.json({ comments: commentpost.comments.length })
+
+})
+
+app.post("/reply/:postid/:commentid",islogged,async (req,res)=>{
+    try {
+        let findpost = await post.findById(req.params.postid)
+        let findcomment = findpost.comments.id(req.params.commentid)
+        let userdata = await user.findOne({email:req.datahere.email})
+        findcomment.replies.push({replier:userdata.username,reply:req.body.reply})
+        await findpost.save() 
+        res.status(200).json({success:true});  
+    } catch (error) {
+        return res.status(500).json({success:false})
+    }
 })
 
 app.post("/sendSol", islogged, async (req, res) => {
-try {
-    const { selectedAmount, toWalletAddress, postid } = req.body;
-    console.log(selectedAmount,toWalletAddress,postid);
-    
-    let findpost = await post.findById(postid)
-    let finduser = await user.findOne({ email: req.datahere.email })
-    findpost.sol.push({ amount: selectedAmount, sender: finduser.username })
-    await findpost.save()
-    return res.status(200).json({success:true})
-} catch (error) {
-    return res.status(500).json({success:false})
-}
+    try {
+        const { selectedAmount, toWalletAddress, postid } = req.body;
+        let findpost = await post.findById(postid)
+        let finduser = await user.findOne({ email: req.datahere.email })
+        if (findpost.user.toString() !== finduser._id.toString()) {
+            await notify.create({
+                to: findpost.user,
+                from: finduser._id,
+                type: "sol",
+                sol:selectedAmount,
+                postid: findpost._id
+            })
+        }
+
+        findpost.sol.push({ amount: selectedAmount, sender: finduser.username })
+        await findpost.save()
+        return res.status(200).json({ success: true })
+    } catch (error) {
+        return res.status(500).json({ success: false })
+    }
 
 })
 
@@ -563,7 +650,8 @@ try {
 app.get("/profile/viewpost/:postid", islogged, async (req, res) => {
     let myposts = await post.findOne({ _id: req.params.postid }).populate("user")
     let userdata = await user.findOne({ email: req.datahere.email })
-    res.render("yourposts", { myposts, userdata })
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
+    res.render("yourposts", { myposts, userdata ,notifydata})
 })
 
 app.get("/profile/deletepost/:postid", islogged, async (req, res) => {
@@ -632,14 +720,15 @@ app.get("/home/:id", islogged, async (req, res) => {
     if (req.params.id == mydata._id) {
         return res.redirect("/profile")
     }
-    res.render("otheruserprofile.ejs", { userdata })
+    let notifydata = await notify.countDocuments({to:mydata._id,isread:false})
+    res.render("otheruserprofile.ejs", { userdata,notifydata,mydata})
 })
 
 
 app.get("/Search", islogged, async (req, res) => {
     let userdata = await user.findOne({ email: req.datahere.email })
-
-    res.render("search", { userdata })
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
+    res.render("search", { userdata ,notifydata})
 })
 app.get("/search/user", async (req, res) => {
     const query = req.query.q;
@@ -661,7 +750,8 @@ app.get("/Search/:id", islogged, async (req, res) => {
     if (userdata._id.toString() === mydata._id.toString()) {
         return res.redirect("/profile")
     }
-    res.render("searcheduser", { userdata })
+    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
+    res.render("searcheduser", { userdata ,notifydata ,mydata})
 })
 
 app.post("/view/:postid", islogged, async (req, res) => {
@@ -687,18 +777,23 @@ const pinata = new pinataSDK(
     process.env.PINATA_SECRET
 )
 
-app.get("/Notify",islogged,async (req,res)=>{
-    let wholiked;
-    let userdata = await user.findOne({email:req.datahere.email}).populate({
-        path:"posts",
-        populate:{
-            path:"likes",
-            model:"user",
-            select:"username image"
-        }
-    })
-    
-    res.render("notify",{userdata})
+app.get("/Notify", islogged, async (req, res) => {
+    try {
+        let userdata = await user.findOne({ email: req.datahere.email })
+        let notification = await notify.find({ to: userdata._id })
+            .populate({
+                path: "from",
+                select: "username image"
+            })
+            .populate({
+                path: "postid",
+            })
+        await notify.updateMany({ to: userdata._id, isread: false }, { isread: true })
+        res.render("notify", { userdata,notification })
+    } catch (error) {
+        return res.status(500).json({message:"Internal Server Error"})
+    }
+
 })
 
 app.listen(port, () => {

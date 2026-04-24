@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     let inputfile = document.getElementById("fileInput")
-    let uploadedimg = document.getElementById("previwimg")
+    let uploadedimg = document.getElementById("previewimg")
     let uploadvideo = document.getElementById("videopreview")
     let videobox = document.querySelector(".videobox")
     let thumbnailpreview = document.getElementById("thumbnailpreview")
@@ -172,9 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let tagsdata = document.getElementById('tagsData')
         tagsdata.value = JSON.stringify(tags);
-        console.log(tagsdata.value);
-
-
         if (tags.length >= MAX_TAGS) {
             input.disabled = true;
             input.placeholder = '';
@@ -505,6 +502,29 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
+    let removeFollowerTab = document.getElementById("removeFollowerTab")
+    let followersTab = document.querySelector(".followersTab")
+    let followers = document.querySelector(".followers")
+    let removeFollowingTab = document.getElementById("removeFollowingTab")
+    let followingTab = document.querySelector(".followingTab")
+    let following = document.querySelector(".following")
+
+    followers?.addEventListener("click",()=>{
+        followingTab.classList.add("hidden")
+        followersTab.classList.remove("hidden")
+    })
+    removeFollowerTab?.addEventListener("click",()=>{
+        followersTab.classList.add("hidden")
+    })
+
+
+    following?.addEventListener("click",()=>{
+        followersTab.classList.add("hidden")
+        followingTab.classList.remove("hidden")
+    })
+    removeFollowingTab?.addEventListener("click",()=>{
+        followingTab.classList.add("hidden")
+    })
 
 });
 
@@ -558,8 +578,15 @@ sendotp?.addEventListener("click", async () => {
     if (res.ok) {
         let verifyotp = document.querySelector(".verifyotp")
         let dataform = document.querySelector(".dataform")
+        let logo3 = document.querySelector(".logo3")
+        let logo2 = document.querySelector(".logo2")
+        let main = document.querySelector(".main")
         verifyotp.classList.remove("hidden")
         dataform.classList.add("hidden")
+        logo2.classList.add("hidden")
+        logo3.classList.remove("hidden")
+        main.classList.remove("bg-[url('/images/logo2.png')]")
+        main.classList.add("bg-[url('/images/logo3.png')]")
     }
     if (!res.ok) {
         const errorDiv = document.getElementById("errorMsg");
@@ -597,10 +624,7 @@ verifybtn?.addEventListener("click", async () => {
 
 let backcreate = document.querySelector(".backcreate")
 backcreate?.addEventListener("click", () => {
-    let verifyotp = document.querySelector(".verifyotp")
-    let dataform = document.querySelector(".dataform")
-    verifyotp.classList.add("hidden")
-    dataform.classList.remove("hidden")
+    window.location.href = "/create"
 })
 
 async function likepost(postlikeid) {
@@ -652,43 +676,49 @@ function vopenbox(coid) {
 
 function openbox(coid) {
     let commentbox = document.getElementById(`commentbox-${coid}`)
-    console.log(coid);
-
     let l = document.getElementById(`userinteract-${coid}`)
     let back = document.querySelector(`.backcomment-${coid}`)
     commentbox.classList.remove("hidden")
     l.classList.add("hidden")
     back?.addEventListener("click", () => {
-        console.log('hello');
-
         l.classList.remove("hidden")
         commentbox.classList.add("hidden")
     })
 }
 
-function sendcomment(commentid, nameofuser, userid) {
+async function sendcomment(commentid, nameofuser, userid) {
     let textarea = document.getElementById(`comment-${commentid}`)
-    console.log(textarea);
-
-    console.log(userid);
-
     let comment = textarea.value
-    console.log(comment);
-
-    fetch("/send/" + commentid, {
+    const res = await fetch("/send/" + commentid, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ comment, nameofuser, userid })
-    }).then(res => res.json()).then(data => {
+    })
+    let data = await res.json();
+    if(data.success){
         let commentcount = document.querySelector(`.commentcount[data-id = "${commentid}"]`)
         commentcount.innerText = data.comments
-    })
-    textarea.value = ""
-    let cbox = document.querySelector(`.userscommentbox[data-id="${commentid}"]`)
-    const cb = document.createElement('div')
-    cb.className = "eachcomment border flex justify-start items-start gap-2 px-3 py-2 border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] min-h-[11vh]"
-    cb.innerHTML = `<h1 class="nameofuser text-blue-600 shrink-0">${nameofuser}</h1> <p class="usercomment wrap-break-word">${comment}</p>`
-    cbox.prepend(cb)
+        textarea.value = ""
+        let cbox = document.querySelector(`.userscommentbox[data-id="${commentid}"]`)
+        const cb = document.createElement('div')
+        cb.className = "eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[15vh]"
+        cb.innerHTML = `<div class="ucomment-${data.cid} flex justify-start items-start gap-2 px-3 py-2">
+                                                <h1 class="nameofuser text-blue-600 shrink-0">
+                                                    ${nameofuser}
+                                                </h1>
+                                                <p class="usercomment wrap-break-word">
+                                                    ${comment}
+                                                </p>
+                                            </div>
+                                            
+                                            <div class="reply px-3 py-2">
+                                                <div class="flex items-center gap-2">
+                                                    <textarea name="reply" id="reply-${data.cid}" placeholder="Reply" class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
+                                                    <img src="images/send.svg" onclick="reply('${commentid}','${data.cid}','${nameofuser}')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
+                                                </div>
+                                            </div>`
+        cbox.prepend(cb)
+    }
 
 }
 
@@ -717,7 +747,7 @@ window.addEventListener("load", async () => {
         try {
             const res = await provider.connect({ onlyIfTrusted: true });
         } catch (err) {
-            console.log("Not connected yet");
+            res.status(400).json({message:"Phantom Not Connected"})
         }
     }
 });
@@ -856,8 +886,6 @@ function selectsol(btn, amount) {
 
 async function sendSolToCreator(toWalletAddress, creatorUsername, postid) {
     try {
-        console.log(toWalletAddress, creatorUsername, postid);
-
         let sendbtn = document.getElementById("sendbtn")
         sendbtn.disabled = true;
         const provider = window.solana;
@@ -928,8 +956,6 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid) {
         let data = await res.json()
         if (data.success) {
             let solsenders = document.getElementById(`solsenders-${postid}`)
-            console.log(solsenders);
-
             let div = document.createElement('div')
             div.className = `senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-center shrink-0`
             div.innerHTML = `<p class="text-[17px]"><strong class="text-yellow-300">${selectedAmount}</strong> Sol Send
@@ -943,7 +969,6 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid) {
             setTimeout(() => {
                 PhantomMsg.classList.add("hidden");
             }, 2000);
-            return;
         }
 
 
@@ -984,6 +1009,56 @@ async function followuser(followeduser, btn) {
     }
 }
 
+async function removefollower(userid){
+    let followyou = document.getElementById(`followyou-${userid}`)
+    const res = await fetch("/removeFollower/"+userid,{
+        method:"POST",
+        headers:{"Content-Types":"application/json"},
+        credentials:"include"
+    })
+    let data = await res.json()
+    if(data.success){
+        followyou.classList.add("hidden")
+    }
+    else{
+        const errorDiv = document.getElementById("errorMsg");
+        const te = document.querySelector(".te");
+        te.textContent = "Something Went Wrong";
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+            window.location.href= "/profile"
+        }, 1500);
+        return;
+    }
+}
+
+async function removefollowing(userid){
+    let youfollow = document.getElementById(`youfollow-${userid}`)
+    const res = await fetch("/removeFollowing/"+userid,{
+        method:"POST",
+        headers:{"Content-Types":"application/json"},
+        credentials:"include"
+    })
+    let data = await res.json()
+    if(data.success){
+        youfollow.classList.add("hidden")
+    }
+    else{
+        const errorDiv = document.getElementById("errorMsg");
+        const te = document.querySelector(".te");
+        te.textContent = "Something Went Wrong";
+        errorDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+            errorDiv.classList.add("hidden");
+            window.location.href= "/profile"
+        }, 1500);
+        return;
+    }
+}
+
 async function searcheduserprofile(searcheduserid) {
     const res = await fetch("/Search/" + searcheduserid, { method: "GET", credentials: "include" })
     if (res.type === "opaqueredirect") {
@@ -1008,7 +1083,6 @@ async function editpost(mypostid) {
         }, 1500);
         return;
     }
-    console.log(udescription)
     const res = await fetch("/updatepost", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1037,5 +1111,27 @@ async function editpost(mypostid) {
             errorDiv.classList.add("hidden");
         }, 1500);
         return;
+    }
+}
+
+
+async function reply(postid,commentid,username) {
+    let textarea = document.getElementById(`reply-${commentid}`)
+    let reply = textarea.value
+    const response = await fetch(`/reply/${postid}/${commentid}`,{
+        "method":"POST",
+        headers:{"Content-Type":"application/json"},
+        credentials:"include",
+        body:JSON.stringify({reply})
+    })
+    let data = await response.json()
+    if(data.success){
+        textarea.value = "";
+        let ucomment = document.querySelector(`.ucomment-${commentid}`)
+        let rp = document.createElement('div');
+        rp.className = `flex gap-2 px-3 py-2 h-7 w-full items-center`
+        rp.innerHTML = `<h1 class="text-blue-500">→ ${username}</h1>
+                                                    <p>${reply}</p>`
+        ucomment.insertAdjacentElement("afterend",rp)
     }
 }

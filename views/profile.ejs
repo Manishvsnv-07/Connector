@@ -4,25 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Account</title>
+    <title><%= userdata.username %> • Connector</title>
     <link rel="stylesheet" href="output.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 
 <body>
     <div id="errorMsg"
         class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2">
-        <span class="te text-white"></span></div>
+        <span class="te text-white"></span>
+    </div>
     <div id="successMsg"
         class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2 font-semibold">
-        <span class="ts text-white"></span></div>
+        <span class="ts text-white"></span>
+    </div>
     <div id="PhantomMsg"
         class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-[#ab9ff2]  border border-zinc-600  flex items-center justify-center z-50 px-2 font-semibold">
         <span class="p text-black"></span>
     </div>
-    <div class="main relative w-full h-screen flex text-white bg-zinc-900">
+    <div class="main relative w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
         <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
             <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                <button>Logo</button>
+                <img src="images/logo.png" class="w-11 rounded-full" alt="">
                 <a href="/home"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
                         src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -35,10 +38,17 @@
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                         src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                         class="hidden lg:inline">Post</span></a>
-                <a href="/Notify"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                        src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                        class="hidden lg:inline">Notify</span></a>         
+                <% if(notifydata > 0){ %>
+                        <a href="/Notify"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
+                        <% } else { %>
+                        <a href="/Notify"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify</span></a>
+                        <% } %>
                 <a href="/Search"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                         src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
@@ -49,22 +59,26 @@
                         class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
-        <div class="right w-full h-screen border relative border-zinc-700 bg-zinc-900">
+        <div class="right relative w-full h-[91%] sm:h-screen border relative border-zinc-700 bg-zinc-900">
             <div class="aboutuser flex gap-5 h-[40%] sm:h-1/3 w-full py-5 sm:py-3 justify-center items-center">
                 <div class="w-[35%] sm:w-[20%] flex justify-center items-center">
                     <img src="<%= userdata.image %>" class="w-35 h-35 sm:w-40 sm:h-40 rounded-full" alt="">
                 </div>
                 <div class="userdetails flex flex-col w-[50%] sm:w-[40%] gap-3">
-                    <h1 class="w-full">@<%= userdata.username %>
-                    </h1>
+                    <div class="flex gap-2 w-full items-center">
+                        <h1>@<%= userdata.username %></h1>
+                        <% if(userdata.walletAddress){ %>
+                        <img src="/images/phantom_verified.svg" class="w-7 rounded-full" alt="">
+                        <% } %>
+                    </div>
                     <h2 class="w-full">
                         <%= userdata.name %>
                     </h2>
                     <div class="popularity w-full flex gap-4">
-                        <button>
+                        <button class="followers hover:cursor-pointer">
                             <%= userdata.follower.length %> Follower
                         </button>
-                        <button>
+                        <button class="following hover:cursor-pointer">
                             <%= userdata.following.length %> Following
                         </button>
                     </div>
@@ -78,7 +92,8 @@
                             Profile</a>
                         <% if(userdata.walletAddress){ %>
                             <button
-                                class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected ✓</button>
+                                class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected
+                                ✓</button>
                             <% } else{ %>
                                 <button onclick="Connectphantom()"
                                     class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Connect
@@ -88,7 +103,7 @@
                 </div>
             </div>
             <div
-                class="usersposts h-[52%]  sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
+                class="usersposts h-[60%] sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
 
                 <% userdata.posts.reverse().forEach((post)=>{ %>
                     <div class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
@@ -99,18 +114,18 @@
                                     <%= userdata.username %>
                                 </h1>
                             </div>
-                            <% let r = Math.random() %>
-                            <% if(r>0.1 && r<0.2){ %>
-                                <button class="w-7 text-yellow-200">✓</button>
-                            <% } else if(r>0.2 && r<0.3){ %>
-                                <button class="w-7 text-yellow-200">µ</button>
-                            <% } else if(r>0.3 && r<0.5){ %>
-                                <button class="w-7 text-yellow-200">⌀</button>
-                            <% } else if(r>0.5){ %>
-                                <button class="w-7 text-yellow-200">⌁</button>
-                            <% }  else if(r<0.1){ %>
-                                <button class="w-7 text-yellow-200">₿</button>
-                            <% } %>
+                            <% let r=Math.random() %>
+                                <% if(r>0.1 && r<0.2){ %>
+                                        <button class="w-7 text-yellow-200">✓</button>
+                                        <% } else if(r>0.2 && r<0.3){ %>
+                                                <button class="w-7 text-yellow-200">µ</button>
+                                                <% } else if(r>0.3 && r<0.5){ %>
+                                                        <button class="w-7 text-yellow-200">⌀</button>
+                                                        <% } else if(r>0.5){ %>
+                                                            <button class="w-7 text-yellow-200">⌁</button>
+                                                            <% } else if(r<0.1){ %>
+                                                                <button class="w-7 text-yellow-200">₿</button>
+                                                                <% } %>
                         </div>
                         <% if(post.image==="" ){ %>
                             <a href="/profile/viewpost/<%= post._id %>" class="block w-full h-full"><video
@@ -124,9 +139,47 @@
                     <% }) %>
 
             </div>
+            <div class="followersTab hidden rounded-xl overflow-y-auto border border-zinc-800 bg-zinc-900 flex flex-col gap-3 px-3 py-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[80vw] sm:w-[65vw] md:w-[50vw]">
+                <div class="followerheader flex justify-between px-3">
+                    <h1>Followers</h1>
+                    <img src="images/close.svg" id="removeFollowerTab" class="w-5 hover:cursor-pointer hover:scale-[1.09]" alt="">
+                </div>
+                <% userdata.follower.reverse().forEach((f)=>{ %>
+                    <div id="followyou-<%= f._id %>" class="followyou w-full border border-zinc-700 h-14 px-3 shrink-0 flex gap-5 items-center justify-between">
+                        <div class="flex gap-5">
+                            <img src="<%= f.image %>" class="w-7 rounded-full" alt="">
+                            <h1 onclick="searcheduserprofile('<%= f._id %>')" class="font-semibold hover:cursor-pointer"><%= f.username %></h1>
+                        </div>
+                        <div class="border px-2 rounded-md hover:cursor-pointer hover:scale-[1.03] hover:bg-zinc-800">
+                            <button onclick="removefollower('<%= f._id %>')">Remove</button>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+
+
+            <div class="followingTab hidden rounded-xl overflow-y-auto border border-zinc-800 bg-zinc-900 flex flex-col gap-3 px-3 py-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[80vw] sm:w-[65vw] md:w-[50vw]">
+                <div class="followingheader flex justify-between px-3">
+                    <h1>Followings</h1>
+                    <img src="images/close.svg" id="removeFollowingTab" class="w-5 hover:cursor-pointer hover:scale-[1.09]" alt="">
+                </div>
+                <% userdata.following.reverse().forEach((fw)=>{ %>
+                    <div id="youfollow-<%= fw._id %>" class="youfollow w-full border border-zinc-700 h-14 px-3 shrink-0 flex gap-5 items-center justify-between">
+                        <div class="flex gap-5">
+                            <img src="<%= fw.image %>" class="w-7 rounded-full" alt="">
+                            <h1 onclick="searcheduserprofile('<%= fw._id %>')" class="font-semibold hover:cursor-pointer"><%= fw.username %></h1>
+                        </div>
+                        <div class="border px-2 rounded-md hover:cursor-pointer hover:scale-[1.03] hover:bg-zinc-800">
+                            <button onclick="removefollowing('<%= fw._id %>')">Remove</button>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
         </div>
 
-        <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
+
+        <div class="flex sm:hidden w-full justify-between px-2 h-[9%] items-center">
             <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
             <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
             <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>

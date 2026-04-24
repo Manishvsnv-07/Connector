@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Account</title>
+    <title><%= userdata.username %> • Connector</title>
     <link rel="stylesheet" href="output.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 
 <body>
@@ -23,10 +24,10 @@
         class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-[#ab9ff2]  border border-zinc-600  flex items-center justify-center z-50 px-2">
         <span class="p text-black"></span>
     </div>
-    <div class="main relative w-full h-screen flex text-white bg-zinc-900">
+    <div class="main relative w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
         <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
             <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                <button>Logo</button>
+                <img src="images/logo.png" class="w-11 rounded-full" alt="">
                 <a href="/home"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
                         src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -39,10 +40,17 @@
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
                         src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                         class="hidden lg:inline">Post</span></a>
-                <a href="/Notify"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                        src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                        class="hidden lg:inline">Notify</span></a>         
+                <% if(notifydata > 0){ %>
+                        <a href="/Notify"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
+                        <% } else { %>
+                        <a href="/Notify"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify</span></a>
+                        <% } %>        
                 <a href="/Search"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                         src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
@@ -53,13 +61,13 @@
                         class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
-        <div class="right  w-full h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+        <div class="right  w-full h-[91%] sm:h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
 
             <div
-                class="uploadbox w-[80vw] h-[83vh] flex flex-col md:flex-row gap-7 overflow-y-auto items-center md:items-start justify-start rounded-md">
+                class="uploadbox w-[80vw] h-[88vh] flex flex-col md:flex-row gap-7 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden items-center rounded-md">
 
                 <div class="flex justify-center items-center w-full md:w-1/2">
-                    <img id="previwimg" src="images/upload.jpeg"
+                    <img id="previewimg" src="images/upload.jpeg"
                         class="aspect-9/11 border border-zinc-700 rounded-md h-[60vh] object-cover" alt="">
                     <img id="thumbnailpreview"
                         class="hidden aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover" alt="">
@@ -129,7 +137,7 @@
             </div>
         </div>
 
-        <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
+        <div class="flex sm:hidden w-full justify-between px-2 h-[9%] items-center">
             <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
             <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
             <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>

@@ -9,7 +9,7 @@ const postschema = mongoose.Schema({
     tags:{type:[String],validate:[arr => arr.length <= 5],default:[]},
     videos:String,
     likes:[{type:mongoose.Schema.Types.ObjectId,ref:"user"}],
-    comments: [{comment:String,nameofuser:String,user:String}],
+    comments: [{comment:String,nameofuser:String,user:{type:mongoose.Schema.Types.ObjectId,ref:"user"},replies:[{replier:String,reply:String}]}],
     sol:[{amount:String,sender:String}],
     views:[{type:mongoose.Schema.Types.ObjectId,ref:"post"}],
     nftMint:{

@@ -4,23 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram</title>
+    <title>Connector</title>
     <link rel="stylesheet" href="output.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 
 <body>
 
-    <div class="main w-full relative h-screen flex bg-zinc-900">
+    <div class="main w-full relative h-screen flex bg-black bg-[url('/images/logo.png')] bg-no-repeat bg-contain bg-center">
                 <div
-                    class="right flex text-white text-xl w-full h-screen bg-transparent flex-col items-center justify-center">
+                    class="right flex text-white font-semibold w-full h-screen bg-transparent flex-col items-center justify-center">
                     <form action="/login" method="post">
                         <div class="righttop w-full flex flex-col gap-7 my-7 justify-center items-center">
-                            <h1 class="font-sans font-bold">Log Into Account</h1>
+                            <h1 class="font-sans font-bold text-white">Log Into Account</h1>
                             <input type="text" name="username"
-                                class="border border-gray-500 bg-transparent px-3  w-[85vw] md:w-xl h-13 rounded-md"
+                                class="border border-white outline-none bg-transparent px-3  w-[85vw] md:w-xl h-13 rounded-md"
                                 placeholder="Enter Username">
                             <input type="password" name="password"
-                                class="border border-gray-500 bg-transparent px-3 rounded-md w-[85vw] md:w-xl h-13"
+                                class="border border-white outline-none bg-transparent px-3 rounded-md w-[85vw] md:w-xl h-13"
                                 placeholder="Password">
                             <button
                                 class="bg-white px-2 py-2 w-[85vw] md:w-xl rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Login</button>
@@ -32,7 +33,7 @@
                     <div class="rightbottom flex flex-col justify-center gap-7 my-5 items-center">
                         <form action="/create" method="get">
                             <button
-                                class="rounded-3xl w-[85vw] md:w-xl bg-transparent h-13 px-2 py-2 border hover:scale-[1.02] hover:cursor-pointer border-gray-500">Create
+                                class="rounded-3xl w-[85vw] md:w-xl bg-white h-13 px-2 py-2 border hover:scale-[1.02] hover:cursor-pointer border-zinc-600 text-black">Create
                                 An Account</button>
                         </form>
                     </div>

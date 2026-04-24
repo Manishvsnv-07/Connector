@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>itachi</title>
+    <title>Seached User • Connector</title>
     <link rel="stylesheet" href="/output.css">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 
 <body>
@@ -13,7 +14,7 @@
         <div
                 class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
                 <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                    <button>Logo</button>
+                    <img src="/images/logo.png" class="w-11 rounded-full" alt="">
                     <a href="/home"
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
                             src="/images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -26,10 +27,17 @@
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                             src="/images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                             class="hidden lg:inline">Post</span></a>
-                    <a href="/Notify"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                        src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                        class="hidden lg:inline">Notify</span></a>         
+                    <% if(notifydata > 0){ %>
+                        <a href="/Notify"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
+                        <% } else { %>
+                        <a href="/Notify"
+                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                class="hidden lg:inline">Notify</span></a>
+                        <% } %>        
                     <a href="/Search"
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
                             src="/images/Search.svg" class="w-11 lg:w-7" alt=""><span
@@ -40,14 +48,18 @@
                             class="hidden lg:inline">Profile</span></a>
                 </div>
             </div>
-        <div class="right w-full h-screen border relative border-zinc-700 bg-zinc-900">
+        <div class="right w-full h-[91%] sm:h-screen border relative border-zinc-700 bg-zinc-900">
             <div class="aboutuser flex gap-5 h-[40%] sm:h-1/3 w-full py-5 sm:py-3 justify-center items-center">
                 <div class="w-[40%] sm:w-[20%] flex justify-center items-center">
                     <img src="<%= userdata.image %>" class="w-40 h-40 rounded-full" alt="">
                 </div>
                 <div class="userdetails flex flex-col w-[50%] sm:w-[40%] gap-3">
-                    <h1 class="w-full">@<%= userdata.username %>
-                    </h1>
+                    <div class="flex gap-2 w-full items-center">
+                        <h1>@<%= userdata.username %></h1>
+                        <% if(userdata.walletAddress){ %>
+                        <img src="/images/phantom_verified.svg" class="w-7 rounded-full" alt="">
+                        <% } %>
+                    </div>
                     <h2 class="w-full">
                         <%= userdata.name %>
                     </h2>
@@ -73,6 +85,16 @@
                                     class="rounded-md bg-[#ab9ff2] h-[3vh] sm:h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Not
                                     Connected ✕</button>
                                 <% } %>
+
+                              <% if(userdata.follower.some(id=> id.equals(mydata._id))){ %>
+                                                    <button
+                                                        class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                                        onclick="followuser('<%= userdata._id %>',this)">Unfollow</button>
+                                                    <% } else{ %>
+                                                        <button
+                                                            class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                                            onclick="followuser('<%= userdata._id %>',this)">Follow</button>
+                                                        <% } %>    
                     </div>
                 </div>
             </div>
