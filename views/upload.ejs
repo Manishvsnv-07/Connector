@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= userdata.username %> • Connector</title>
+    <title>
+        <%= userdata.username %> • Connector
+    </title>
     <link rel="stylesheet" href="output.css">
     <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
@@ -40,35 +42,36 @@
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
                         src="images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                         class="hidden lg:inline">Post</span></a>
-                <% if(notifydata > 0){ %>
-                        <a href="/Notify"
-                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                                src="images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                                class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
-                        <% } else { %>
+                <% if(notifydata> 0){ %>
+                    <a href="/Notify"
+                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                            src="images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
+                    <% } else { %>
                         <a href="/Notify"
                             class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
                                 src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                                 class="hidden lg:inline">Notify</span></a>
-                        <% } %>        
-                <a href="/Search"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                        src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
-                        class="hidden lg:inline">Search</span></a>
-                <a href="/profile"
-                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                        src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
-                        class="hidden lg:inline">Profile</span></a>
+                        <% } %>
+                            <a href="/Search"
+                                class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                    src="images/Search.svg" class="w-11 lg:w-7" alt=""><span
+                                    class="hidden lg:inline">Search</span></a>
+                            <a href="/profile"
+                                class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                    src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                                    class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
-        <div class="right  w-full h-[91%] sm:h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+        <div
+            class="right  w-full h-[91%] sm:h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
 
             <div
                 class="uploadbox w-[80vw] h-[88vh] flex flex-col md:flex-row gap-7 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden items-center rounded-md">
 
                 <div class="flex justify-center items-center w-full md:w-1/2">
                     <img id="previewimg" src="images/upload.jpeg"
-                        class="aspect-9/11 border border-zinc-700 rounded-md h-[60vh] object-cover" alt="">
+                        class="aspect-9/11 border border-zinc-700 rounded-md h-[60vh] object-contain" alt="">
                     <img id="thumbnailpreview"
                         class="hidden aspect-9/11 border border-zinc-700 rounded-md h-[70vh] object-cover" alt="">
                     <div class="videobox hidden relative">
@@ -106,7 +109,8 @@
                         class="resize-none w-full h-[25vh] border outline-none border-zinc-700 rounded-md bg-transparent text-white p-2 overflow-y-auto"></textarea>
 
                     <!-- TAGS -->
-                    <div class="flex flex-col border border-zinc-700 rounded-lg px-3 py-2 gap-4">
+                    <form id="uploadForm" action="/create" method="POST" enctype="multipart/form-data">
+                        <div class="flex flex-col border border-zinc-700 rounded-lg px-3 py-2 gap-4">
                         <div id="tagsContainer" class="flex gap-2 cursor-text">
                             <input id="tagInput" placeholder="Tags will help your post go viral...."
                                 class="border-none outline-none bg-transparent text-md w-full" />
@@ -115,7 +119,9 @@
                     </div>
                     <p id="hintText" class="text-xs">Press <strong>Enter</strong> or <strong>,</strong> to add a tag;
                     </p>
-                    <input type="hidden" name="tgs" id="tagsData" />
+                        <input type="hidden" name="tgs" id="tagsData" />
+                    </form>
+                    
 
 
                     <!-- POST AS A NFT OR NOT -->
@@ -145,9 +151,9 @@
             <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
         </div>
 
-        <script src="script.js" defer></script>
+        <script src="/js/post.js" defer></script>
         <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-        <script src="/nft.js"></script>
+        <script src="/js/nft.js"></script>
 </body>
 
 </html>

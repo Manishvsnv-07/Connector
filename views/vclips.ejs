@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="relative">
-                                    <video src="<%= post.videos %>" autoplay muted loop poster="images/default.png"
+                                    <video src="<%= post.videos %>" autoplay muted loop poster="<%= post.thumbnail %>"
                                         data-id="<%= post._id %>"
                                         class="videoplay  h-[85vh] sm:h-[93vh] w-[99vw] sm:w-[50vw] md:w-[55vw] lg:w-[45vw] xl:w-[25vw] object-cover rounded-2xl hover:cursor-pointer"></video>
                                     <img src="images/play.svg"
@@ -293,6 +293,7 @@
 
         <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
         <script src="/script.js"></script>
+        <script src="/js/PhantomConnect.js"></script>
 </body>
 
 </html>

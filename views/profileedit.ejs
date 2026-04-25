@@ -57,13 +57,15 @@
                     </div>
                 </div>
                 <div class="right w-full h-[91%] sm:h-screen border flex justify-center relative border-zinc-700 bg-zinc-900">
+                   
+                    <a href="/profile"><img src="/images/back.svg" class="w-5 hover:scale-[1.09] hover:cursor-pointer absolute top-5 left-5 z-11" alt=""></a>
                     <div class="manage h-[90vh] sm:h-[98vh] flex flex-col gap-5 overflow-y-scroll ">
                         <form action="/update" method="post" enctype="multipart/form-data">
                             <div
                                 class="editbio relative w-[90vw] sm:w-[55vw] md:w-[50vw] lg:w-[60vw] h-[70vh] bg-transparent border flex py-5 m-2 items-center gap-5 flex-col border-zinc-700 rounded-md ">
                                 <div class="updateimg flex justify-center items-center gap-4">
                                     <img id="previewimgatprofile" src="<%= userdata.image %>"
-                                        class="rounded-full w-[15vw] sm:w-[11vw] lg:w-[7vw]" alt="">
+                                        class="rounded-full w-[15vw] h-[15vw] sm:w-[11vw] sm:h-[11vw] lg:w-[7vw] lg:h-[7vw]" alt="">
                                     <div class="relative w-[50vw] sm:w-[21vw] h-[7vh]">
                                         <button
                                             class="w-full h-full border border-zinc-700 rounded-md font-sans font-bold px-2">
@@ -131,7 +133,7 @@
             </div>
 
             </div>
-            <script src="/script.js" defer></script>
+            <script src="/js/profileedit.js" defer></script>
 </body>
 
 </html>

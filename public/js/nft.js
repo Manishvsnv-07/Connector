@@ -71,15 +71,13 @@ try {
     <span>Posting...</span>
     <img src = "images/rocket.svg" class="w-9" style="animation: rocketLaunch 0.5s infinite alternate">
   </div>
-`
-
+`   
     const formdata = new FormData()
     formdata.append("description", description)
     formdata.append("media", mediaFile)
     formdata.append("thumbnail", thumbnail)
     formdata.append("tgs", tags)
     formdata.append("isMintNft", String(isNFT));
-
     const res = await fetch("/post", {
         method: "POST",
         body: formdata
@@ -115,7 +113,7 @@ try {
         await mintNFT(data.post._id, data.post.description, data.post.imageUri)
     }
 } catch (error) {
-    return res.status(500).json({error})
+    return console.log(error)
 }
 }
 
@@ -123,7 +121,8 @@ async function mintNFT(postid, postdescription, postimg) {
     try {
         await window.solana.connect()
         const walletAddress = window.solana.publicKey.toString()
-
+        console.log(postid,postimg,walletAddress,postdescription);
+        
         const res = await fetch("/nft/mint", {
             method: "POST",
             credentials: "include",

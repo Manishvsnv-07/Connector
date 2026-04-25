@@ -49,6 +49,7 @@
                 <img src="images/notification.svg" class="w-5" alt="">
             </div>
                 <% notification.reverse().forEach((n)=>{ %>
+                    <%if(n.postid && n.from) { %>
                 <div
                     class="notify w-full px-2 border border-zinc-700 h-16 flex justify-start items-center gap-5 shrink-0">
                     <% if(n.type === "like"){ %>
@@ -56,43 +57,51 @@
                         <h1 ><span onclick="searcheduserprofile('<%= n.from._id %>')"
                                 class="hover:scale-[1.07] hover:cursor-pointer font-semibold hover:brightness-70">@
                                 <%= n.from.username %></span> liked Your Post</h1>
-                        <% if(n.postid.image !== ""){ %>
-                            <img src="<%= n.postid.image %>" class="w-11 h-11" alt="">
-                        <% } else { %>
-                            <% if(n.postid.thumbnail === ""){ %>
-                                <video src="<%= n.postid.videos %>" class="w-11 h-11 aspect-9/11" autoplay muted></video>    
-                            <% } else{ %>
-                                <img src="<%= n.postid.thumbnail %>" class="w-11 h-11 aspect-9/11" alt="">
-                            <% } %>
-                        <% }%>        
+                            <% if(n.postid.image !== ""){ %>
+                                <img src="<%= n.postid.image %>" class="w-11 h-11" alt="">
+                            <% } else { %>
+                                <% if(n.postid.thumbnail === ""){ %>
+                                    <video src="<%= n.postid.videos %>" class="w-11 h-11 aspect-9/11" autoplay muted></video>    
+                                <% } else{ %>
+                                    <img src="<%= n.postid.thumbnail %>" class="w-11 h-11 aspect-9/11" alt="">
+                                <% } %>
+                            <% }%>        
+                        <% } %>        
+
+
+
+                        <% if(n.type === "sol"){ %>
+                            <img src="<%= n.from.image %>" class="w-7 rounded-full" alt="">
+                            <h1 ><span onclick="searcheduserprofile('<%= n.from._id %>')"
+                                    class="hover:scale-[1.07] hover:cursor-pointer text-yellow-200 font-semibold hover:brightness-70">@
+                                    <%= n.from.username %></span> Send <strong class="text-purple-300"> <%= n.sol %> SOL</strong> On Your Post</h1>
+                            <% if(n.postid.image !== ""){ %>
+                                <img src="<%= n.postid.image %>" class="w-11 h-11" alt="">
+                            <% } else { %>
+                                <% if(n.postid.thumbnail === ""){ %>
+                                    <video src="<%= n.postid.videos %>" class="w-11 h-11 aspect-9/11" autoplay muted></video>    
+                                <% } else{ %>
+                                    <img src="<%= n.postid.thumbnail %>" class="w-11 h-11 aspect-9/11" alt="">
+                                <% } %>
+                            <% }%>        
+                        <% } %>         
+                    </div>
                     <% } %>
 
-                    
-                    <% if(n.type === "sol"){ %>
-                        <img src="<%= n.from.image %>" class="w-7 rounded-full" alt="">
-                        <h1 ><span onclick="searcheduserprofile('<%= n.from._id %>')"
-                                class="hover:scale-[1.07] hover:cursor-pointer text-yellow-200 font-semibold hover:brightness-70">@
-                                <%= n.from.username %></span> Send <strong class="text-purple-300"> <%= n.sol %> SOL</strong> On Your Post</h1>
-                        <% if(n.postid.image !== ""){ %>
-                            <img src="<%= n.postid.image %>" class="w-11 h-11" alt="">
-                        <% } else { %>
-                            <% if(n.postid.thumbnail === ""){ %>
-                                <video src="<%= n.postid.videos %>" class="w-11 h-11 aspect-9/11" autoplay muted></video>    
-                            <% } else{ %>
-                                <img src="<%= n.postid.thumbnail %>" class="w-11 h-11 aspect-9/11" alt="">
-                            <% } %>
-                        <% }%>        
+
+    <%if(n.from) { %>
+        <% if(n.type === "follow"){ %>
+                <div
+                    class="notify w-full px-2 border border-zinc-700 h-16 flex justify-start items-center gap-5 shrink-0">
+                            <img src="<%= n.from.image %>" class="w-7 rounded-full" alt="">
+                            <h1 ><span onclick="searcheduserprofile('<%= n.from._id %>')"
+                                    class="hover:scale-[1.07] hover:cursor-pointer font-semibold hover:brightness-70">@
+                                    <%= n.from.username %></span> Followed You (Friends Forever)     
+                                </div>
+                                <% } %>   
                     <% } %>
 
 
-                    <% if(n.type === "follow"){ %>
-                        <img src="<%= n.from.image %>" class="w-7 rounded-full" alt="">
-                        <h1 ><span onclick="searcheduserprofile('<%= n.from._id %>')"
-                                class="hover:scale-[1.07] hover:cursor-pointer font-semibold hover:brightness-70">@
-                                <%= n.from.username %></span> Followed You (Friends Forever)     
-                    <% } %>            
-
-                </div>
             <% }) %>
                     
             </div>

@@ -69,6 +69,7 @@
             </div>
             <div
                 class="right relative w-full h-[91%] sm:h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+                <a href="/profile"><img src="/images/back.svg" class="w-5 hover:scale-[1.09] hover:cursor-pointer absolute top-5 left-5 z-10" alt=""></a>
                 <div
                     class="deletepopup hidden absolute top-5 left-1/2 -translate-x-1/2 z-100 w-[55vw] md:w-[30vw] lg:w-[20vw] h-[15vh] flex flex-col justify-center items-center gap-5 rounded-md bg-zinc-900 border border-white px-2">
                     <h1>Are You Sure ?</h1>
@@ -172,9 +173,7 @@
                                                         class="playsound w-5 hover:scale-[1.2] hover:cursor-pointer"
                                                         alt="">
                                                     <% }%>
-                                                <% if(userdata.walletAddress){ %>
-                                                    <img src="/images/solana.svg" onclick="opensol('<%= myposts._id %>')" class="w-9 z-10" alt="">
-                                                <% } %>
+                                                
 
                                     </div>
                                     <p onclick="postdescription('<%= myposts._id %>')"
@@ -240,33 +239,6 @@
                                 class="w-16 bg-blue-700 rounded-md px-2" type="submit">Send</button>
                         </div>
                     </div>
-
-
-                    <div id="solbox-<%= myposts._id %>"
-                                class="hidden flex bg-zinc-900 absolute sm:mt-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 flex-col justify-between w-[80vw] sm:w-[60vw] md:w-[30vw] px-3 border border-zinc-700 h-[90%] rounded-xl">
-                                <div class="flex items-center gap-5">
-                                    <div>
-                                        <img src="/images/back.svg" id="backsol-<%= myposts._id %>"
-                                            class=" w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
-                                    </div>
-                                    <p>Creator <strong class="text-yellow-300">Supporters</strong></p>
-                                </div>
-                                <div id="solsenders-<%= myposts._id %>"
-                                    class="solsenders h-full flex flex-col overflow-y-scroll justify-start">
-                                    <% myposts.sol.reverse().forEach((s)=>{ %>
-                                        <div
-                                            class="senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-center shrink-0">
-                                            <p class="text-[17px]"><strong class="text-yellow-300">
-                                                    <%= s.amount %>
-                                                </strong> Sol Send
-                                                By <strong class="text-purple-300">
-                                                    <%= s.sender %>
-                                                </strong></p>
-                                        </div>
-                                        <% }) %>
-                                </div>
-                                
-                            </div>
                 </div>
 
                 <div
@@ -300,7 +272,8 @@
             </div>
 
         </div>
-        <script src="/script.js " defer></script>
+        <script src="/js/utils.js " defer></script>
+        <script src="/js/yourpost.js"></script>
     </body>
 
     </html>
