@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= userdata.username %> • Connector</title>
+    <title>
+        <%= userdata.username %> • Connector
+    </title>
     <link rel="stylesheet" href="output.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,7 +69,7 @@
         </div>
 
 
-        <div class="right w-full h-[91%] sm:h-screen border flex justify-center border-zinc-700 bg-zinc-900">
+        <div class="right w-full h-[91%] sm:h-screen border-l flex justify-center border-zinc-700 bg-zinc-900">
 
             <div
                 class="feed w-full h-full flex flex-col overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -263,9 +265,10 @@
                                 <div data-id="<%= post._id %>"
                                     class="userscommentbox w-[80vw] sm:w-[60vw] md:w-[30vw] flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                                     <% post.comments.reverse().forEach((c)=>{ %>
-                                        <div 
+                                        <div
                                             class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[21vh]">
-                                            <div class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
+                                            <div
+                                                class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
                                                 <h1 class="nameofuser text-blue-600 shrink-0">
                                                     <%= c.nameofuser %>
                                                 </h1>
@@ -275,17 +278,25 @@
                                             </div>
                                             <% c.replies.reverse().forEach((r)=>{ %>
                                                 <div class="flex gap-2 px-3 py-2 h-7 w-full items-center">
-                                                    <h1 class="text-blue-500">→ <%= r.replier %></h1>
-                                                    <p><%= r.reply %></p>
+                                                    <h1 class="text-blue-500">→ <%= r.replier %>
+                                                    </h1>
+                                                    <p>
+                                                        <%= r.reply %>
+                                                    </p>
                                                 </div>
-                                            <% }) %>
-                                            
-                                            <div class="reply px-3 py-2">
-                                                <div class="flex items-center gap-2">
-                                                    <textarea name="reply" id="reply-<%= c._id %>" placeholder="Reply" class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
-                                                    <img src="images/send.svg" onclick="reply('<%= post._id %>','<%= c._id %>','<%= userdata.username %>')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
-                                                </div>
-                                            </div>
+                                                <% }) %>
+
+                                                    <div class="reply px-3 py-2">
+                                                        <div class="flex items-center gap-2">
+                                                            <textarea name="reply" id="reply-<%= c._id %>"
+                                                                placeholder="Reply"
+                                                                class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
+                                                            <img src="images/send.svg"
+                                                                onclick="reply('<%= post._id %>','<%= c._id %>','<%= userdata.username %>')"
+                                                                class="w-7 h-7 outline-none rounded-full bg-white border-white border"
+                                                                alt="">
+                                                        </div>
+                                                    </div>
                                         </div>
                                         <% }) %>
                                 </div>
@@ -317,7 +328,7 @@
                                             <p class="text-[17px]"><strong class="text-yellow-300">
                                                     <%= s.amount %>
                                                 </strong> Sol Send
-                                                By <strong class="text-purple-300">
+                                                By <strong class="text-purple-300" onclick="searcheduserprofile('<%= s.senderId %>')">
                                                     <%= s.sender %>
                                                 </strong></p>
                                         </div>
@@ -336,7 +347,7 @@
                                             onclick="selectsol(this,2)">2</button>
                                     </div>
                                     <button
-                                        onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>','<%= post._id %>')"
+                                        onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>','<%= post._id %>','<%= userdata._id %>','<%= userdata.username %>')"
                                         id="sendbtn"
                                         class="rounded-md bg-purple-400 px-2 w-[14vw] sm:w-[9vw] h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
                                 </div>
@@ -359,9 +370,14 @@
             <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
         </div>
     </div>
-   <script src="/solana.min.js"></script>
+    <script src="/solana.min.js"></script>
     <script src="/script.js"></script>
     <script src="/js/PhantomConnect.js"></script>
+    <script>
+        function searcheduserprofile(searcheduserid) {
+            window.location.href = "/Search/" + searcheduserid;
+        }
+    </script>
 </body>
 
 </html>

@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 mongoose.connect("mongodb://localhost:27017/Animetube")
 const userschema = mongoose.Schema({
     email: { type: String, required: [true, "Needed"],unique:true },
-    name: { type: String, required: [true, "Needed"] },
+    name: { type: String, required: [true, "Needed"],maxlength:20},
     username: {
         type: String, required: [true, "Needed"], 
         unique: true,
@@ -13,7 +13,7 @@ const userschema = mongoose.Schema({
         match: /^[a-zA-Z][a-zA-Z0-9._]*[a-zA-Z0-9]$/
     },
     password: { type: String, required: [true, "Needed"] },
-    bio: { type: String, default: "I Am Villain." },
+    bio: { type: String, default: "Never Give Up ‖",maxlength:111},
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
     follower: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],

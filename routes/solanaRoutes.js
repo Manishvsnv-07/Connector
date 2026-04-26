@@ -137,7 +137,7 @@ router.post("/sendSol", islogged, async (req, res) => {
             })
         }
 
-        findpost.sol.push({ amount: selectedAmount, sender: finduser.username })
+        findpost.sol.push({ amount: selectedAmount, sender: finduser.username ,senderId:finduser._id})
         await findpost.save()
         return res.status(200).json({ success: true })
     } catch (error) {

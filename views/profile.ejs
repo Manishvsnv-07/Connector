@@ -14,15 +14,11 @@
         class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2">
         <span class="te text-white"></span>
     </div>
-    <div id="successMsg"
-        class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2 font-semibold">
-        <span class="ts text-white"></span>
-    </div>
     <div id="PhantomMsg"
         class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 min-h-[5vh] w-[85vw] sm:w-auto rounded-md  bg-[#ab9ff2]  border border-zinc-600  flex items-center justify-center z-50 px-2 font-semibold">
         <span class="p text-black"></span>
     </div>
-    <div class="main relative w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
+    <div class="main relative w-screen h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
         <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
             <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
                 <img src="images/logo.png" class="w-11 rounded-full" alt="">
@@ -55,26 +51,26 @@
                         class="hidden lg:inline">Search</span></a>
                 <a href="/profile"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
-                        src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                        src="<%= userdata.image %>" class="rounded-full w-11 h-11 lg:w-7 lg:h-7" alt=""><span
                         class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
-        <div class="right relative w-full h-[91%] sm:h-screen border relative border-zinc-700 bg-zinc-900">
-            <div class="aboutuser flex gap-5 h-[40%] sm:h-1/3 w-full py-5 sm:py-3 justify-center items-center">
-                <div class="w-[35%] sm:w-[20%] flex justify-center items-center">
+        <div class="right relative w-full h-[91%] sm:h-screen border-l border-zinc-700 bg-zinc-900">
+            <div class="aboutuser flex gap-5 h-1/2 sm:h-1/3 w-full sm:w-[86vw] py-5 sm:py-3 justify-center items-center">
+                <div class="w-[40%] h-[40%] flex justify-center items-center sm:justify-end">
                     <img src="<%= userdata.image %>" class="w-35 h-35 sm:w-40 sm:h-40 rounded-full" alt="">
                 </div>
-                <div class="userdetails flex flex-col w-[50%] sm:w-[40%] gap-3">
-                    <div class="flex gap-2 w-full items-center">
+                <div class="userdetails flex flex-col w-[60%] min-h-[40%] gap-3 px-2 sm:py-2 sm:px-0">
+                    <div class="flex gap-2 items-center">
                         <h1>@<%= userdata.username %></h1>
                         <% if(userdata.walletAddress){ %>
                         <img src="/images/phantom_verified.svg" class="w-7 rounded-full" alt="">
                         <% } %>
                     </div>
-                    <h2 class="w-full">
+                    <h2>
                         <%= userdata.name %>
                     </h2>
-                    <div class="popularity w-full flex gap-4">
+                    <div class="popularity flex gap-4">
                         <button class="followers hover:cursor-pointer">
                             <%= userdata.follower.length %> Follower
                         </button>
@@ -83,16 +79,16 @@
                         </button>
                     </div>
 
-                    <p class="w-full h-7 truncate">
+                    <p id="bio" class="w-[50vw] line-clamp-1 max-h-[13vh] overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                         <%= userdata.bio %>
                     </p>
                     <div class="flex gap-4 flex-col sm:flex-row">
                         <a href="/profiles/edit"
-                            class="rounded-md bg-transparent  px-2 border font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center border-zinc-200">Manage
+                            class="rounded-md bg-transparent sm:px-2 border font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center border-zinc-200">Manage
                             Profile</a>
                         <% if(userdata.walletAddress){ %>
                             <button
-                                class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected
+                                class="rounded-md bg-[#ab9ff2] sm:px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected
                                 ✓</button>
                             <% } else{ %>
                                 <button onclick="Connectphantom()"
@@ -103,13 +99,13 @@
                 </div>
             </div>
             <div
-                class="usersposts h-[60%] sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
+                class="usersposts h-1/2 sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 
                 <% userdata.posts.reverse().forEach((post)=>{ %>
                     <div class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
                         <div class="postheader flex justify-between w-full">
                             <div class="header flex gap-3 w-full">
-                                <img src="<%= userdata.image %>" class="w-7 rounded-full" alt="">
+                                <img src="<%= userdata.image %>" class="w-7 h-7 rounded-full" alt="">
                                 <h1 class="truncate">
                                     <%= userdata.username %>
                                 </h1>
@@ -184,12 +180,13 @@
             <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
             <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
             <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
-            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9 h-9" alt=""></a>
         </div>
 
     </div>
     <script src="/js/profile.js"></script>
     <script src="/js/PhantomConnect.js"></script>
+    <script src="/solana.min.js"></script>
 </body>
 
 </html>

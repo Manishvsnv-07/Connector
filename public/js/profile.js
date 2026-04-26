@@ -5,6 +5,15 @@ let removeFollowingTab = document.getElementById("removeFollowingTab")
 let followingTab = document.querySelector(".followingTab")
 let following = document.querySelector(".following")
 
+console.log({
+    removeFollowerTab: document.getElementById("removeFollowerTab"),
+    followersTab: document.querySelector(".followersTab"),
+    followers: document.querySelector(".followers"),
+    removeFollowingTab: document.getElementById("removeFollowingTab"),
+    followingTab: document.querySelector(".followingTab"),
+    following: document.querySelector(".following")
+})
+
 followers?.addEventListener("click", () => {
     followingTab.classList.add("hidden")
     followersTab.classList.remove("hidden")
@@ -21,6 +30,14 @@ following?.addEventListener("click", () => {
 removeFollowingTab?.addEventListener("click", () => {
     followingTab.classList.add("hidden")
 })
+
+
+let bio = document.getElementById("bio")
+if(bio){
+    bio?.addEventListener("click",()=>{
+        bio.classList.toggle("line-clamp-1")
+    })
+}
 
 
 async function removefollower(userid){
@@ -73,13 +90,6 @@ async function removefollowing(userid){
     }
 }
 
-async function searcheduserprofile(searcheduserid) {
-    const res = await fetch("/Search/" + searcheduserid, { method: "GET", credentials: "include" })
-    if (res.type === "opaqueredirect") {
-        window.location.href = "/home"
-    }
-    else {
-        const html = await res.text()
-        document.body.innerHTML = html;
-    }
+function searcheduserprofile(searcheduserid) {
+     window.location.href = "/Search/" + searcheduserid;
 }

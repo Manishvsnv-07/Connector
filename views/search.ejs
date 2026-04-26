@@ -47,7 +47,7 @@
                         class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
-        <div class="right w-full h-[91%] sm:h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+        <div class="right w-full h-[91%] sm:h-screen border-l flex items-center justify-center border-zinc-700 bg-zinc-900">
 
             <div class="Searchbox w-[80vw] sm:w-[40vw] md:w-[40vw] xl:w-[30vw] h-full">
                 <div class="searching relative p-2 flex justify-between items-center gap-2">
@@ -61,6 +61,65 @@
                     class="searchedusers flex-1  h-[81vh] sm:h-[89vh] border border-zinc-700 p-2 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 </div>
             </div>
+            <div
+                class="followersTab hidden rounded-xl overflow-y-auto border border-zinc-800 bg-zinc-900 flex flex-col gap-3 px-3 py-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[80vw] sm:w-[65vw] md:w-[50vw]">
+                <div class="followerheader flex justify-between px-3">
+                    <h1>Followers</h1>
+                    <img src="/images/close.svg" id="removeFollowerTab"
+                        class="w-5 hover:cursor-pointer hover:scale-[1.09]" alt="">
+                </div>
+                <% userdata.follower.reverse().forEach((f)=>{ %>
+                    <div id="followyou-<%= f._id %>"
+                        class="followyou w-full border border-zinc-700 h-14 px-3 shrink-0 flex gap-5 items-center justify-between">
+                        <div class="flex gap-5">
+                            <img src="<%= f.image %>" class="w-7 rounded-full" alt="">
+                            <h1 onclick="searcheduserprofile('<%= f._id %>')"
+                                class="font-semibold hover:cursor-pointer">
+                                <%= f.username %>
+                            </h1>
+                        </div>
+                        <% if(userdata.follower.some(id=> id.equals(userdata._id))){ %>
+                            <button
+                                class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                onclick="followuser('<%= userdata._id %>',this)">Unfollow</button>
+                            <% } else{ %>
+                                <button
+                                    class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                    onclick="followuser('<%= userdata._id %>',this)">Follow</button>
+                                <% } %>
+                    </div>
+                    <% }) %>
+            </div>
+
+            <div
+                class="followingTab hidden rounded-xl overflow-y-auto border border-zinc-800 bg-zinc-900 flex flex-col gap-3 px-3 py-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[80vw] sm:w-[65vw] md:w-[50vw]">
+                <div class="followingheader flex justify-between px-3">
+                    <h1>Followings</h1>
+                    <img src="/images/close.svg" id="removeFollowingTab"
+                        class="w-5 hover:cursor-pointer hover:scale-[1.09]" alt="">
+                </div>
+                <% userdata.following.reverse().forEach((fw)=>{ %>
+                    <div id="youfollow-<%= fw._id %>"
+                        class="youfollow w-full border border-zinc-700 h-14 px-3 shrink-0 flex gap-5 items-center justify-between">
+                        <div class="flex gap-5">
+                            <img src="<%= fw.image %>" class="w-7 rounded-full" alt="">
+                            <h1 onclick="searcheduserprofile('<%= fw._id %>')"
+                                class="font-semibold hover:cursor-pointer">
+                                <%= fw.username %>
+                            </h1>
+                        </div>
+                        <% if(userdata.follower.some(id=> id.equals(mydata._id))){ %>
+                            <button
+                                class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                onclick="followuser('<%= userdata._id %>',this)">Unfollow</button>
+                            <% } else{ %>
+                                <button
+                                    class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                    onclick="followuser('<%= userdata._id %>',this)">Follow</button>
+                                <% } %>
+                    </div>
+                    <% }) %>
+            </div>
         </div>
         <div class="flex sm:hidden w-full justify-between px-2 h-[9%] items-center">
             <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
@@ -72,6 +131,7 @@
     </div>
     <script src="/js/search.js"></script>
     <script src="/js/utils.js"></script>
+    <script src="/js/profile.js"></script>
 </body>
 
 </html>

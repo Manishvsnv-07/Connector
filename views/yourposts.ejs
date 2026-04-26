@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= userdata.username %> • Connector</title>
+    <title>
+        <%= userdata.username %> • Connector
+    </title>
     <link rel="icon" type="image/png" href="/images/logo.png">
 
 </head>
@@ -16,7 +18,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><%= userdata.username %> • Connector</title>
+        <title>
+            <%= userdata.username %> • Connector
+        </title>
         <link rel="stylesheet" href="/output.css">
         <link rel="icon" type="image/png" href="/images/logo.png">
     </head>
@@ -29,6 +33,10 @@
         <div id="successMsg"
             class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-black  border border-zinc-600  flex items-center justify-center z-50 px-2">
             <span class="ts text-white"></span>
+        </div>
+        <div id="PhantomMsg"
+            class="hidden fixed left-1/2 top-7 -translate-x-1/2 -translate-y-1/2 h-[5vh] rounded-md  bg-[#ab9ff2]  border border-zinc-600  flex items-center justify-center z-50 px-2">
+            <span class="p text-black"></span>
         </div>
         <div class="main relative w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
             <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
@@ -68,8 +76,9 @@
                 </div>
             </div>
             <div
-                class="right relative w-full h-[91%] sm:h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
-                <a href="/profile"><img src="/images/back.svg" class="w-5 hover:scale-[1.09] hover:cursor-pointer absolute top-5 left-5 z-10" alt=""></a>
+                class="right relative w-full h-[91%] sm:h-screen border-l flex items-center justify-center border-zinc-700 bg-zinc-900">
+                <a href="/profile"><img src="/images/back.svg"
+                        class="w-5 hover:scale-[1.09] hover:cursor-pointer absolute top-5 left-5 z-10" alt=""></a>
                 <div
                     class="deletepopup hidden absolute top-5 left-1/2 -translate-x-1/2 z-100 w-[55vw] md:w-[30vw] lg:w-[20vw] h-[15vh] flex flex-col justify-center items-center gap-5 rounded-md bg-zinc-900 border border-white px-2">
                     <h1>Are You Sure ?</h1>
@@ -88,14 +97,14 @@
                             <div class="leftheader flex gap-3">
                                 <img src="<%= myposts.user.image %>" class="w-7 rounded-full" alt="">
                                 <div class="flex gap-2 w-full items-center">
-                                    <h1>@<%= userdata.username %>
+                                    <h1>@<%= myposts.user.username %>
                                     </h1>
-                                    <% if(userdata.walletAddress){ %>
+                                    <% if(myposts.user.walletAddress){ %>
                                         <img src="/images/phantom_verified.svg" class="w-7 rounded-full" alt="">
                                         <% } %>
                                 </div>
                             </div>
-                            <div class="rightheader flex gap-5">
+                            <div class="rightheader flex gap-5 items-center">
                                 <%if(myposts.user._id.toString()===userdata._id.toString()) { %>
                                     <img src="/images/delete.svg"
                                         class="deletebtn w-5 hover:scale-[1.2] hover:cursor-pointer" alt="">
@@ -126,54 +135,58 @@
                                 <% } %>
                                     <div id="userinteract-<%= myposts._id %>"
                                         class="likecommentsdelete flex gap-7 px-2 h-7 justify-between items-center">
-                                            <div class="view flex gap-2 w-7 mr-2">
-                                                <img src="/images/view.svg" class="w-5" alt="view">
-                                                <h2 class="font-bold">
-                                                    <%= myposts.views.length %>
-                                                </h2>
-                                            </div>
-                                                <div class="likeorunlike flex gap-2 w-7 mr-2">
-                                                    <% if(myposts.likes.includes(userdata._id)){ %>
-                                                        <img src="/images/liked.svg"
-                                                            class="liked   w-5 hover:scale-[1.2] hover:cursor-pointer"
-                                                            data-id="<%= myposts._id %>"
-                                                            onclick="likepost('<%= myposts._id %>')">
-                                                        <img src="/images/unliked.svg"
-                                                            class="unliked w-5 hover:scale-[1.2] hover:cursor-pointer hidden"
-                                                            data-id="<%= myposts._id %>"
-                                                            onclick="likepost('<%= myposts._id %>')">
-                                                        <% } else { %>
-                                                            <img src="/images/liked.svg"
-                                                                class="liked   w-5 hover:scale-[1.2] hover:cursor-pointer hidden"
-                                                                data-id="<%= myposts._id %>"
-                                                                onclick="likepost('<%= myposts._id %>')">
-                                                            <img src="/images/unliked.svg"
-                                                                class="unliked w-5 hover:scale-[1.2] hover:cursor-pointer"
-                                                                data-id="<%= myposts._id %>"
-                                                                onclick="likepost('<%= myposts._id %>')">
-                                                            <% } %>
-                                                                <h2 class="likecount font-bold font-sans"
-                                                                    data-id="<%= myposts._id %>">
-                                                                    <%= myposts.likes.length %>
-                                                                </h2>
-                                                </div>
-                                                <div class="flex gap-2 w-7 mr-2">
-                                                    <img src="/images/comment.svg"
-                                                        onclick="openbox(`<%= myposts._id %>`)"
-                                                        class="comment w-5 hover:scale-[1.2] hover:cursor-pointer"
-                                                        alt="">
-                                                    <h2 class="commentcount font-bold font-sans"
-                                                        data-id="<%= myposts._id %>">
-                                                        <%= myposts.comments.length %>
-                                                    </h2>
-                                                </div>
+                                        <div class="view flex gap-2 w-7 mr-2">
+                                            <img src="/images/view.svg" class="w-5" alt="view">
+                                            <h2 class="font-bold">
+                                                <%= myposts.views.length %>
+                                            </h2>
+                                        </div>
+                                        <div class="likeorunlike flex gap-2 w-7 mr-2">
+                                            <% if(myposts.likes.includes(userdata._id)){ %>
+                                                <img src="/images/liked.svg"
+                                                    class="liked   w-5 hover:scale-[1.2] hover:cursor-pointer"
+                                                    data-id="<%= myposts._id %>"
+                                                    onclick="likepost('<%= myposts._id %>')">
+                                                <img src="/images/unliked.svg"
+                                                    class="unliked w-5 hover:scale-[1.2] hover:cursor-pointer hidden"
+                                                    data-id="<%= myposts._id %>"
+                                                    onclick="likepost('<%= myposts._id %>')">
+                                                <% } else { %>
+                                                    <img src="/images/liked.svg"
+                                                        class="liked   w-5 hover:scale-[1.2] hover:cursor-pointer hidden"
+                                                        data-id="<%= myposts._id %>"
+                                                        onclick="likepost('<%= myposts._id %>')">
+                                                    <img src="/images/unliked.svg"
+                                                        class="unliked w-5 hover:scale-[1.2] hover:cursor-pointer"
+                                                        data-id="<%= myposts._id %>"
+                                                        onclick="likepost('<%= myposts._id %>')">
+                                                    <% } %>
+                                                        <h2 class="likecount font-bold font-sans"
+                                                            data-id="<%= myposts._id %>">
+                                                            <%= myposts.likes.length %>
+                                                        </h2>
+                                        </div>
+                                        <div class="flex gap-2 w-7 mr-2">
+                                            <img src="/images/comment.svg" onclick="openbox(`<%= myposts._id %>`)"
+                                                class="comment w-5 hover:scale-[1.2] hover:cursor-pointer" alt="">
+                                            <h2 class="commentcount font-bold font-sans" data-id="<%= myposts._id %>">
+                                                <%= myposts.comments.length %>
+                                            </h2>
+                                        </div>
 
-                                                <% if(myposts.image==="" ){ %>
-                                                    <img src="/images/offsound.svg"
-                                                        class="playsound w-5 hover:scale-[1.2] hover:cursor-pointer"
-                                                        alt="">
-                                                    <% }%>
-                                                
+                                        <% if(myposts.image==="" ){ %>
+                                            <img src="/images/offsound.svg"
+                                                class="playsound w-5 hover:scale-[1.2] hover:cursor-pointer" alt="">
+                                            <% }%>
+
+                                                <% if(myposts.user.walletAddress) { %>
+                                                    <div onclick="opensol('<%= myposts._id %>')"
+                                                        class="solana flex rounded-md border border-zinc-700 bg-transparent px-2 hover:scale-[1.2] hover:cursor-pointer">
+                                                        <img src="/images/solana.svg" class="w-5 z-10" alt="">
+                                                        <h1 class="text-white font-semibold">Send
+                                                        </h1>
+                                                    </div>
+                                                    <% } %>
 
                                     </div>
                                     <p onclick="postdescription('<%= myposts._id %>')"
@@ -189,7 +202,7 @@
                                                                 <% } else if(r<0.1){ %>
                                                                     <span class="text-blue-500">⌀</span>
                                                                     <% } %>
-                                                                       <%= myposts.description %>
+                                                                        <%= myposts.description %>
                                     </p>
                     </div>
 
@@ -205,30 +218,37 @@
                         <div data-id="<%= myposts._id %>"
                             class="userscommentbox w-[65vw] sm:w-[60vw] md:w-[30vw] flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                             <% myposts.comments.reverse().forEach((c)=>{ %>
-                                <div 
-                                            class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[21vh]">
-                                            <div class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
-                                                <h1 class="nameofuser text-blue-600 shrink-0">
-                                                    <%= c.nameofuser %>
-                                                </h1>
-                                                <p class="usercomment wrap-break-word">
-                                                    <%= c.comment %>
-                                                </p>
-                                            </div>
-                                            <% c.replies.reverse().forEach((r)=>{ %>
-                                                <div class="flex gap-2 px-3 py-2 h-7 w-full items-center">
-                                                    <h1 class="text-blue-500">→ <%= r.replier %></h1>
-                                                    <p><%= r.reply %></p>
-                                                </div>
-                                            <% }) %>
-                                            
+                                <div
+                                    class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[21vh]">
+                                    <div class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
+                                        <h1 class="nameofuser text-blue-600 shrink-0">
+                                            <%= c.nameofuser %>
+                                        </h1>
+                                        <p class="usercomment wrap-break-word">
+                                            <%= c.comment %>
+                                        </p>
+                                    </div>
+                                    <% c.replies.reverse().forEach((r)=>{ %>
+                                        <div class="flex gap-2 px-3 py-2 h-7 w-full items-center">
+                                            <h1 class="text-blue-500">→ <%= r.replier %>
+                                            </h1>
+                                            <p>
+                                                <%= r.reply %>
+                                            </p>
+                                        </div>
+                                        <% }) %>
+
                                             <div class="reply px-3 py-2">
                                                 <div class="flex items-center gap-2">
-                                                    <textarea name="reply" id="reply-<%= c._id %>" placeholder="Reply" class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
-                                                    <img src="/images/send.svg" onclick="reply('<%= myposts._id %>','<%= c._id %>','<%= userdata.username %>')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
+                                                    <textarea name="reply" id="reply-<%= c._id %>" placeholder="Reply"
+                                                        class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
+                                                    <img src="/images/send.svg"
+                                                        onclick="reply('<%= myposts._id %>','<%= c._id %>','<%= userdata.username %>')"
+                                                        class="w-7 h-7 outline-none rounded-full bg-white border-white border"
+                                                        alt="">
                                                 </div>
                                             </div>
-                                        </div>
+                                </div>
                                 <% }) %>
                         </div>
 
@@ -239,6 +259,53 @@
                                 class="w-16 bg-blue-700 rounded-md px-2" type="submit">Send</button>
                         </div>
                     </div>
+
+
+                    <div id="solbox-<%= myposts._id %>"
+                        class="hidden flex bg-zinc-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 flex-col justify-between w-[80vw] sm:w-[60vw] md:w-[30vw] px-3 border border-zinc-700 h-[70vh] rounded-xl">
+                        <div class="flex items-center gap-5">
+                            <div>
+                                <img src="/images/back.svg" id="backsol-<%= myposts._id %>"
+                                    class=" w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
+                            </div>
+                            <p>Creator <strong class="text-yellow-300">Supporters</strong></p>
+                        </div>
+                        <div id="solsenders-<%= myposts._id %>"
+                            class="solsenders h-[70vh] flex flex-col overflow-y-scroll justify-start">
+                            <% myposts.sol.reverse().forEach((s)=>{ %>
+                                <div
+                                    class="senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-center shrink-0">
+                                    <p class="text-[17px]"><strong class="text-yellow-300">
+                                            <%= s.amount %>
+                                        </strong> Sol Send
+                                        By <strong class="text-purple-300" onclick="searcheduserprofile('<%= s.senderId %>')">
+                                            <%= s.sender %>
+                                        </strong></p>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% if(myposts.user._id.toString() !==userdata._id.toString()) { %>
+                            <div class="h-[20vh] flex flex-col justify-center items-center gap-5 mb-2">
+                                <div class="solbtn flex gap-9">
+                                    <button
+                                        class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                        onclick="selectsol(this,0.5)">0.5</button>
+                                    <button
+                                        class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                        onclick="selectsol(this,1)">1</button>
+                                    <button
+                                        class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                        onclick="selectsol(this,2)">2</button>
+                                </div>
+                                <button
+                                    onclick="sendSolToCreator('<%= myposts.user.walletAddress %>','<%= myposts.user.username %>','<%= myposts._id %>')"
+                                    id="sendbtn"
+                                    class="rounded-md bg-purple-400 px-2 w-[14vw] sm:w-[9vw] h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
+                            </div>
+                            <% } %>
+                    </div>
+
+
                 </div>
 
                 <div
@@ -254,7 +321,7 @@
                         class="posteditbox w-full sm:w-1/2 h-full px-4 flex sm:border sm:border-zinc-800 justify-center items-center flex-col gap-7">
                         <p class="text-xs"><strong>Update</strong> Your Description ✓</p>
                         <textarea name="udescription" id="udescription"
-                            class="resize-none w-full h-[25vh] p-2 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border border-zinc-700 rounded-md"><%= myposts.description %></textarea>
+                            class="resize-none outline-none w-full h-[25vh] p-2 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border border-zinc-700 rounded-md"><%= myposts.description %></textarea>
                         <button onclick="editpost('<%= myposts._id %>')"
                             class="rounded-md h-[5vh] flex items-center hover:scale-[1.1] hover:cursor-pointer bg-white text-black px-2 border border-zinc-700">Update</button>
                     </div>
@@ -268,12 +335,19 @@
                 <a href="/Vclips"><img src="/images/Vclips.svg" class="w-6" alt=""></a>
                 <a href="/post"><img src="/images/post.svg" class="rounded-full w-9" alt=""></a>
                 <a href="/Search"><img src="/images/Search.svg" class="w-9" alt=""></a>
-                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9 h-9" alt=""></a>
             </div>
 
         </div>
         <script src="/js/utils.js " defer></script>
         <script src="/js/yourpost.js"></script>
+        <script src="/js/PhantomConnect.js"></script>
+        <script src="/solana.min.js"></script>
+        <script>
+            async function searcheduserprofile(searcheduserid) {
+                window.location.href = "/Search/" + searcheduserid;
+            }
+        </script>
     </body>
 
     </html>

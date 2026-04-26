@@ -9,7 +9,8 @@ if (inputfile) {
         let isVideo = file.type.startsWith("video/")
         let isImage = file.type.startsWith("image/")
         if (isVideo && file.size > 52428800) {
-            this.value = "images/upload.jpeg"
+            this.value = ""
+            uploadedimg.src = "images/upload.jpeg"
             const errorDiv = document.getElementById("errorMsg");
             const te = document.querySelector(".te");
             te.textContent = "Video Size Is Too Big !";
@@ -56,6 +57,7 @@ if (inputfile && uploadedimg) {
                 reader.onload = function (e) {
                     uploadedimg.setAttribute("src", e.target.result)
                     uploadedimg.classList.remove("hidden")
+                    thumbnailpreview.classList.add("hidden")
                     videobox.classList.add("hidden")
                 }
                 reader.readAsDataURL(file)
@@ -76,10 +78,11 @@ if (inputfile && uploadedimg) {
                 uploadvideo.src = URL.createObjectURL(file)
                 videobox.classList.remove("hidden")
                 uploadedimg.classList.add("hidden")
+                thumbnailpreview.classList.add("hidden")
             }
         }
         else {
-            uploadedimg.src = "images/upload.png"
+            uploadedimg.src = "images/upload.jpeg"
             uploadvideo.src = ""
         }
     })

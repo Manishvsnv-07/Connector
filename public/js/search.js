@@ -21,7 +21,7 @@ searchInput?.addEventListener("input", () => {
         else {
             searchedUsers.innerHTML = user.map(u =>
                 `<div onclick="searcheduserprofile('${u._id}')" class="matcheduser w-full p-3 h-16 border-zinc-700 border flex items-center gap-5 my-2 rounded-md hover:scale-[1.02] hover:cursor-pointer">
-                        <img src="${u.image}" class="w-7 rounded-full" alt="">
+                        <img src="${u.image}" class="w-7 h-7 rounded-full" alt="">
                         <h1>${u.username}</h1>
                 </div>`
             ).join('');
@@ -31,12 +31,9 @@ searchInput?.addEventListener("input", () => {
 
 
 async function searcheduserprofile(searcheduserid) {
-    const res = await fetch("/Search/" + searcheduserid, { method: "GET", credentials: "include" })
-    if (res.type === "opaqueredirect") {
-        window.location.href = "/home"
-    }
-    else {
-        const html = await res.text()
-        document.body.innerHTML = html;
+    try {
+        window.location.href = "/Search/" + searcheduserid;
+    } catch (error) {
+        console.log("No User Exists")
     }
 }

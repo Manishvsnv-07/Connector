@@ -135,11 +135,14 @@ router.post("/create/account", async (req, res) => {
             image: "/images/default.png",
         })
         await createuser.save()
-        let token = jwt.sign({ email: sessionData.email, id: createuser._id }, process.env.JWT_KEY, { expiresIn: "7d" })
-        res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict", secure: false })
+        let token = jwt.sign({ email: sessionData.email, id: createuser._id }, process.env.JWT_KEY, { expiresIn: "30d" })
+        res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict", secure: false })
         res.json({ message: "Account created" });
     } catch (error) {
-        res.json({ message: "Account not created" });
+        if(error.name === "ValidationError"){
+            return res.status(400).json({ message: "Max Characters Not Allowed" });
+        }
+        return res.status(500).json({ message: "Account not created" });
     }
 
 })
@@ -151,8 +154,8 @@ router.post("/login", async (req, res) => {
         if (finduser) {
             let checkpassword = await bcrypt.compare(req.body.password, finduser.password)
             if (checkpassword) {
-                let token = jwt.sign({ email: finduser.email, id: finduser._id }, process.env.JWT_KEY, { expiresIn: "7d" })
-                res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false, sameSite: "strict" })
+                let token = jwt.sign({ email: finduser.email, id: finduser._id }, process.env.JWT_KEY, { expiresIn: "30d" })
+                res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false, sameSite: "strict" })
                 res.redirect("/home");
             }
             else {
@@ -161,7 +164,7 @@ router.post("/login", async (req, res) => {
             }
         }
         else {
-            req.flash("error", "Email Or Password Is Wrong");
+            req.flash("error", "Username Or Password Is Wrong");
             res.redirect("/")
         }
     } catch (error) {

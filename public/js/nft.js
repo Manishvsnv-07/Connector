@@ -84,12 +84,23 @@ try {
     })
     let data = await res.json();
     if (!isNFT) {
+        if(data.error){
+            const errorDiv = document.getElementById("errorMsg");
+            const te = document.querySelector(".te");
+            te.textContent = data.error;
+            errorDiv.classList.remove("hidden");
+            uploadp.textContent = "Post It"
+            setTimeout(() => {
+                errorDiv.classList.add("hidden");
+            }, 2000);
+            return;
+        }
         if (data.message) {
             const errorDiv = document.getElementById("errorMsg");
             const te = document.querySelector(".te");
             te.textContent = data.message;
             errorDiv.classList.remove("hidden");
-
+            uploadp.textContent = "Post It"
             setTimeout(() => {
                 errorDiv.classList.add("hidden");
             }, 2000);
@@ -105,7 +116,6 @@ try {
                 successMsg.classList.add("hidden");
                 window.location.href = "/profile"
             }, 2000);
-            return;
         }
     }
 
@@ -113,7 +123,15 @@ try {
         await mintNFT(data.post._id, data.post.description, data.post.imageUri)
     }
 } catch (error) {
-    return console.log(error)
+    const errorDiv = document.getElementById("errorMsg");
+            const te = document.querySelector(".te");
+            te.textContent = error.message;
+            errorDiv.classList.remove("hidden");
+            uploadp.textContent = "Post It"
+            setTimeout(() => {
+                errorDiv.classList.add("hidden");
+            }, 2000);
+            return;
 }
 }
 

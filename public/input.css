@@ -98,12 +98,26 @@
 }
 
 
+.replybox::-webkit-scrollbar {
+    width:15px;
+}
+.replybox::-webkit-scrollbar-track {
+    background: transparent;
+}
+.replybox::-webkit-scrollbar-thumb {
+    background: #3a3a40;
+    border-radius: 999px;
+}
+.replybox::-webkit-scrollbar-thumb:hover {
+    background: #3a3a40;
+}
+
 @keyframes rocketLaunch {
   0%   { transform: translateY(0) rotate(45deg); }
   100% { transform: translateY(-6px) rotate(45deg); }
 }
 
-@keyframes intro {
-    0% {opacity:0;}
-    100% {opacity:1;}
+@keyframes ghostfly{
+    0% {transform: translateY(0); }
+    100% {transform: translateY(7px); }
 }

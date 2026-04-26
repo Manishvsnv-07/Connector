@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= userdata.username %> • Connector</title>
+    <title>
+        <%= userdata.username %> • Connector
+    </title>
     <link rel="stylesheet" href="output.css">
     <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
@@ -62,7 +64,7 @@
         </div>
 
         <div
-            class="right w-full h-[91%] sm:h-screen border flex items-center justify-center border-zinc-700 bg-zinc-900">
+            class="right w-full h-[91%] sm:h-screen border-l flex items-center justify-center border-zinc-700 bg-zinc-900">
 
             <div
                 class="vfeed w-full h-full sm:h-screen flex flex-col snap-y snap-mandatory overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
@@ -73,7 +75,7 @@
 
 
                             <div id="videoposts-<%= post._id %>"
-                                class="videoposts flex flex-col h-full w-full sm:w-auto sm:h-screen px-3 py-2 gap-3 ">
+                                class="videoposts flex flex-col h-full w-full sm:w-auto sm:h-screen px-3 gap-3 ">
                                 <div class="postheader w-full sm:mt-2 flex h-auto justify-between">
                                     <div class="leftheader flex gap-3">
                                         <img src="<%= post.user.image %>" class="w-7 rounded-full" alt="">
@@ -112,7 +114,7 @@
                                         class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11"
                                         alt="">
                                     <p onclick="description('<%= post._id %>')" id="description-<%= post._id %>"
-                                        class="vdescription absolute max-h-[27vh] bottom-11 sm:bottom-7 w-[90vw] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-5 line-clamp-2 font-thin hover:cursor-pointer">
+                                        class="vdescription absolute max-h-[27vh] bottom-11 sm:bottom-7 w-[90vw] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-2 overflow-hidden line-clamp-2 font-thin hover:cursor-pointer">
                                         <% let r=Math.random() %>
                                             <% if(r>0.1 && r<0.2 ){ %>
                                                     <span class="text-blue-500">₥</span>
@@ -187,7 +189,7 @@
                             </div>
 
                             <div id="commentbox-<%= post._id %>"
-                                class="commentbox hidden absolute z-50 bg-zinc-900 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 px-3 py-2 gap-5 h-[90%] w-[80vw] sm:w-[60vw] md:w-[30vw] border border-zinc-700 flex flex-col justify-center rounded-xl">
+                                class="commentbox hidden absolute z-50 bg-zinc-900 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:static lg:top-auto lg:left-auto lg:translate-x-0 lg:translate-y-0 px-3 py-2 gap-5 h-[88vh] w-[90vw] sm:w-[60vw] lg:w-[30vw] border border-zinc-700 flex flex-col justify-center rounded-xl">
                                 <div class="flex items-center gap-5">
                                     <div>
                                         <img src="images/back.svg"
@@ -199,9 +201,10 @@
                                 <div data-id="<%= post._id %>"
                                     class="userscommentbox w-full flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll">
                                     <% post.comments.reverse().forEach((c)=>{ %>
-                                        <div 
-                                            class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[21vh]">
-                                            <div class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
+                                        <div
+                                            class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-full shrink-0 max-h-[21vh]">
+                                            <div
+                                                class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
                                                 <h1 class="nameofuser text-blue-600 shrink-0">
                                                     <%= c.nameofuser %>
                                                 </h1>
@@ -211,24 +214,32 @@
                                             </div>
                                             <% c.replies.reverse().forEach((r)=>{ %>
                                                 <div class="flex gap-2 px-3 py-2 h-7 w-full items-center">
-                                                    <h1 class="text-blue-500">→ <%= r.replier %></h1>
-                                                    <p><%= r.reply %></p>
+                                                    <h1 class="text-blue-500">→ <%= r.replier %>
+                                                    </h1>
+                                                    <p>
+                                                        <%= r.reply %>
+                                                    </p>
                                                 </div>
-                                            <% }) %>
-                                            
-                                            <div class="reply px-3 py-2">
-                                                <div class="flex items-center gap-2">
-                                                    <textarea name="reply" id="reply-<%= c._id %>" placeholder="Reply" class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
-                                                    <img src="images/send.svg" onclick="reply('<%= post._id %>','<%= c._id %>','<%= userdata.username %>')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
-                                                </div>
-                                            </div>
+                                                <% }) %>
+
+                                                    <div class="reply px-3 py-2">
+                                                        <div class="flex items-center gap-2">
+                                                            <textarea name="reply" id="reply-<%= c._id %>"
+                                                                placeholder="Reply"
+                                                                class="replybox outline-none overflow-y-scroll resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
+                                                            <img src="images/send.svg"
+                                                                onclick="reply('<%= post._id %>','<%= c._id %>','<%= userdata.username %>')"
+                                                                class="w-7 h-7 outline-none rounded-full bg-white border-white border"
+                                                                alt="">
+                                                        </div>
+                                                    </div>
                                         </div>
                                         <% }) %>
                                 </div>
 
                                 <div class="flex mb-3 justify-center items-center gap-3 ">
                                     <textarea id="comment-<%= post._id %>" placeholder="Comment Creatively"
-                                        class="w-[65vw] sm:w-[52vw] md:w-[25vw] border pt-3 border-zinc-700 resize-none  rounded-md px-2 bg-transparent"></textarea>
+                                        class="w-full border outline-none pt-3 border-zinc-700 resize-none  rounded-md px-2 bg-transparent"></textarea>
                                     <button
                                         onclick="sendcomment(`<%= post._id %>`,'<%= userdata.username %>','<%= userdata._id %>')"
                                         class="w-16 rounded-md px-2" type="submit"><img src="images/send.svg"
@@ -237,7 +248,7 @@
                             </div>
 
                             <div id="solbox-<%= post._id %>"
-                                class="hidden flex bg-zinc-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 flex-col justify-between w-[80vw] sm:w-[60vw] md:w-[30vw] px-3 border border-zinc-700 h-[90%] rounded-xl">
+                                class="hidden flex bg-zinc-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:static lg:top-auto lg:left-auto lg:translate-x-0 lg:translate-y-0 flex-col justify-between w-[90vw] sm:w-[60vw] lg:w-[30vw] px-3 border border-zinc-700 h-[90%] rounded-xl">
                                 <div class="flex items-center gap-5">
                                     <img src="images/back.svg" id="backsol-<%= post._id %>"
                                         class="w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
@@ -252,7 +263,7 @@
                                             <p class="[15px]"><strong class="text-yellow-200">
                                                     <%= s.amount %>
                                                 </strong> Sol Send
-                                                By<strong onclick="searcheduserprofile('<%= userdata._id %>')"
+                                                By<strong onclick="searcheduserprofile('<%= senderId %>')"
                                                     class="text-purple-300 hover:text-zinc-50 hover:cursor-pointer">
                                                     <%= s.sender %>
                                                 </strong></p>
@@ -272,7 +283,7 @@
                                             onclick="selectsol(this,2)">2</button>
                                     </div>
                                     <button id="sendbtn"
-                                        onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>','<%= post._id %>')"
+                                        onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>','<%= post._id %>','<%= userdata._id %>','<%= userdata.username %>')"
                                         class="rounded-md bg-purple-400 px-2 h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
                                 </div>
                             </div>
@@ -294,6 +305,11 @@
         <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
         <script src="/script.js"></script>
         <script src="/js/PhantomConnect.js"></script>
+        <script>
+            function searcheduserprofile(searcheduserid) {
+                window.location.href = "/Search/" + searcheduserid;
+            }
+        </script>
 </body>
 
 </html>

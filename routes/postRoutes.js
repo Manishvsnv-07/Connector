@@ -16,7 +16,14 @@ router.get("/post", islogged, async (req, res) => {
     res.render("upload", { success, error, userdata, undefined, notifydata });
 })
 
-router.post("/post", islogged, uploadfield, async (req, res) => {
+router.post("/post", islogged, (req, res, next) => {
+    uploadfield(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        next();
+    });
+}, async (req, res) => {
     try {
         const mediaFile = req.files["media"]?.[0]
          console.log("step 2 - mediaFile:", mediaFile?.mimetype)
@@ -57,9 +64,10 @@ router.post("/post", islogged, uploadfield, async (req, res) => {
         return res.status(200).json({ success: "Post Successfully" })
 
     } catch (err) {
-        console.log(err);
-
-        return res.status(500).json({ message: "Post Failed" });
+        if(err.name === "ValidationError"){
+            return res.status(400).json({error:"Max Characters Not Allowed"})
+        }
+        return res.status(500).json({err})
     }
 })
 
@@ -93,6 +101,12 @@ router.get("/like/:likeid", islogged, async (req, res) => {
         }
         else {
             likepost.likes.splice(likepost.likes.indexOf(userlike._id), 1)
+            await notify.findOneAndDelete({
+                    to: likepost.user,
+                    from: userlike._id,
+                    type: "like",
+                    postid: likepost._id
+                })
         }
         await likepost.save()
         res.json({ likes: likepost.likes.length })

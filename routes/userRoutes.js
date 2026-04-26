@@ -70,7 +70,7 @@ router.post("/follow/:followeduserid", islogged, async (req, res) => {
                 to: otheruserdata._id,
                 from: mydata._id,
                 isread: false,
-                type: "follow"
+                type: "follow",
             })
             otheruserdata.follower.push(mydata._id);
             mydata.following.push(otheruserdata._id)
@@ -111,12 +111,16 @@ router.post("/removeFollowing/:removerid", islogged, async (req, res) => {
     }
 })
 
-router.post("/update", upload.single("dp"), islogged, async (req, res) => {
+router.post("/update", islogged, (req, res, next) => {
+    upload.single("dp")(req, res, (err) => {
+        if (err) {
+            req.flash("error", err.message)
+            return res.redirect("/profiles/edit")
+        }
+        next();
+    });
+}, async (req, res) => {
     try {
-        console.log("req.body:", req.body)
-        console.log("req.file:", req.file)
-        console.log("req.datahere:", req.datahere)
-
         let userdata = await user.findOne({ username: req.datahere.username })
         const { updescription, upname, upusername } = req.body;
         let updatedata = {};
@@ -135,15 +139,28 @@ router.post("/update", upload.single("dp"), islogged, async (req, res) => {
         if (req.file) {
             updatedata.image = image_url;
         }
-        console.log("updatedata:", updatedata)  // yeh bhi lagao
         let update = await user.findOneAndUpdate(
             { email: req.datahere.email },
             updatedata,
+            { runValidators: true },
             { returnDocument: 'after' }
         )
         res.redirect("/profile")
     } catch (error) {
-        res.send(error.message)
+        if (error.name === "ValidationError") {
+            const field = Object.keys(error.errors)[0]
+            const kind = error.errors[field].kind
+            if (kind === "maxlength") {
+                req.flash("error", "Max Characters Not Allowed")
+                return res.redirect("/profiles/edit")
+            }
+            if (kind === "regexp") {
+                req.flash("error", "Invalid Username Syntax")
+                return res.redirect("/profiles/edit")
+            }
+        }
+        req.flash("error", error.message)
+        return res.redirect("/profiles/edit")
     }
 
 })
@@ -158,26 +175,26 @@ router.get("/profiles/edit", islogged, async (req, res) => {
 router.get("/profile/viewpost/:postid", islogged, async (req, res) => {
     let myposts = await post.findOne({ _id: req.params.postid }).populate("user")
     let userdata = await user.findOne({ email: req.datahere.email })
-    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
-    res.render("yourposts", { myposts, userdata ,notifydata})
+    let notifydata = await notify.countDocuments({ to: userdata._id, isread: false })
+    res.render("yourposts", { myposts, userdata, notifydata })
 })
 
 router.get("/home/:id", islogged, async (req, res) => {
-    let userdata = await user.findOne({ _id: req.params.id }).populate("posts")
+    let userdata = await user.findOne({ _id: req.params.id }).populate("posts").populate("follower").populate("following")
     let mydata = await user.findOne({ email: req.datahere.email })
     if (req.params.id == mydata._id) {
         return res.redirect("/profile")
     }
-    let notifydata = await notify.countDocuments({to:mydata._id,isread:false})
-    res.render("otheruserprofile.ejs", { userdata,notifydata,mydata})
+    let notifydata = await notify.countDocuments({ to: mydata._id, isread: false })
+    res.render("otheruserprofile.ejs", { userdata, notifydata, mydata })
 })
 
 router.get("/Search", islogged, async (req, res) => {
     let userdata = await user.findOne({ email: req.datahere.email })
-    let notifydata = await notify.countDocuments({to:userdata._id,isread:false})
-    res.render("search", { userdata ,notifydata})
+    let notifydata = await notify.countDocuments({ to: userdata._id, isread: false })
+    res.render("search", { userdata, notifydata })
 })
-router.get("/search/user",islogged, async (req, res) => {
+router.get("/search/user", islogged, async (req, res) => {
     const query = req.query.q;
 
     if (!query || query.trim() === "") {
@@ -192,13 +209,13 @@ router.get("/search/user",islogged, async (req, res) => {
 })
 
 router.get("/Search/:id", islogged, async (req, res) => {
-    let userdata = await user.findOne({ _id: req.params.id }).populate("posts")
+    let userdata = await user.findOne({ _id: req.params.id }).populate("posts").populate("follower").populate("following")
     let mydata = await user.findOne({ email: req.datahere.email })
     if (userdata._id.toString() === mydata._id.toString()) {
         return res.redirect("/profile")
     }
-    let notifydata = await notify.countDocuments({to:mydata._id,isread:false})
-    res.render("searcheduser", { userdata ,notifydata ,mydata})
+    let notifydata = await notify.countDocuments({ to: mydata._id, isread: false })
+    res.render("searcheduser", { userdata, notifydata, mydata })
 })
 
 export default router;

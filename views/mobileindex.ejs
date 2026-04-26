@@ -20,9 +20,17 @@
                             <input type="text" name="username"
                                 class="border border-white outline-none bg-transparent px-3  w-[85vw] md:w-xl h-13 rounded-md"
                                 placeholder="Enter Username">
-                            <input type="password" name="password"
-                                class="border border-white outline-none bg-transparent px-3 rounded-md w-[85vw] md:w-xl h-13"
-                                placeholder="Password">
+                            <div class="relative">
+                                <input type="password" name="password" id="password"
+                                    class="border border-white outline-none bg-transparent px-3 rounded-md w-[85vw] md:w-xl h-13"
+                                    placeholder="Password">
+                                <img src="images/viewoff.svg"
+                                    class="w-5 absolute right-3 top-4 hover:scale-[1.07] hover:cursor-pointer"
+                                    id="toggleviewoff" alt="">
+                                <img src="images/view.svg"
+                                    class="w-5 hidden absolute right-3 top-4 hover:scale-[1.07] hover:cursor-pointer"
+                                    id="toggleviewon" alt="">
+                            </div>    
                             <button
                                 class="bg-white px-2 py-2 w-[85vw] md:w-xl rounded-md hover:scale-[1.02] hover:cursor-pointer text-black">Login</button>
                         </div>
@@ -39,6 +47,21 @@
                     </div>
                 </div>
     </div>
+    <script>
+        let toggleviewoff = document.getElementById("toggleviewoff")
+let toggleviewon = document.getElementById("toggleviewon")
+let inputpassword = document.getElementById("password")
+toggleviewoff?.addEventListener("click", () => {
+    inputpassword.type = "text"
+    toggleviewon.classList.remove("hidden")
+    toggleviewoff.classList.add("hidden")
+})
+toggleviewon?.addEventListener("click", () => {
+    inputpassword.type = "password"
+    toggleviewon.classList.add("hidden")
+    toggleviewoff.classList.remove("hidden")
+})
+    </script>
 </body>
 
 </html>

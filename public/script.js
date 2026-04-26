@@ -224,6 +224,7 @@ async function likevpost(userid) {
 
 function vopenbox(coid) {
     let commentbox = document.getElementById(`commentbox-${coid}`)
+    let vallcommentbox = document.querySelectorAll(".commentbox")
     let l = document.getElementById(`userinteract-${coid}`)
     let back = document.querySelector(`.vbackcomment-${coid}`)
     commentbox.classList.remove("hidden")
@@ -241,6 +242,9 @@ function openbox(coid) {
     let back = document.querySelector(`.backcomment-${coid}`)
     commentbox.classList.remove("hidden")
     l.classList.add("hidden")
+    commentbox.addEventListener("wheel", () => {
+        commentbox.classList.add("hidden")
+    })
     back?.addEventListener("click", () => {
         l.classList.remove("hidden")
         commentbox.classList.add("hidden")
@@ -256,13 +260,13 @@ async function sendcomment(commentid, nameofuser, userid) {
         body: JSON.stringify({ comment, nameofuser, userid })
     })
     let data = await res.json();
-    if(data.success){
+    if (data.success) {
         let commentcount = document.querySelector(`.commentcount[data-id = "${commentid}"]`)
         commentcount.innerText = data.comments
         textarea.value = ""
         let cbox = document.querySelector(`.userscommentbox[data-id="${commentid}"]`)
         const cb = document.createElement('div')
-        cb.className = "eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[15vh]"
+        cb.className = "eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-full shrink-0 max-h-[15vh]"
         cb.innerHTML = `<div class="ucomment-${data.cid} flex justify-start items-start gap-2 px-3 py-2">
                                                 <h1 class="nameofuser text-blue-600 shrink-0">
                                                     ${nameofuser}
@@ -351,23 +355,23 @@ async function followuser(followeduser, btn) {
 }
 
 
-async function reply(postid,commentid,username) {
+async function reply(postid, commentid, username) {
     let textarea = document.getElementById(`reply-${commentid}`)
     let reply = textarea.value
-    const response = await fetch(`/reply/${postid}/${commentid}`,{
-        "method":"POST",
-        headers:{"Content-Type":"application/json"},
-        credentials:"include",
-        body:JSON.stringify({reply})
+    const response = await fetch(`/reply/${postid}/${commentid}`, {
+        "method": "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ reply })
     })
     let data = await response.json()
-    if(data.success){
+    if (data.success) {
         textarea.value = "";
         let ucomment = document.querySelector(`.ucomment-${commentid}`)
         let rp = document.createElement('div');
         rp.className = `flex gap-2 px-3 py-2 h-7 w-full items-center`
         rp.innerHTML = `<h1 class="text-blue-500">→ ${username}</h1>
                                                     <p>${reply}</p>`
-        ucomment.insertAdjacentElement("afterend",rp)
+        ucomment.insertAdjacentElement("afterend", rp)
     }
 }

@@ -11,68 +11,67 @@
 
 <body>
     <div class="main relative w-full h-screen flex text-white bg-zinc-900">
-        <div
-                class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
-                <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                    <img src="/images/logo.png" class="w-11 rounded-full" alt="">
-                    <a href="/home"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
-                            src="/images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Home</span></a>
-                    <a href="/Vclips"
+        <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
+            <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
+                <img src="/images/logo.png" class="w-11 rounded-full" alt="">
+                <a href="/home"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
+                        src="/images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Home</span></a>
+                <a href="/Vclips"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                        src="/images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
+                        class="hidden lg:inline">Vclips</span></a>
+                <a href="/post"
+                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                        src="/images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                        class="hidden lg:inline">Post</span></a>
+                <% if(notifydata> 0){ %>
+                    <a href="/Notify"
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                            src="/images/Vclips.svg" class="w-8 lg:w-5" alt=""><span
-                            class="hidden lg:inline">Vclips</span></a>
-                    <a href="/post"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                            src="/images/post.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Post</span></a>
-                    <% if(notifydata > 0){ %>
+                            src="/images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                            class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
+                    <% } else { %>
                         <a href="/Notify"
                             class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                                src="images/notifyfalse.svg" class="rounded-full w-11 lg:w-7" alt=""><span
-                                class="hidden lg:inline">Notify (<%= notifydata %>)</span></a>
-                        <% } else { %>
-                        <a href="/Notify"
-                            class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                                src="images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
+                                src="/images/notify.svg" class="rounded-full w-11 lg:w-7" alt=""><span
                                 class="hidden lg:inline">Notify</span></a>
-                        <% } %>        
-                    <a href="/Search"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
-                            src="/images/Search.svg" class="w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Search</span></a>
-                    <a href="/profile"
-                        class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                            src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
-                            class="hidden lg:inline">Profile</span></a>
-                </div>
+                        <% } %>
+                            <a href="/Search"
+                                class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
+                                    src="/images/Search.svg" class="w-11 lg:w-7" alt=""><span
+                                    class="hidden lg:inline">Search</span></a>
+                            <a href="/profile"
+                                class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                    src="<%= mydata.image %>" class="rounded-full w-11 h-11 lg:w-7 lg:h-7" alt=""><span
+                                    class="hidden lg:inline">Profile</span></a>
             </div>
-        <div class="right w-full h-[91%] sm:h-screen border relative border-zinc-700 bg-zinc-900">
-            <div class="aboutuser flex gap-5 h-[40%] sm:h-1/3 w-full py-5 sm:py-3 justify-center items-center">
-                <div class="w-[40%] sm:w-[20%] flex justify-center items-center">
+        </div>
+        <div class="right w-full h-[91%] sm:h-screen border-lrelative border-zinc-700 bg-zinc-900">
+            <div class="aboutuser flex gap-5 h-1/2 sm:h-1/3 w-full sm:w-[86vw] py-5 sm:py-3 justify-center items-center">
+                <div class="w-[40%] h-[40%] flex justify-center items-center sm:justify-end">
                     <img src="<%= userdata.image %>" class="w-40 h-40 rounded-full" alt="">
                 </div>
-                <div class="userdetails flex flex-col w-[50%] sm:w-[40%] gap-3">
-                    <div class="flex gap-2 w-full items-center">
+                <div class="userdetails flex flex-col w-[60%] min-h-[40%] gap-3 px-2 sm:py-2 sm:px-0">
+                    <div class="flex gap-2 items-center">
                         <h1>@<%= userdata.username %></h1>
                         <% if(userdata.walletAddress){ %>
-                        <img src="/images/phantom_verified.svg" class="w-7 rounded-full" alt="">
-                        <% } %>
+                            <img src="/images/phantom_verified.svg" class="w-7 rounded-full" alt="">
+                            <% } %>
                     </div>
-                    <h2 class="w-full">
+                    <h2>
                         <%= userdata.name %>
                     </h2>
-                    <div class="popularity w-full flex gap-4">
-                        <button>
+                    <div class="popularity flex gap-4">
+                        <button class="followers hover:cursor-pointer">
                             <%= userdata.follower.length %> Follower
                         </button>
-                        <button>
+                        <button class="following hover:cursor-pointer">
                             <%= userdata.following.length %> Following
                         </button>
                     </div>
 
-                    <p class="w-full h-7 truncate">
+                    <p id="bio" class="w-[50vw] line-clamp-1 max-h-[13vh] overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                         <%= userdata.bio %>
                     </p>
                     <div class="flex gap-4">
@@ -83,38 +82,39 @@
                             <% } else{ %>
                                 <button
                                     class="rounded-md bg-[#ab9ff2] h-[3vh] sm:h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Not
-                                    Connected ✕</button>
+                                    Connected</button>
                                 <% } %>
 
-                              <% if(userdata.follower.some(id=> id.equals(mydata._id))){ %>
-                                                    <button
-                                                        class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
-                                                        onclick="followuser('<%= userdata._id %>',this)">Unfollow</button>
-                                                    <% } else{ %>
-                                                        <button
-                                                            class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
-                                                            onclick="followuser('<%= userdata._id %>',this)">Follow</button>
-                                                        <% } %>    
+                                    <% if(userdata.follower.some(id=> id.equals(mydata._id))){ %>
+                                        <button
+                                            class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                            onclick="followuser('<%= userdata._id %>',this)">Unfollow</button>
+                                        <% } else{ %>
+                                            <button
+                                                class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                                onclick="followuser('<%= userdata._id %>',this)">Follow</button>
+                                            <% } %>
                     </div>
                 </div>
             </div>
             <div
-                class="usersposts h-[60%] sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ">
+                class="usersposts h-1/2 sm:h-2/3 overflow-y-scroll grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 
                 <% userdata.posts.reverse().forEach((post)=>{ %>
-                    <div
-                        class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
+                    <div class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
                         <div class="postheader flex justify-between w-full">
                             <div class="header flex gap-3 w-full">
                                 <img src="<%= userdata.image %>" class="w-7 rounded-full" alt="">
-                                <h1 class="truncate"><%= userdata.username %></h1>
+                                <h1 class="truncate">
+                                    <%= userdata.username %>
+                                </h1>
                             </div>
                         </div>
                         <% if(post.image==="" ){ %>
                             <a href="/profile/viewpost/<%= post._id %>" class="block w-full h-full"><video
-                                src="<%= post.videos %>" autoplay muted
-                                class="w-full h-full object-cover"></video></a>
-                                <% } else{ %>
+                                    src="<%= post.videos %>" autoplay muted
+                                    class="w-full h-full object-cover"></video></a>
+                            <% } else{ %>
                                 <a href="/profile/viewpost/<%= post._id %>" class="block w-full h-full"><img
                                         src="<%= post.image %>" class="w-full h-full object-cover" alt="Your Post"></a>
                                 <% } %>
@@ -122,18 +122,78 @@
                     <% }) %>
 
             </div>
+
+            <div
+                class="followersTab hidden rounded-xl overflow-y-auto border border-zinc-800 bg-zinc-900 flex flex-col gap-3 px-3 py-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[80vw] sm:w-[65vw] md:w-[50vw]">
+                <div class="followerheader flex justify-between px-3">
+                    <h1>Followers</h1>
+                    <img src="/images/close.svg" id="removeFollowerTab"
+                        class="w-5 hover:cursor-pointer hover:scale-[1.09]" alt="">
+                </div>
+                <% userdata.follower.reverse().forEach((f)=>{ %>
+                    <div id="followyou-<%= f._id %>"
+                        class="followyou w-full border border-zinc-700 h-14 px-3 shrink-0 flex gap-5 items-center justify-between">
+                        <div class="flex gap-5">
+                            <img src="<%= f.image %>" class="w-7 rounded-full" alt="">
+                            <h1 onclick="searcheduserprofile('<%= f._id %>')"
+                                class="font-semibold hover:cursor-pointer">
+                                <%= f.username %>
+                            </h1>
+                        </div>
+                        <% if(userdata.follower.some(id=> id.equals(mydata._id))){ %>
+                            <button
+                                class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                onclick="followuser('<%= userdata._id %>',this)">Unfollow</button>
+                            <% } else{ %>
+                                <button
+                                    class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                    onclick="followuser('<%= userdata._id %>',this)">Follow</button>
+                                <% } %>
+                    </div>
+                    <% }) %>
+            </div>
+
+            <div
+                class="followingTab hidden rounded-xl overflow-y-auto border border-zinc-800 bg-zinc-900 flex flex-col gap-3 px-3 py-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[60vh] w-[80vw] sm:w-[65vw] md:w-[50vw]">
+                <div class="followingheader flex justify-between px-3">
+                    <h1>Followings</h1>
+                    <img src="/images/close.svg" id="removeFollowingTab"
+                        class="w-5 hover:cursor-pointer hover:scale-[1.09]" alt="">
+                </div>
+                <% userdata.following.reverse().forEach((fw)=>{ %>
+                    <div id="youfollow-<%= fw._id %>"
+                        class="youfollow w-full border border-zinc-700 h-14 px-3 shrink-0 flex gap-5 items-center justify-between">
+                        <div class="flex gap-5">
+                            <img src="<%= fw.image %>" class="w-7 rounded-full" alt="">
+                            <h1 onclick="searcheduserprofile('<%= fw._id %>')"
+                                class="font-semibold hover:cursor-pointer">
+                                <%= fw.username %>
+                            </h1>
+                        </div>
+                        <% if(userdata.follower.some(id=> id.equals(mydata._id))){ %>
+                            <button
+                                class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                onclick="followuser('<%= userdata._id %>',this)">Unfollow</button>
+                            <% } else{ %>
+                                <button
+                                    class="px-2 bg-transparent border border-zinc-700 rounded-md font-semibold text-white hover:scale-[1.07] hover:cursor-pointer"
+                                    onclick="followuser('<%= userdata._id %>',this)">Follow</button>
+                                <% } %>
+                    </div>
+                    <% }) %>
+            </div>
         </div>
 
         <div class="flex sm:hidden w-full justify-between px-2 absolute bottom-5">
-                <a href="/home"><img src="/images/home.svg" class="rounded-full w-9" alt=""></a>
-                <a href="/Vclips"><img src="/images/Vclips.svg" class="w-6" alt=""></a>
-                <a href="/post"><img src="/images/post.svg" class="rounded-full w-9" alt=""></a>
-                <a href="/Search"><img src="/images/Search.svg" class="w-9" alt=""></a>
-                <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            <a href="/home"><img src="/images/home.svg" class="rounded-full w-9" alt=""></a>
+            <a href="/Vclips"><img src="/images/Vclips.svg" class="w-6" alt=""></a>
+            <a href="/post"><img src="/images/post.svg" class="rounded-full w-9" alt=""></a>
+            <a href="/Search"><img src="/images/Search.svg" class="w-9" alt=""></a>
+            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
         </div>
     </div>
-    <script src="/script.js"></script>
     <script src="/js/utils.js"></script>
+    <script src="/js/profile.js"></script>
 </body>
 
 </html>

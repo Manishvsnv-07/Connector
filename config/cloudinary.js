@@ -40,7 +40,7 @@ export const upload = multer({
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
-            cb(new Error("Only images and videos are allowed"), false);
+            cb(new Error("File Type Not Supported!"), false);
         }
     }
 });

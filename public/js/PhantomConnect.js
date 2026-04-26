@@ -48,14 +48,15 @@ const Connectphantom = async () => {
         const data = await verifyRes.json();
 
         if (data.success) {
-            const successMsg = document.getElementById("successMsg");
-            const ts = document.querySelector(".ts");
-            ts.textContent = "Wallet connected & verified ✅";
-            successMsg.classList.remove("hidden");
-
+            const PhantomMsg = document.getElementById("PhantomMsg");
+            const p = document.querySelector(".p");
+            p.textContent = "Wallet connected & verified ✅";
+            PhantomMsg.classList.remove("hidden");
             setTimeout(() => {
-                successMsg.classList.add("hidden");
+                PhantomMsg.classList.add("hidden");
+                window.location.href = "/profile"
             }, 2000);
+            
         } else {
             const errorDiv = document.getElementById("errorMsg");
             const te = document.querySelector(".te");
@@ -101,7 +102,7 @@ function selectsol(btn, amount) {
 
 }
 
-async function sendSolToCreator(toWalletAddress, creatorUsername, postid) {
+async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderId,senderUsername) {
     try {
         let sendbtn = document.getElementById("sendbtn")
         sendbtn.disabled = true;
@@ -175,9 +176,15 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid) {
         if (data.success) {
             let solsenders = document.getElementById(`solsenders-${postid}`)
             let div = document.createElement('div')
-            div.className = `senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-center shrink-0`
-            div.innerHTML = `<p class="text-[17px]"><strong class="text-yellow-300">${selectedAmount}</strong> Sol Send
-                                                            By <strong class="text-purple-300">${creatorUsername}</strong></p>`
+            div.className = `senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-start gap-5 shrink-0`
+            div.innerHTML = `<img src="images/nft_verified.svg" class="w-7" alt="">
+                                            <p class="[15px]"><strong class="text-yellow-200">
+                                                    ${selectedAmount}
+                                                </strong> Sol Send
+                                                By<strong onclick="searcheduserprofile('${senderId}')"
+                                                    class="text-purple-300 hover:text-zinc-50 hover:cursor-pointer">
+                                                    ${senderUsername}
+                                                </strong></p>`
             solsenders.prepend(div)
             const PhantomMsg = document.getElementById("PhantomMsg");
             const p = document.querySelector(".p");
