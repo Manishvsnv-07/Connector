@@ -28,7 +28,7 @@
     <div class="main w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
         <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
             <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                <img src="images/logo.png" class="w-11 rounded-full" alt="">
+                <img src="images/logo.png" class="w-11 h-11 rounded-full" alt="">
                 <a href="/home"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
                         src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -58,7 +58,7 @@
                                     class="hidden lg:inline">Search</span></a>
                             <a href="/profile"
                                 class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                                    src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                                    src="<%= userdata.image %>" class="rounded-full w-11 h-11 lg:w-7 lg:h-7" alt=""><span
                                     class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
@@ -78,7 +78,7 @@
                                 class="videoposts flex flex-col h-full w-full sm:w-auto sm:h-screen px-3 gap-3 ">
                                 <div class="postheader w-full sm:mt-2 flex h-auto justify-between">
                                     <div class="leftheader flex gap-3">
-                                        <img src="<%= post.user.image %>" class="w-7 rounded-full" alt="">
+                                        <img src="<%= post.user.image %>" class="w-7 h-7 rounded-full" alt="">
                                         <a href="/home/<%= post.user._id %>"
                                             class="text-gray-400 hover:scale-[1.05] hover:cursor-pointer hover:text-white">
                                             <div class="flex gap-2 w-full items-center">
@@ -263,7 +263,7 @@
                                             <p class="[15px]"><strong class="text-yellow-200">
                                                     <%= s.amount %>
                                                 </strong> Sol Send
-                                                By<strong onclick="searcheduserprofile('<%= senderId %>')"
+                                                By<strong onclick="searcheduserprofile('<%= s.senderId %>')"
                                                     class="text-purple-300 hover:text-zinc-50 hover:cursor-pointer">
                                                     <%= s.sender %>
                                                 </strong></p>
@@ -282,9 +282,9 @@
                                             class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
                                             onclick="selectsol(this,2)">2</button>
                                     </div>
-                                    <button id="sendbtn"
+                                    <button id="sendbtn" data-id="<%= post._id %>"
                                         onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>','<%= post._id %>','<%= userdata._id %>','<%= userdata.username %>')"
-                                        class="rounded-md bg-purple-400 px-2 h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
+                                        class="getsendbtn rounded-md bg-purple-400 px-2 h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
                                 </div>
                             </div>
 
@@ -299,7 +299,7 @@
             <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
             <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
             <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
-            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9 h-9" alt=""></a>
         </div>
 
         <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>

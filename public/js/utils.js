@@ -13,7 +13,7 @@ async function sendcomment(commentid, nameofuser, userid) {
         textarea.value = ""
         let cbox = document.querySelector(`.userscommentbox[data-id="${commentid}"]`)
         const cb = document.createElement('div')
-        cb.className = "eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[15vh]"
+        cb.className = "eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-full shrink-0 max-h-[15vh]"
         cb.innerHTML = `<div class="ucomment-${data.cid} flex justify-start items-start gap-2 px-3 py-2">
                                                 <h1 class="nameofuser text-blue-600 shrink-0">
                                                     ${nameofuser}
@@ -26,7 +26,7 @@ async function sendcomment(commentid, nameofuser, userid) {
                                             <div class="reply px-3 py-2">
                                                 <div class="flex items-center gap-2">
                                                     <textarea name="reply" id="reply-${data.cid}" placeholder="Reply" class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
-                                                    <img src="images/send.svg" onclick="reply('${commentid}','${data.cid}','${nameofuser}')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
+                                                    <img src="/images/send.svg" onclick="reply('${commentid}','${data.cid}','${nameofuser}')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
                                                 </div>
                                             </div>`
         cbox.prepend(cb)

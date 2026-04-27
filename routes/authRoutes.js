@@ -107,7 +107,6 @@ router.post("/sendotp", async (req, res) => {
         await transporter.sendMail(mailsend)
         res.json({ message: "Otp Send Successfully" });
     } catch (error) {
-        console.log(error)
         res.json({ message: error.message });
     }
 })

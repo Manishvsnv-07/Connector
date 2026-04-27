@@ -139,8 +139,6 @@ async function mintNFT(postid, postdescription, postimg) {
     try {
         await window.solana.connect()
         const walletAddress = window.solana.publicKey.toString()
-        console.log(postid,postimg,walletAddress,postdescription);
-        
         const res = await fetch("/nft/mint", {
             method: "POST",
             credentials: "include",

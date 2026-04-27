@@ -26,7 +26,6 @@ router.post("/post", islogged, (req, res, next) => {
 }, async (req, res) => {
     try {
         const mediaFile = req.files["media"]?.[0]
-         console.log("step 2 - mediaFile:", mediaFile?.mimetype)
         const ThumbnailFile = req.files["thumbnail"]?.[0]
         const result = await uploadToCloudinary(mediaFile.buffer, mediaFile.mimetype)
         const result_thumb = ThumbnailFile ? await uploadToCloudinary(ThumbnailFile.buffer, ThumbnailFile.mimetype) : null;
@@ -123,8 +122,6 @@ router.post("/send/:commentid", islogged, async (req, res) => {
             commentpost.comments.push({ comment: req.body.comment, nameofuser: req.body.nameofuser, user: req.body.userid })
             await commentpost.save()
             const savedComment = commentpost.comments[commentpost.comments.length - 1]
-            console.log(savedComment._id);
-            
             res.json({success:true,cid:savedComment._id,comments: commentpost.comments.length})
         }
     } catch (error) {

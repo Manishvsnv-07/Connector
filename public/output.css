@@ -348,6 +348,9 @@
   .mt-3 {
     margin-top: calc(var(--spacing) * 3);
   }
+  .mt-5 {
+    margin-top: calc(var(--spacing) * 5);
+  }
   .mr-2 {
     margin-right: calc(var(--spacing) * 2);
   }
@@ -471,11 +474,17 @@
   .h-\[65vh\] {
     height: 65vh;
   }
+  .h-\[70\%\] {
+    height: 70%;
+  }
   .h-\[70vh\] {
     height: 70vh;
   }
   .h-\[76vh\] {
     height: 76vh;
+  }
+  .h-\[80\%\] {
+    height: 80%;
   }
   .h-\[80vh\] {
     height: 80vh;
@@ -1334,6 +1343,11 @@
   .sm\:w-auto {
     @media (width >= 40rem) {
       width: auto;
+    }
+  }
+  .sm\:w-full {
+    @media (width >= 40rem) {
+      width: 100%;
     }
   }
   .sm\:translate-y-0 {

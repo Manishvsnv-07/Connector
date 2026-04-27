@@ -33,7 +33,7 @@
 
         <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
             <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                <img src="images/logo.png" class="w-11 rounded-full" alt="">
+                <img src="images/logo.png" class="w-11 h-11 rounded-full" alt="">
                 <a href="/home"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-[#ab9ff27a]  lg:w-[11vw] h-12"><img
                         src="images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -63,7 +63,7 @@
                                     class="hidden lg:inline">Search</span></a>
                             <a href="/profile"
                                 class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                                    src="<%= userdata.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                                    src="<%= userdata.image %>" class="rounded-full w-11 h-11 lg:w-7 lg:h-7" alt=""><span
                                     class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
@@ -94,7 +94,7 @@
                                 class="userspost relative m-4 flex flex-col px-3 py-2 gap-3 border border-zinc-700 justify-center items-center">
                                 <div class="postheader flex justify-between w-full">
                                     <div class="leftheader flex gap-3">
-                                        <img src="<%= post.user.image %>" class="w-7 rounded-full" alt="">
+                                        <img src="<%= post.user.image %>" class="w-7 h-7 rounded-full" alt="">
                                         <a href="/home/<%= post.user._id %>"
                                             class="text-gray-400 hover:scale-[1.05] hover:cursor-pointer hover:text-white">
                                             <div class="flex gap-2 w-full items-center">
@@ -324,11 +324,12 @@
                                     class="solsenders h-[70vh] flex flex-col overflow-y-scroll justify-start">
                                     <% post.sol.reverse().forEach((s)=>{ %>
                                         <div
-                                            class="senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-center shrink-0">
+                                            class="senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-start gap-5 shrink-0">
+                                            <img src="images/nft_verified.svg" class="w-7" alt="">
                                             <p class="text-[17px]"><strong class="text-yellow-300">
                                                     <%= s.amount %>
                                                 </strong> Sol Send
-                                                By <strong class="text-purple-300" onclick="searcheduserprofile('<%= s.senderId %>')">
+                                                By <strong class="text-purple-300 hover:text-zinc-50 hover:cursor-pointer" onclick="searcheduserprofile('<%= s.senderId %>')">
                                                     <%= s.sender %>
                                                 </strong></p>
                                         </div>
@@ -346,10 +347,10 @@
                                             class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
                                             onclick="selectsol(this,2)">2</button>
                                     </div>
-                                    <button
+                                    <button 
                                         onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>','<%= post._id %>','<%= userdata._id %>','<%= userdata.username %>')"
-                                        id="sendbtn"
-                                        class="rounded-md bg-purple-400 px-2 w-[14vw] sm:w-[9vw] h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
+                                        id="sendbtn" data-id="<%= post._id %>"
+                                        class="getsendbtn rounded-md bg-purple-400 px-2 w-[14vw] sm:w-[9vw] h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
                                 </div>
                             </div>
 
@@ -367,7 +368,7 @@
             <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
             <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
             <a href="/Search"><img src="images/Search.svg" class="w-9" alt=""></a>
-            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9 h-9" alt=""></a>
         </div>
     </div>
     <script src="/solana.min.js"></script>

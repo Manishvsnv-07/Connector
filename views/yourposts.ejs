@@ -41,7 +41,7 @@
         <div class="main relative w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
             <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
                 <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                    <img src="/images/logo.png" class="w-11 rounded-full" alt="">
+                    <img src="/images/logo.png" class="w-11 h-11 rounded-full" alt="">
                     <a href="/home"
                         class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
                             src="/images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -70,15 +70,15 @@
                                         src="/images/Search.svg" class="w-11 lg:w-7" alt=""><span
                                         class="hidden lg:inline">Search</span></a>
                                 <a href="/profile"
-                                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-[#ab9ff27a] rounded-md lg:w-[11vw] h-12"><img
-                                        src="<%= myposts.user.image %>" class="rounded-full w-11 lg:w-7" alt=""><span
+                                    class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
+                                        src="<%= userdata.image %>" class="rounded-full w-11 h-11 lg:w-7 lg:h-7" alt=""><span
                                         class="hidden lg:inline">Profile</span></a>
                 </div>
             </div>
             <div
                 class="right relative w-full h-[91%] sm:h-screen border-l flex items-center justify-center border-zinc-700 bg-zinc-900">
-                <a href="/profile"><img src="/images/back.svg"
-                        class="w-5 hover:scale-[1.09] hover:cursor-pointer absolute top-5 left-5 z-10" alt=""></a>
+                <img src="/images/back.svg" onclick="history.back()"
+                        class="w-5 hover:scale-[1.09] hover:cursor-pointer absolute top-5 left-5 z-10" alt="">
                 <div
                     class="deletepopup hidden absolute top-5 left-1/2 -translate-x-1/2 z-100 w-[55vw] md:w-[30vw] lg:w-[20vw] h-[15vh] flex flex-col justify-center items-center gap-5 rounded-md bg-zinc-900 border border-white px-2">
                     <h1>Are You Sure ?</h1>
@@ -95,7 +95,7 @@
                         class="userspost m-4 h-fit px-3 py-2 flex flex-col gap-3 w-[90vw] sm:w-[50vw] lg:w-[35vw] xl:w-[25vw] border border-zinc-700">
                         <div class="postheader flex justify-between">
                             <div class="leftheader flex gap-3">
-                                <img src="<%= myposts.user.image %>" class="w-7 rounded-full" alt="">
+                                <img src="<%= myposts.user.image %>" class="w-7 h-7 rounded-full" alt="">
                                 <div class="flex gap-2 w-full items-center">
                                     <h1>@<%= myposts.user.username %>
                                     </h1>
@@ -207,7 +207,7 @@
                     </div>
 
                     <div id="commentbox-<%= myposts._id %>"
-                        class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 px-3 py-2 gap-5 sm:mt-5 h-[90%] border border-zinc-700 flex flex-col bg-zinc-900 rounded-xl ">
+                        class="hidden absolute mt-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:static lg:top-auto lg:left-auto lg:translate-x-0 lg:translate-y-0 px-3 py-2 gap-5 sm:mt-5 h-[70%] border border-zinc-700 flex w-full lg:w-[30vw] flex-col bg-zinc-900 rounded-xl ">
                         <div class="flex items-center gap-5">
                             <img src="/images/back.svg"
                                 class="backcomment-<%= myposts._id %> w-5 my-2 hover:scale-[1.07] hover:cursor-pointer"
@@ -216,10 +216,10 @@
                                     Creation</strong></p>
                         </div>
                         <div data-id="<%= myposts._id %>"
-                            class="userscommentbox w-[65vw] sm:w-[60vw] md:w-[30vw] flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                            class="userscommentbox w-full flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                             <% myposts.comments.reverse().forEach((c)=>{ %>
                                 <div
-                                    class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-[80vw] sm:w-[60vw] md:w-[29vw] shrink-0 max-h-[21vh]">
+                                    class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-full shrink-0 max-h-[21vh]">
                                     <div class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
                                         <h1 class="nameofuser text-blue-600 shrink-0">
                                             <%= c.nameofuser %>
@@ -254,7 +254,7 @@
 
                         <div class="flex mb-3 justify-center items-center gap-3 ">
                             <textarea id="comment-<%= myposts._id %>" placeholder="Comment Creatively"
-                                class="w-[52vw] sm:w-[25vw] border pt-3 border-zinc-700 resize-none  rounded-md px-2 bg-transparent"></textarea>
+                                class="w-full border pt-3 border-zinc-700 resize-none  rounded-md px-2 bg-transparent"></textarea>
                             <button onclick="sendcomment(`<%= myposts._id %>`,'<%= userdata.username %>')"
                                 class="w-16 bg-blue-700 rounded-md px-2" type="submit">Send</button>
                         </div>
@@ -262,7 +262,7 @@
 
 
                     <div id="solbox-<%= myposts._id %>"
-                        class="hidden flex bg-zinc-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 flex-col justify-between w-[80vw] sm:w-[60vw] md:w-[30vw] px-3 border border-zinc-700 h-[70vh] rounded-xl">
+                        class="hidden flex bg-zinc-900 absolute mt-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:static lg:top-auto lg:left-auto z-11 lg:translate-x-0 lg:translate-y-0 flex-col justify-between w-full lg:w-[30vw] px-3 border border-zinc-700 h-[70%] rounded-xl">
                         <div class="flex items-center gap-5">
                             <div>
                                 <img src="/images/back.svg" id="backsol-<%= myposts._id %>"
@@ -299,8 +299,8 @@
                                 </div>
                                 <button
                                     onclick="sendSolToCreator('<%= myposts.user.walletAddress %>','<%= myposts.user.username %>','<%= myposts._id %>')"
-                                    id="sendbtn"
-                                    class="rounded-md bg-purple-400 px-2 w-[14vw] sm:w-[9vw] h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
+                                    id="sendbtn" id="sendbtn" data-id="<%= myposts._id %>"
+                                    class="getsendbtn rounded-md bg-purple-400 px-2 w-[14vw] sm:w-[9vw] h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
                             </div>
                             <% } %>
                     </div>

@@ -5,15 +5,6 @@ let removeFollowingTab = document.getElementById("removeFollowingTab")
 let followingTab = document.querySelector(".followingTab")
 let following = document.querySelector(".following")
 
-console.log({
-    removeFollowerTab: document.getElementById("removeFollowerTab"),
-    followersTab: document.querySelector(".followersTab"),
-    followers: document.querySelector(".followers"),
-    removeFollowingTab: document.getElementById("removeFollowingTab"),
-    followingTab: document.querySelector(".followingTab"),
-    following: document.querySelector(".following")
-})
-
 followers?.addEventListener("click", () => {
     followingTab.classList.add("hidden")
     followersTab.classList.remove("hidden")
@@ -91,5 +82,9 @@ async function removefollowing(userid){
 }
 
 function searcheduserprofile(searcheduserid) {
-     window.location.href = "/Search/" + searcheduserid;
+    try {        
+        window.location.href = "/Search/" + searcheduserid;
+    } catch (error) {
+        console.log(error.message)
+    }
 }

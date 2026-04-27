@@ -105,14 +105,17 @@ function selectsol(btn, amount) {
 async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderId,senderUsername) {
     try {
         let sendbtn = document.getElementById("sendbtn")
-        sendbtn.disabled = true;
+        let getsendbtn = document.querySelector(`.getsendbtn[data-id ='${postid}']`)
+        getsendbtn.textContent = "Sending...."
+        sendbtn.textContent = "Sending...."
+        getsendbtn.disabled = true;
         const provider = window.solana;
         if (!window.solana || !window.solana.isPhantom) {
             const PhantomMsg = document.getElementById("PhantomMsg");
             const p = document.querySelector(".p");
             p.textContent = "Phantom Not Installed ✕";
             PhantomMsg.classList.remove("hidden");
-
+            getsendbtn.textContent = "Send"
             setTimeout(() => {
                 PhantomMsg.classList.add("hidden");
                 window.open("https://phantom.app/", "_blank");
@@ -128,17 +131,14 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderI
         );
 
         const fromPubkey = provider.publicKey;
-        console.log(fromPubkey);
-        
         const toPubkey = new solanaWeb3.PublicKey(toWalletAddress);
-        console.log(toPubkey);
         
         if (!selectedAmount) {
             const PhantomMsg = document.getElementById("PhantomMsg");
             const p = document.querySelector(".p");
             p.textContent = `Select Amount First ¿`;
             PhantomMsg.classList.remove("hidden");
-
+            getsendbtn.textContent = "Send"
             setTimeout(() => {
                 PhantomMsg.classList.add("hidden");
                 window.location.reload()
@@ -190,7 +190,7 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderI
             const p = document.querySelector(".p");
             p.textContent = `🎉 ${selectedAmount} SOL sent to @${creatorUsername}!`;
             PhantomMsg.classList.remove("hidden");
-
+            getsendbtn.textContent = "Send"
             setTimeout(() => {
                 PhantomMsg.classList.add("hidden");
             }, 2000);
@@ -202,13 +202,13 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderI
         const te = document.querySelector(".te");
         te.textContent = "Transaction Failed !";
         errorDiv.classList.remove("hidden");
-
+        getsendbtn.textContent = "Send"
         setTimeout(() => {
             errorDiv.classList.add("hidden");
         }, 1500);
         return;
     }
     finally {
-        sendbtn.disabled = false;
+        getsendbtn.disabled = false;
     }
 }

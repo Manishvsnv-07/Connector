@@ -12,32 +12,40 @@ router.get("/home", islogged, async (req, res) => {
     let notifydata = await notify.countDocuments({ to: userdata._id, isread: false })
     const userd = await user.findById(userdata._id);
     const interestedTags = userdata.interestedTags;
+    const followingList = userdata.following;
     const alluserspost = await post.aggregate([
-        {
-            $addFields: {
-                matchScore: {
-                    $size: {
-                        $ifNull: [
-                            { $setIntersection: ["$tags", interestedTags] }, // variable use karo
-                            []
-                        ]
-                    }
+    {
+        $addFields: {
+            matchScore: {
+                $size: {
+                    $ifNull: [
+                        { $setIntersection: ["$tags", interestedTags] },
+                        []
+                    ]
+                }
+            },
+            followingBoost: {
+                $cond: {
+                    if: { $in: ["$user", followingList] },
+                    then: 1,
+                    else: 0
                 }
             }
-        },
+        }
+    },
 
-        { $sort: { matchScore: -1, createdAt: -1 } },
+    { $sort: { followingBoost: -1, matchScore: -1, createdAt: -1 } },
 
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'user',
-                foreignField: '_id',
-                as: 'user'
-            }
-        },
-        { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
-    ]);
+    {
+        $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user'
+        }
+    },
+    { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+]);
     res.render("home", { alluserspost, userdata, notifydata });
 })
 
@@ -130,7 +138,6 @@ router.post("/update", islogged, (req, res, next) => {
         let image_url = null
         if (req.file) {
             const result = await uploaddpToCloudinary(req.file.buffer)
-            console.log("reslut", result);
             image_url = result.secure_url;
         }
         else {

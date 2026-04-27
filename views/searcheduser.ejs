@@ -13,7 +13,7 @@
     <div class="main relative w-full h-screen flex text-white bg-zinc-900">
         <div class="left sm:flex w-[14vw] h-screen hidden flex-col justify-between items-center py-2 bg-zinc-900">
             <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
-                <img src="/images/logo.png" class="w-11 rounded-full" alt="">
+                <img src="/images/logo.png" class="w-11 h-11 rounded-full" alt="">
                 <a href="/home"
                     class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer rounded-md bg-transparent lg:bg-zinc-800  lg:w-[11vw] h-12"><img
                         src="/images/home.svg" class="rounded-full w-11 lg:w-7" alt=""><span
@@ -104,7 +104,7 @@
                     <div class="userspost aspect-3/4 m-3 flex flex-col p-3 gap-3 border border-zinc-600 rounded-md">
                         <div class="postheader flex justify-between w-full">
                             <div class="header flex gap-3 w-full">
-                                <img src="<%= userdata.image %>" class="w-7 rounded-full" alt="">
+                                <img src="<%= userdata.image %>" class="w-7 h-7 rounded-full" alt="">
                                 <h1 class="truncate">
                                     <%= userdata.username %>
                                 </h1>
@@ -189,7 +189,7 @@
             <a href="/Vclips"><img src="/images/Vclips.svg" class="w-6" alt=""></a>
             <a href="/post"><img src="/images/post.svg" class="rounded-full w-9" alt=""></a>
             <a href="/Search"><img src="/images/Search.svg" class="w-9" alt=""></a>
-            <a href="/profile"><img src="<%= userdata.image %>" class="rounded-full w-9" alt=""></a>
+            <a href="/profile"><img src="<%= mydata.image %>" class="rounded-full w-9 h-9" alt=""></a>
         </div>
     </div>
     <script src="/js/utils.js"></script>

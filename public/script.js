@@ -242,9 +242,6 @@ function openbox(coid) {
     let back = document.querySelector(`.backcomment-${coid}`)
     commentbox.classList.remove("hidden")
     l.classList.add("hidden")
-    commentbox.addEventListener("wheel", () => {
-        commentbox.classList.add("hidden")
-    })
     back?.addEventListener("click", () => {
         l.classList.remove("hidden")
         commentbox.classList.add("hidden")
@@ -279,7 +276,7 @@ async function sendcomment(commentid, nameofuser, userid) {
                                             <div class="reply px-3 py-2">
                                                 <div class="flex items-center gap-2">
                                                     <textarea name="reply" id="reply-${data.cid}" placeholder="Reply" class="replybox resize-none w-full rounde-md h-11 border border-zinc-700 px-2"></textarea>
-                                                    <img src="images/send.svg" onclick="reply('${commentid}','${data.cid}','${nameofuser}')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
+                                                    <img src="/images/send.svg" onclick="reply('${commentid}','${data.cid}','${nameofuser}')" class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
                                                 </div>
                                             </div>`
         cbox.prepend(cb)

@@ -88,7 +88,6 @@ router.post("/nft/mint",islogged, NftUpload.single("media"), async (req, res) =>
             ]
         }
         const result = await pinata.pinJSONToIPFS(metadata)
-        console.log("result : ",result)
         const metaDataUri = `https://gateway.pinata.cloud/ipfs/${result.IpfsHash}`;   
         const connection = new Connection(
             clusterApiUrl("devnet"), "confirmed"
@@ -114,7 +113,6 @@ router.post("/nft/mint",islogged, NftUpload.single("media"), async (req, res) =>
         res.status(200).json({ success: "NFT Mint Successfully" });
         
     } catch (error) {
-        console.log("nftmint error:", error) 
         res.status(500).json({ success: false, error: error.message })
     }
 })
