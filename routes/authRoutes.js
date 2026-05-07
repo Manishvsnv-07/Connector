@@ -3,8 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import parser from "cookie-parser"
 import { user } from "../models/user.js"
-import nodemailer from "nodemailer"
-import transporter from "../config/nodemailer.js"
+import resend from "../config/transporter.js"
 const router = express.Router()
 
 router.get("/", (req, res) => {
@@ -104,7 +103,7 @@ router.post("/sendotp", async (req, res) => {
 </html>
 `
         }
-        await transporter.sendMail(mailsend)
+        await resend.emails.send(mailsend)
         res.json({ message: "Otp Send Successfully" });
     } catch (error) {
         res.json({ message: error.message });
