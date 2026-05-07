@@ -57,9 +57,43 @@ router.get("/profile", islogged, async (req, res) => {
 })
 
 router.get("/Vclips", islogged, async (req, res) => {
-    let alluserspost = await post.find().populate("user").then(posts => posts.filter(post => post.user !== null));
     let userdata = await user.findOne({ email: req.datahere.email })
     let notifydata = await notify.countDocuments({ to: userdata._id, isread: false })
+    const interestedTags = userdata.interestedTags;
+    const followingList = userdata.following;
+     const alluserspost = await post.aggregate([
+    {
+        $addFields: {
+            matchScore: {
+                $size: {
+                    $ifNull: [
+                        { $setIntersection: ["$tags", interestedTags] },
+                        []
+                    ]
+                }
+            },
+            followingBoost: {
+                $cond: {
+                    if: { $in: ["$user", followingList] },
+                    then: 1,
+                    else: 0
+                }
+            }
+        }
+    },
+
+    { $sort: { followingBoost: -1, matchScore: -1, createdAt: -1 } },
+
+    {
+        $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user'
+        }
+    },
+    { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+]);
     res.render("vclips", { alluserspost, userdata, notifydata });
 })
 

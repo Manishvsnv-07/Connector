@@ -1,0 +1,28 @@
+<svg width="680" height="680" viewBox="0 0 680 680" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Phantom wallet logo with cross eyes</title>
+  <desc>White ghost icon with cross eyes on purple background</desc>
+
+  <rect width="680" height="680" fill="#ab9ff2" rx="48"/>
+
+  <path d="
+    M 170 310
+    C 160 160, 290 90, 380 100
+    C 490 110, 560 190, 545 305
+    L 545 450
+    C 545 450, 510 420, 480 450
+    C 450 480, 420 420, 390 450
+    C 360 480, 330 420, 300 450
+    C 285 465, 260 455, 250 440
+    L 250 440
+    C 215 420, 180 435, 170 450
+    Z
+  " fill="white"/>
+
+  <!-- Left eye cross -->
+  <line x1="340" y1="250" x2="390" y2="300" stroke="#ab9ff2" stroke-width="18" stroke-linecap="round"/>
+  <line x1="390" y1="250" x2="340" y2="300" stroke="#ab9ff2" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Right eye cross -->
+  <line x1="420" y1="250" x2="470" y2="300" stroke="#ab9ff2" stroke-width="18" stroke-linecap="round"/>
+  <line x1="470" y1="250" x2="420" y2="300" stroke="#ab9ff2" stroke-width="18" stroke-linecap="round"/>
+</svg>
