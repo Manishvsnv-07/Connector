@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import parser from "cookie-parser"
 import { user } from "../models/user.js"
-import resend from "../config/transporter.js"
+import resend from "../config/nodemailer.js"
 const router = express.Router()
 
 router.get("/", (req, res) => {
