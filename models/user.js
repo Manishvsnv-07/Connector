@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-mongoose.connect("mongodb://localhost:27017/Animetube")
+mongoose.connect(process.env.MONGODB_URI)
 const userschema = mongoose.Schema({
     email: { type: String, required: [true, "Needed"],unique:true },
     name: { type: String, required: [true, "Needed"],maxlength:20},

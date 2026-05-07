@@ -6,7 +6,7 @@ import flash from "connect-flash"
 import session from "express-session";
 
 const app = express()
-const port = 57911
+const port = process.env.PORT || 57911
 
 app.set("view engine", "ejs")
 app.use(express.static("public"))
