@@ -6,6 +6,10 @@
     --font-sans: "Quicksand", sans-serif;
 }
 
+@theme {
+  --height-screen: 100dvh; /* add this */
+}
+
 .solsenders::-webkit-scrollbar {
     width: 9px;
 }
