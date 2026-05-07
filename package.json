@@ -32,6 +32,9 @@
     "nodemailer": "^8.0.5",
     "tailwindcss": "^4.2.2",
     "tweetnacl": "^1.0.3",
-    "utf-8-validate": "^6.0.6"
+    "utf-8-validate": "^5.0.10"
+  },
+  "engines": {
+    "node": ">=20.18.0"
   }
 }
