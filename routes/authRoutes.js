@@ -52,7 +52,7 @@ router.post("/sendotp", async (req, res) => {
             expiry: Date.now() + 2 * 60 * 1000
         };
         const mailsend = {
-            from: "onboarding@resend.dev",
+            from: "official@connectorapp.online",
             to: email,
             subject: "Verify Connector Account",
             html: `
