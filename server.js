@@ -4,6 +4,7 @@ import express from "express"
 import parser from "cookie-parser"
 import flash from "connect-flash"
 import session from "express-session";
+import MongoStore from "connect-mongo"
 
 const app = express()
 const port = process.env.PORT || 57911
@@ -17,6 +18,9 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI
+    })
 }))
 app.use(flash())
 
