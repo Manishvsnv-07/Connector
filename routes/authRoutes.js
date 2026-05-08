@@ -154,16 +154,14 @@ router.post("/login", async (req, res) => {
             if (checkpassword) {
                 let token = jwt.sign({ email: finduser.email, id: finduser._id }, process.env.JWT_KEY, { expiresIn: "30d" })
                 res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" })
-                res.redirect("/home");
+                res.json({ success: true });
             }
             else {
-                req.flash("error", "Username Or Password Is Wrong");
-                res.redirect("/");
+                res.json({ success: false, message: "Username Or Password Is Wrong" });
             }
         }
         else {
-            req.flash("error", "Username Or Password Is Wrong");
-            res.redirect("/")
+            res.json({ success: false, message: "Username Or Password Is Wrong" });
         }
     } catch (error) {
         res.send("Something Went Wrong")

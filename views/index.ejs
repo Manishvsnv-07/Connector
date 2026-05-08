@@ -30,7 +30,7 @@
                 </div>
                 <div
                     class="right xl:flex text-black font-semibold w-[45vw] h-screen bg-transparent hidden flex-col items-center justify-center">
-                    <form action="/login" method="post">
+                    <form>
                         <div class="righttop w-full flex flex-col gap-7 my-7 justify-center items-center">
                             <h1 class="font-sans font-bold">Log Into Account</h1>
                             <input type="text" name="username"
@@ -65,21 +65,7 @@
                     </a>
                 </div>
             </div>
-            <script>
-                let toggleviewoff = document.getElementById("toggleviewoff")
-                let toggleviewon = document.getElementById("toggleviewon")
-                let inputpassword = document.getElementById("password")
-                toggleviewoff?.addEventListener("click", () => {
-                    inputpassword.type = "text"
-                    toggleviewon.classList.remove("hidden")
-                    toggleviewoff.classList.add("hidden")
-                })
-                toggleviewon?.addEventListener("click", () => {
-                    inputpassword.type = "password"
-                    toggleviewon.classList.add("hidden")
-                    toggleviewoff.classList.remove("hidden")
-                })
-            </script>
+            <script src="/js/login.js"></script>
 </body>
 
 </html>

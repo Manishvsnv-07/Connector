@@ -122,6 +122,7 @@ verifybtn?.addEventListener("click", async () => {
     const otp = document.getElementById("otp").value
     const response = await fetch("/create/account", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ otp })
     })
