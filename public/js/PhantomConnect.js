@@ -2,6 +2,13 @@ const Connectphantom = async () => {
     const provider = window.solana;
 
     if (!window.solana || !window.solana.isPhantom) {
+        const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            const currentUrl = encodeURIComponent(window.location.href);
+            window.location.href = `https://phantom.app/ul/browse/${currentUrl}?ref=${currentUrl}`;
+            return;
+        }
         const PhantomMsg = document.getElementById("PhantomMsg");
         const p = document.querySelector(".p");
         p.textContent = "Phantom Not Installed ✕";
@@ -10,28 +17,26 @@ const Connectphantom = async () => {
         setTimeout(() => {
             PhantomMsg.classList.add("hidden");
             window.open("https://phantom.app/", "_blank");
-            window.location.reload()
+            window.location.reload();
         }, 2000);
         return;
     }
 
     try {
-        // 1. Connect wallet
+
         const resp = await provider.connect();
         const publicKey = resp.publicKey.toString();
-        // 2. Get message from backend
+
         const msgRes = await fetch("/auth/message", {
             credentials: "include"
         });
         const { message } = await msgRes.json();
 
-        // 3. Sign message
         const encoded = new TextEncoder().encode(message);
         const signed = await provider.signMessage(encoded, "utf8");
 
         const signature = Array.from(signed.signature);
 
-        // 4. Send to backend for verification + save
         const verifyRes = await fetch("/profile/Connectphantom", {
             method: "POST",
             credentials: "include",
@@ -56,7 +61,7 @@ const Connectphantom = async () => {
                 PhantomMsg.classList.add("hidden");
                 window.location.href = "/profile"
             }, 2000);
-            
+
         } else {
             const errorDiv = document.getElementById("errorMsg");
             const te = document.querySelector(".te");
@@ -102,7 +107,7 @@ function selectsol(btn, amount) {
 
 }
 
-async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderId,senderUsername) {
+async function sendSolToCreator(toWalletAddress, creatorUsername, postid, senderId, senderUsername) {
     try {
         let sendbtn = document.getElementById("sendbtn")
         let getsendbtn = document.querySelector(`.getsendbtn[data-id ='${postid}']`)
@@ -111,15 +116,24 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderI
         getsendbtn.disabled = true;
         const provider = window.solana;
         if (!window.solana || !window.solana.isPhantom) {
+            const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+            getsendbtn.textContent = "Send";
+            getsendbtn.disabled = false;
+
+            if (isMobile) {
+                const currentUrl = encodeURIComponent(window.location.href);
+                window.location.href = `https://phantom.app/ul/browse/${currentUrl}?ref=${currentUrl}`;
+                return;
+            }
+
             const PhantomMsg = document.getElementById("PhantomMsg");
             const p = document.querySelector(".p");
             p.textContent = "Phantom Not Installed ✕";
             PhantomMsg.classList.remove("hidden");
-            getsendbtn.textContent = "Send"
             setTimeout(() => {
                 PhantomMsg.classList.add("hidden");
                 window.open("https://phantom.app/", "_blank");
-                window.location.reload()
+                window.location.reload();
             }, 2000);
             return;
         }
@@ -132,7 +146,7 @@ async function sendSolToCreator(toWalletAddress, creatorUsername, postid,senderI
 
         const fromPubkey = provider.publicKey;
         const toPubkey = new solanaWeb3.PublicKey(toWalletAddress);
-        
+
         if (!selectedAmount) {
             const PhantomMsg = document.getElementById("PhantomMsg");
             const p = document.querySelector(".p");
