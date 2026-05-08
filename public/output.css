@@ -430,9 +430,6 @@
   .h-35 {
     height: calc(var(--spacing) * 35);
   }
-  .h-40 {
-    height: calc(var(--spacing) * 40);
-  }
   .h-\[3vh\] {
     height: 3vh;
   }
@@ -487,14 +484,14 @@
   .h-\[80vh\] {
     height: 80vh;
   }
-  .h-\[81vh\] {
-    height: 81vh;
-  }
   .h-\[83vh\] {
     height: 83vh;
   }
   .h-\[85vh\] {
     height: 85vh;
+  }
+  .h-\[88\%\] {
+    height: 88%;
   }
   .h-\[88vh\] {
     height: 88vh;
@@ -502,11 +499,11 @@
   .h-\[90\%\] {
     height: 90%;
   }
-  .h-\[90vh\] {
-    height: 90vh;
-  }
   .h-\[91\%\] {
     height: 91%;
+  }
+  .h-\[98\%\] {
+    height: 98%;
   }
   .h-auto {
     height: auto;
@@ -570,9 +567,6 @@
   }
   .w-35 {
     width: calc(var(--spacing) * 35);
-  }
-  .w-40 {
-    width: calc(var(--spacing) * 40);
   }
   .w-\[9vw\] {
     width: 9vw;
@@ -1208,11 +1202,6 @@
   .sm\:h-\[70vh\] {
     @media (width >= 40rem) {
       height: 70vh;
-    }
-  }
-  .sm\:h-\[89vh\] {
-    @media (width >= 40rem) {
-      height: 89vh;
     }
   }
   .sm\:h-\[93vh\] {
