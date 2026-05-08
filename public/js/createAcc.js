@@ -127,7 +127,7 @@ verifybtn?.addEventListener("click", async () => {
         body: JSON.stringify({ otp })
     })
     const data = await response.json();
-    if (response.ok) {
+    if (data.success) {
         window.location.href = "/home"
     }
     else {
