@@ -121,7 +121,6 @@ async function handleUpload() {
                 uploadp.textContent = `Post It`
                 setTimeout(() => {
                     successMsg.classList.add("hidden");
-                    window.location.href = "/profile"
                 }, 2000);
             }
         }

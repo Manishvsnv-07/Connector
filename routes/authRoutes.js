@@ -134,7 +134,7 @@ router.post("/create/account", async (req, res) => {
         })
         await createuser.save()
         let token = jwt.sign({ email: sessionData.email, id: createuser._id }, process.env.JWT_KEY, { expiresIn: "30d" })
-        res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict", secure: false })
+        res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production" })
         res.json({ message: "Account created" });
     } catch (error) {
         if(error.name === "ValidationError"){
@@ -153,7 +153,7 @@ router.post("/login", async (req, res) => {
             let checkpassword = await bcrypt.compare(req.body.password, finduser.password)
             if (checkpassword) {
                 let token = jwt.sign({ email: finduser.email, id: finduser._id }, process.env.JWT_KEY, { expiresIn: "30d" })
-                res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false, sameSite: "strict" })
+                res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" })
                 res.redirect("/home");
             }
             else {
