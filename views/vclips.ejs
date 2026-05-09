@@ -86,14 +86,14 @@
                 <div class="post relative w-full h-full snap-start shrink-0 flex justify-center items-center overflow-hidden">
 
                     <!-- VIDEO (full bleed, centered) -->
-                    <div class="relative flex justify-center items-center w-full h-full">
+                    <div class="relative flex justify-center items-center w-full h-full sm:h-screen sm:w-[25vw] sm:min-w-[360px] sm:max-w-[520px]">
 
                         <video
                             src="<%= post.videos %>"
                             autoplay muted loop
                             poster="<%= post.thumbnail %>"
                             data-id="<%= post._id %>"
-                            class="videoplay h-full w-full sm:h-screen sm:w-auto xl:w-[25vw] object-cover rounded-none sm:rounded-2xl hover:cursor-pointer">
+                            class="videoplay h-full w-full object-cover rounded-none sm:rounded-2xl hover:cursor-pointer">
                         </video>
 
                         <!-- PLAY ICON OVERLAY -->
