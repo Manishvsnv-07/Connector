@@ -71,11 +71,11 @@
                 <% alluserspost.forEach((post)=>{ %>
                     <% if(post.image==="" && post.user ){ %>
                         <div
-                            class="post relative w-full h-[98%] sm:h-screen snap-start shrink-0 flex justify-center items-center">
+                            class="post relative w-full h-[98%] sm:h-screen snap-start shrink-0 flex justify-center items-start">
 
 
                             <div id="videoposts-<%= post._id %>"
-                                class="videoposts flex flex-col h-full w-full pt-7 sm:w-auto sm:h-screen px-3 gap-3">
+                                class="videoposts flex flex-col h-full w-full pt-7 sm:w-auto sm:h-screen px-3 gap-3 overflow-hidden">
                                 <div class="postheader w-full sm:mt-2 flex h-auto justify-between shrink-0">
                                     <div class="leftheader flex gap-3">
                                         <img src="<%= post.user.image %>" class="w-7 h-7 rounded-full" alt="">
