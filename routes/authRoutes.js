@@ -135,12 +135,12 @@ router.post("/create/account", async (req, res) => {
         await createuser.save()
         let token = jwt.sign({ email: sessionData.email, id: createuser._id }, process.env.JWT_KEY, { expiresIn: "30d" })
         res.cookie("token", token, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production" })
-        res.json({ message: "Account created" });
+        res.json({success:true, message: "Account created" });
     } catch (error) {
         if(error.name === "ValidationError"){
-            return res.status(400).json({ message: "Max Characters Not Allowed" });
+            return res.status(400).json({success:false, message: "Max Characters Not Allowed" });
         }
-        return res.status(500).json({ message: "Account not created" });
+        return res.status(500).json({success:false, message: "Account not created" });
     }
 
 })
