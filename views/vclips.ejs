@@ -114,7 +114,7 @@
                                         class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11"
                                         alt="">
                                     <p onclick="description('<%= post._id %>')" id="description-<%= post._id %>"
-                                        class="vdescription absolute max-h-[22vh] sm:max-h-[27vh] bottom-3 sm:bottom-7 w-[calc(100%-4.5rem)] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-2 overflow-hidden line-clamp-2 font-thin hover:cursor-pointer">
+                                        class="vdescription absolute max-h-[22vh] sm:max-h-[27vh] bottom-[50px] sm:bottom-7 w-[calc(100%-4.5rem)] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-2 overflow-hidden line-clamp-2 font-thin hover:cursor-pointer">
                                         <% let r=Math.random() %>
                                             <% if(r>0.1 && r<0.2 ){ %>
                                                     <span class="text-blue-500">₥</span>
@@ -133,9 +133,9 @@
                             <div id="userinteract-<%= post._id %>"
                                 class="absolute right-4 top-1/2 -translate-y-1/2 sm:static sm:top-auto sm:right-auto sm:translate-y-0 ">
                                 <div
-                                    class="likecommentmusic bottom-9 flex flex-col justify-center items-center sm:items-stretch px-1 sm:px-3 h-[62vh] sm:h-[83vh] gap-7 sm:gap-11 w-12 sm:w-16">
+                                    class="likecommentmusic bottom-9 flex flex-col justify-center items-end sm:items-stretch px-1 sm:px-3 h-[62vh] sm:h-[83vh] gap-7 sm:gap-11 w-12 sm:w-16">
                                     <div class="likeorcomment flex flex-col gap-7 sm:gap-11">
-                                        <div class="like flex flex-col sm:flex-row items-center sm:items-stretch gap-1 sm:gap-0 sm:space-x-3">
+                                        <div class="like flex flex-col sm:flex-row items-end sm:items-stretch gap-1 sm:gap-0 sm:space-x-3">
                                             <% if(post.likes.some(id=> (id._id || id).toString() ===
                                                 userdata._id.toString())){ %>
                                                 <img src="images/liked.svg"
@@ -159,7 +159,7 @@
                                                             <%= post.likes.length %>
                                                         </h2>
                                         </div>
-                                        <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-1 sm:gap-3 w-6">
+                                        <div class="flex flex-col sm:flex-row items-end sm:items-stretch gap-1 sm:gap-3 w-6">
                                             <img src="images/comment.svg" onclick="vopenbox(`<%= post._id %>`)"
                                                 class="comment w-5 sm:w-7 hover:scale-[1.1] hover:cursor-pointer"
                                                 alt="">
@@ -168,7 +168,7 @@
                                             </h2>
                                         </div>
                                     </div>
-                                    <div class="flex flex-col items-center sm:items-stretch gap-6 sm:gap-7">
+                                    <div class="flex flex-col items-end sm:items-stretch gap-6 sm:gap-7">
                                         <% if(post.image==="" ){ %>
                                             <img src="images/offsound.svg"
                                                 class="playsound w-5 sm:w-7 hover:scale-[1.1] hover:cursor-pointer hover:brightness-70"
