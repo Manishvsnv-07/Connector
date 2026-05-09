@@ -106,7 +106,7 @@
                                                             <% } %>
                                     </div>
                                 </div>
-                                <div class="relative flex-1 min-h-0 sm:flex-none">
+                                <div class="relative flex-1 min-h-0 sm:flex-none overflow-hidden rounded-2xl">
                                     <video src="<%= post.videos %>" autoplay muted loop poster="<%= post.thumbnail %>"
                                         data-id="<%= post._id %>"
                                         class="videoplay h-full sm:h-[93vh] w-full sm:w-[50vw] md:w-[55vw] lg:w-[45vw] xl:w-[25vw] object-cover rounded-2xl hover:cursor-pointer"></video>
@@ -114,7 +114,7 @@
                                         class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11"
                                         alt="">
                                     <p onclick="description('<%= post._id %>')" id="description-<%= post._id %>"
-                                        class="vdescription absolute max-h-[22vh] sm:max-h-[27vh] bottom-15 sm:bottom-7 w-[calc(100%-4.5rem)] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-2 overflow-hidden line-clamp-2 font-thin hover:cursor-pointer">
+                                        class="vdescription absolute z-10 max-h-[22vh] sm:max-h-[27vh] bottom-15 sm:bottom-7 w-[calc(100%-4.5rem)] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-2 overflow-hidden line-clamp-2 font-thin hover:cursor-pointer">
                                         <% let r=Math.random() %>
                                             <% if(r>0.1 && r<0.2 ){ %>
                                                     <span class="text-blue-500">₥</span>
@@ -131,9 +131,9 @@
                             </div>
 
                             <div id="userinteract-<%= post._id %>"
-                                class="absolute right-4 top-1/2 -translate-y-1/2 sm:static sm:top-auto sm:right-auto sm:translate-y-0 ">
+                                class="absolute right-4 bottom-15 sm:static sm:top-auto sm:right-auto sm:translate-y-0 ">
                                 <div
-                                    class="likecommentmusic bottom-9 flex flex-col justify-center items-end sm:items-stretch px-1 sm:px-3 h-[62vh] sm:h-[83vh] gap-7 sm:gap-11 w-12 sm:w-16">
+                                    class="likecommentmusic bottom-9 flex flex-col justify-center items-end sm:items-stretch px-1 sm:px-3 h-auto sm:h-[83vh] gap-7 sm:gap-11 w-12 sm:w-16">
                                     <div class="likeorcomment flex flex-col gap-7 sm:gap-11">
                                         <div class="like flex flex-col sm:flex-row items-end sm:items-stretch gap-1 sm:gap-0 sm:space-x-3">
                                             <% if(post.likes.some(id=> (id._id || id).toString() ===
