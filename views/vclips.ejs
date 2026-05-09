@@ -75,7 +75,7 @@
 
 
                             <div id="videoposts-<%= post._id %>"
-                                class="videoposts flex flex-col h-full w-full pt-7 sm:w-auto sm:h-screen px-3 gap-3 overflow-hidden">
+                                class="videoposts flex flex-col h-full w-full pt-5 sm:w-auto sm:h-screen px-3 gap-3 overflow-hidden">
                                 <div class="postheader w-full sm:mt-2 flex h-auto justify-between shrink-0">
                                     <div class="leftheader flex gap-3">
                                         <img src="<%= post.user.image %>" class="w-7 h-7 rounded-full" alt="">
@@ -106,7 +106,7 @@
                                                             <% } %>
                                     </div>
                                 </div>
-                                <div class="relative flex-1 min-h-0">
+                                <div class="relative h-[85vh] min-h-0">
                                     <video src="<%= post.videos %>" autoplay muted loop poster="<%= post.thumbnail %>"
                                         data-id="<%= post._id %>"
                                         class="videoplay h-full w-[99vw] sm:w-[50vw] md:w-[55vw] lg:w-[45vw] xl:w-[25vw] object-cover rounded-2xl hover:cursor-pointer">
@@ -115,7 +115,7 @@
                                         class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11"
                                         alt="">
                                     <p onclick="description('<%= post._id %>')" id="description-<%= post._id %>"
-                                        class="vdescription absolute max-h-[27vh] bottom-11 sm:bottom-7 w-[90vw] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-2 overflow-hidden line-clamp-2 font-thin hover:cursor-pointer">
+                                        class="vdescription absolute max-h-[27vh] bottom-7 w-[90vw] sm:w-[49vw] md:w-[44vw] lg:w-[34vw] xl:w-[25vw] left-2 overflow-hidden line-clamp-2 font-thin hover:cursor-pointer">
                                         <% let r=Math.random() %>
                                             <% if(r>0.1 && r<0.2 ){ %>
                                                     <span class="text-blue-500">₥</span>
