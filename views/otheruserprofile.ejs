@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OtherUser</title>
+    <title><%= userdata.username %> • Connector</title>
     <link rel="stylesheet" href="/output.css">
     <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
@@ -77,11 +77,11 @@
                     <div class="flex gap-4">
                         <% if(userdata.walletAddress){ %>
                             <button
-                                class="rounded-md bg-[#ab9ff2] h-[3vh] sm:h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected
+                                class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer  flex justify-center items-center">Connected
                                 ✓</button>
                             <% } else{ %>
                                 <button
-                                    class="rounded-md bg-[#ab9ff2] h-[3vh] sm:h-[5vh] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Not
+                                    class="rounded-md bg-[#ab9ff2] px-2 text-black font-semibold hover:scale-[1.04] hover:cursor-pointer flex justify-center items-center">Not
                                     Connected</button>
                                 <% } %>
                             <% if(userdata.follower.some(id=> id.equals(mydata._id))){ %>
