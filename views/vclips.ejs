@@ -58,8 +58,8 @@
                                     class="hidden lg:inline">Search</span></a>
                             <a href="/profile"
                                 class="flex gap-3 items-center px-3 font-bold font-sans hover:scale-[1.05] hover:cursor-pointer bg-transparent lg:bg-zinc-800 rounded-md lg:w-[11vw] h-12"><img
-                                    src="<%= userdata.image %>" class="rounded-full w-11 h-11 lg:w-7 lg:h-7" alt=""><span
-                                    class="hidden lg:inline">Profile</span></a>
+                                    src="<%= userdata.image %>" class="rounded-full w-11 h-11 lg:w-7 lg:h-7"
+                                    alt=""><span class="hidden lg:inline">Profile</span></a>
             </div>
         </div>
 
@@ -75,8 +75,8 @@
 
 
                             <div id="videoposts-<%= post._id %>"
-                                class="videoposts flex flex-col h-full w-full pt-7 sm:w-auto sm:h-screen px-3 gap-3 ">
-                                <div class="postheader w-full sm:mt-2 flex h-auto justify-between">
+                                class="videoposts flex flex-col h-full w-full pt-7 sm:w-auto sm:h-screen px-3 gap-3">
+                                <div class="postheader w-full sm:mt-2 flex h-auto justify-between shrink-0">
                                     <div class="leftheader flex gap-3">
                                         <img src="<%= post.user.image %>" class="w-7 h-7 rounded-full" alt="">
                                         <a href="/home/<%= post.user._id %>"
@@ -106,10 +106,11 @@
                                                             <% } %>
                                     </div>
                                 </div>
-                                <div class="relative">
+                                <div class="relative flex-1 min-h-0">
                                     <video src="<%= post.videos %>" autoplay muted loop poster="<%= post.thumbnail %>"
                                         data-id="<%= post._id %>"
-                                        class="videoplay  h-[75vh] sm:h-[93vh] w-[99vw] sm:w-[50vw] md:w-[55vw] lg:w-[45vw] xl:w-[25vw] object-cover rounded-2xl hover:cursor-pointer"></video>
+                                        class="videoplay h-full w-[99vw] sm:w-[50vw] md:w-[55vw] lg:w-[45vw] xl:w-[25vw] object-cover rounded-2xl hover:cursor-pointer">
+                                    </video>
                                     <img src="images/play.svg"
                                         class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11"
                                         alt="">
