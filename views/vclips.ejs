@@ -26,10 +26,10 @@
         <span class="p text-black font-semibold"></span>
     </div>
 
-    <div class="main w-full h-screen flex flex-col sm:flex-row text-white bg-zinc-900">
+    <div class="main w-full h-[100dvh] flex flex-col sm:flex-row text-white bg-zinc-900 overflow-hidden">
 
         <!-- LEFT SIDEBAR (desktop only) -->
-        <div class="left hidden sm:flex w-[14vw] h-screen flex-col justify-between items-center py-2 bg-zinc-900">
+        <div class="left hidden sm:flex w-[14vw] h-screen flex-col justify-between items-center py-2 bg-zinc-900 shrink-0">
             <div class="flex gap-9 lg:gap-5 flex-col justify-center items-center">
                 <img src="images/logo.png" class="w-11 h-11 rounded-full" alt="">
                 <a href="/home"
@@ -74,196 +74,203 @@
         </div>
 
         <!-- MAIN FEED AREA -->
-        <div class="right w-full h-[91%] sm:h-screen border-l border-zinc-700 bg-zinc-900 flex items-center justify-center">
+        <!-- Mobile: takes full height minus bottom nav. Desktop: full screen -->
+        <div class="right w-full flex-1 sm:h-screen border-l border-zinc-700 bg-black overflow-hidden">
 
-            <!-- SCROLL FEED -->
             <div class="vfeed w-full h-full flex flex-col snap-y snap-mandatory overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 
                 <% alluserspost.forEach((post) => { %>
                 <% if(post.image === "" && post.user){ %>
 
                 <!-- ─── SINGLE REEL CARD ─── -->
-                <div class="post relative w-full h-full snap-start shrink-0 flex justify-center items-center overflow-hidden">
+                <div class="post relative w-full h-full snap-start shrink-0 overflow-hidden bg-black">
 
-                    <!-- VIDEO (full bleed, centered) -->
-                    <div class="relative flex justify-center items-center w-full h-full">
+                    <!-- VIDEO: fills entire card -->
+                    <video
+                        src="<%= post.videos %>"
+                        autoplay muted loop
+                        poster="<%= post.thumbnail %>"
+                        data-id="<%= post._id %>"
+                        class="videoplay absolute inset-0 w-full h-full object-cover hover:cursor-pointer z-0">
+                    </video>
 
-                        <video
-                            src="<%= post.videos %>"
-                            autoplay muted loop
-                            poster="<%= post.thumbnail %>"
-                            data-id="<%= post._id %>"
-                            class="videoplay h-full w-full sm:h-screen sm:w-auto xl:w-[25vw] object-cover rounded-none sm:rounded-2xl hover:cursor-pointer">
-                        </video>
+                    <!-- PLAY ICON -->
+                    <img src="images/play.svg"
+                        class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 z-10 pointer-events-none" alt="">
 
-                        <!-- PLAY ICON OVERLAY -->
-                        <img src="images/play.svg"
-                            class="play hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 pointer-events-none" alt="">
+                    <!-- TOP GRADIENT SCRIM -->
+                    <div class="absolute inset-x-0 top-0 h-32 z-10 pointer-events-none"
+                        style="background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);">
+                    </div>
 
-                        <!-- ── TOP: USERNAME BAR (overlaid on video) ── -->
-                        <div class="absolute top-0 left-0 right-0 flex items-center justify-between px-3 pt-3 pb-6"
-                            style="background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%);">
-                            <div class="flex items-center gap-2">
-                                <img src="<%= post.user.image %>" class="w-8 h-8 rounded-full object-cover border border-white/30" alt="">
-                                <a href="/home/<%= post.user._id %>" class="flex items-center gap-1 hover:opacity-80">
-                                    <span class="text-white font-semibold text-sm drop-shadow">@<%= post.user.username %></span>
-                                    <% if(post.user.walletAddress){ %>
-                                        <img src="/images/phantom_verified.svg" class="w-5 rounded-full" alt="">
-                                    <% } %>
-                                </a>
-                            </div>
-                            <!-- Follow / Unfollow -->
-                            <% if(post.user._id.toString() !== userdata._id.toString()){ %>
-                                <% if(post.user.follower.includes(userdata._id)){ %>
-                                    <button
-                                        class="text-xs px-3 py-1 bg-transparent border border-white/60 rounded-full font-semibold text-white hover:scale-[1.07] hover:cursor-pointer backdrop-blur-sm"
-                                        onclick="followuser('<%= post.user._id %>',this)">Unfollow</button>
-                                <% } else { %>
-                                    <button
-                                        class="text-xs px-3 py-1 bg-white/20 border border-white/60 rounded-full font-semibold text-white hover:scale-[1.07] hover:cursor-pointer backdrop-blur-sm"
-                                        onclick="followuser('<%= post.user._id %>',this)">Follow</button>
+                    <!-- BOTTOM GRADIENT SCRIM -->
+                    <div class="absolute inset-x-0 bottom-0 h-52 z-10 pointer-events-none"
+                        style="background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);">
+                    </div>
+
+                    <!-- ── TOP: USERNAME + FOLLOW ── -->
+                    <div class="absolute top-3 left-3 right-3 z-20 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <img src="<%= post.user.image %>"
+                                class="w-9 h-9 rounded-full object-cover border-2 border-white/40 shrink-0" alt="">
+                            <a href="/home/<%= post.user._id %>" class="flex items-center gap-1 hover:opacity-80">
+                                <span class="text-white font-semibold text-sm"
+                                    style="text-shadow:0 1px 4px rgba(0,0,0,0.8)">@<%= post.user.username %></span>
+                                <% if(post.user.walletAddress){ %>
+                                    <img src="/images/phantom_verified.svg" class="w-5 rounded-full" alt="">
                                 <% } %>
+                            </a>
+                        </div>
+                        <% if(post.user._id.toString() !== userdata._id.toString()){ %>
+                            <% if(post.user.follower.includes(userdata._id)){ %>
+                                <button
+                                    class="text-xs px-4 py-1 bg-white/10 border border-white/50 rounded-full font-semibold text-white hover:scale-[1.07] hover:cursor-pointer backdrop-blur-sm"
+                                    onclick="followuser('<%= post.user._id %>',this)">Unfollow</button>
+                            <% } else { %>
+                                <button
+                                    class="text-xs px-4 py-1 bg-white/20 border border-white/60 rounded-full font-semibold text-white hover:scale-[1.07] hover:cursor-pointer backdrop-blur-sm"
+                                    onclick="followuser('<%= post.user._id %>',this)">Follow</button>
                             <% } %>
+                        <% } %>
+                    </div>
+
+                    <!-- ── BOTTOM LEFT: DESCRIPTION ── -->
+                    <p onclick="description('<%= post._id %>')"
+                        id="description-<%= post._id %>"
+                        class="vdescription absolute bottom-6 left-3 z-20 w-[70%] max-h-[18vh] overflow-hidden line-clamp-2 text-sm font-thin text-white hover:cursor-pointer"
+                        style="text-shadow: 0 1px 6px rgba(0,0,0,1);">
+                        <% let r = Math.random() %>
+                        <% if(r > 0.1 && r < 0.2){ %><span class="text-blue-400">₥</span>
+                        <% } else if(r > 0.2 && r < 0.3){ %><span class="text-blue-400">µ</span>
+                        <% } else if(r > 0.3){ %><span class="text-blue-400">✓</span>
+                        <% } else { %><span class="text-blue-400">⌀</span>
+                        <% } %>
+                        <%= post.description %>
+                    </p>
+
+                    <!-- ── BOTTOM RIGHT: ACTION BUTTONS ── -->
+                    <div id="userinteract-<%= post._id %>"
+                        class="absolute right-3 bottom-6 z-20 flex flex-col items-center gap-5">
+
+                        <!-- LIKE -->
+                        <div class="flex flex-col items-center gap-1">
+                            <% if(post.likes.some(id => (id._id || id).toString() === userdata._id.toString())){ %>
+                                <img src="images/liked.svg"
+                                    class="likedv w-7 hover:scale-[1.1] hover:cursor-pointer"
+                                    data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
+                                <img src="images/unliked.svg"
+                                    class="unlikedv w-7 hover:scale-[1.1] hover:cursor-pointer hidden"
+                                    data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
+                            <% } else { %>
+                                <img src="images/liked.svg"
+                                    class="likedv w-7 hover:scale-[1.1] hover:cursor-pointer hidden"
+                                    data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
+                                <img src="images/unliked.svg"
+                                    class="unlikedv w-7 hover:scale-[1.1] hover:cursor-pointer"
+                                    data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
+                            <% } %>
+                            <h2 class="likevcount text-xs font-bold" data-id="<%= post._id %>"><%= post.likes.length %></h2>
                         </div>
 
-                        <!-- ── BOTTOM: DESCRIPTION (overlaid on video) ── -->
-                        <p onclick="description('<%= post._id %>')"
-                            id="description-<%= post._id %>"
-                            class="vdescription absolute bottom-4 left-3 right-16 max-h-[20vh] overflow-hidden line-clamp-2 font-thin text-sm text-white drop-shadow hover:cursor-pointer"
-                            style="text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
-                            <% let r = Math.random() %>
-                            <% if(r > 0.1 && r < 0.2){ %><span class="text-blue-400">₥</span>
-                            <% } else if(r > 0.2 && r < 0.3){ %><span class="text-blue-400">µ</span>
-                            <% } else if(r > 0.3){ %><span class="text-blue-400">✓</span>
-                            <% } else if(r < 0.1){ %><span class="text-blue-400">⌀</span>
-                            <% } %>
-                            <%= post.description %>
-                        </p>
-
-                        <!-- ── RIGHT SIDE: ACTION BUTTONS (overlaid on video) ── -->
-                        <div id="userinteract-<%= post._id %>"
-                            class="absolute right-2 bottom-8 flex flex-col items-center gap-5">
-
-                            <!-- LIKE -->
-                            <div class="flex flex-col items-center gap-1">
-                                <% if(post.likes.some(id => (id._id || id).toString() === userdata._id.toString())){ %>
-                                    <img src="images/liked.svg"
-                                        class="likedv w-7 hover:scale-[1.1] hover:cursor-pointer drop-shadow"
-                                        data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
-                                    <img src="images/unliked.svg"
-                                        class="unlikedv w-7 hover:scale-[1.1] hover:cursor-pointer hidden drop-shadow"
-                                        data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
-                                <% } else { %>
-                                    <img src="images/liked.svg"
-                                        class="likedv w-7 hover:scale-[1.1] hover:cursor-pointer hidden drop-shadow"
-                                        data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
-                                    <img src="images/unliked.svg"
-                                        class="unlikedv w-7 hover:scale-[1.1] hover:cursor-pointer drop-shadow"
-                                        data-id="<%= post._id %>" onclick="likevpost('<%= post._id %>')">
-                                <% } %>
-                                <h2 class="likevcount text-xs font-bold drop-shadow" data-id="<%= post._id %>"><%= post.likes.length %></h2>
-                            </div>
-
-                            <!-- COMMENT -->
-                            <div class="flex flex-col items-center gap-1">
-                                <img src="images/comment.svg"
-                                    onclick="vopenbox(`<%= post._id %>`)"
-                                    class="comment w-7 hover:scale-[1.1] hover:cursor-pointer drop-shadow" alt="">
-                                <h2 class="commentcount text-xs font-bold drop-shadow" data-id="<%= post._id %>"><%= post.comments.length %></h2>
-                            </div>
-
-                            <!-- SOUND -->
-                            <% if(post.image === ""){ %>
-                                <img src="images/offsound.svg"
-                                    class="playsound w-7 hover:scale-[1.1] hover:cursor-pointer hover:brightness-70 drop-shadow" alt="">
-                            <% } %>
-
-                            <!-- SOL TIP -->
-                            <% if(userdata.walletAddress && post.user.walletAddress && post.user._id.toString() !== userdata._id.toString()){ %>
-                                <img src="images/solana.svg"
-                                    onclick="vopensol('<%= post._id %>')"
-                                    class="w-8 hover:scale-[1.1] hover:cursor-pointer drop-shadow" alt="">
-                            <% } %>
+                        <!-- COMMENT -->
+                        <div class="flex flex-col items-center gap-1">
+                            <img src="images/comment.svg"
+                                onclick="vopenbox(`<%= post._id %>`)"
+                                class="comment w-7 hover:scale-[1.1] hover:cursor-pointer" alt="">
+                            <h2 class="commentcount text-xs font-bold" data-id="<%= post._id %>"><%= post.comments.length %></h2>
                         </div>
+
+                        <!-- SOUND -->
+                        <% if(post.image === ""){ %>
+                            <img src="images/offsound.svg"
+                                class="playsound w-7 hover:scale-[1.1] hover:cursor-pointer" alt="">
+                        <% } %>
+
+                        <!-- SOL TIP -->
+                        <% if(userdata.walletAddress && post.user.walletAddress && post.user._id.toString() !== userdata._id.toString()){ %>
+                            <img src="images/solana.svg"
+                                onclick="vopensol('<%= post._id %>')"
+                                class="w-8 hover:scale-[1.1] hover:cursor-pointer" alt="">
+                        <% } %>
                     </div>
 
                     <!-- ── COMMENT BOX OVERLAY ── -->
                     <div id="commentbox-<%= post._id %>"
-                        class="commentbox hidden absolute z-50 bg-zinc-900/95 inset-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 px-3 py-2 gap-5 sm:h-[88vh] sm:w-[60vw] lg:w-[30vw] border border-zinc-700 flex flex-col justify-center rounded-none sm:rounded-xl">
-                        <div class="flex items-center gap-5">
+                        class="commentbox hidden absolute inset-0 z-30 bg-zinc-900 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:h-[88vh] sm:w-[60vw] lg:w-[30vw] sm:rounded-xl border-zinc-700 sm:border flex flex-col px-3 py-3 gap-3">
+                        <div class="flex items-center gap-4 mt-1 shrink-0">
                             <img src="images/back.svg"
-                                class="vbackcomment-<%= post._id %> w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
+                                class="vbackcomment-<%= post._id %> w-5 hover:scale-[1.07] hover:cursor-pointer" alt="">
                             <p>Creative <strong class="text-yellow-300">Comments</strong></p>
                         </div>
                         <div data-id="<%= post._id %>"
-                            class="userscommentbox w-full flex-1 flex-col justify-start items-start space-y-4 overflow-y-scroll">
+                            class="userscommentbox w-full flex-1 flex flex-col justify-start items-start space-y-3 overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                             <% post.comments.reverse().forEach((c) => { %>
-                                <div class="eachcomment border flex flex-col overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden border-zinc-700 w-full shrink-0 max-h-[21vh]">
+                                <div class="eachcomment border border-zinc-700 rounded-md flex flex-col w-full shrink-0 overflow-hidden">
                                     <div class="ucomment-<%= c._id %> flex justify-start items-start gap-2 px-3 py-2">
-                                        <h1 class="nameofuser text-blue-600 shrink-0"><%= c.nameofuser %></h1>
-                                        <p class="usercomment wrap-break-word"><%= c.comment %></p>
+                                        <h1 class="nameofuser text-blue-500 shrink-0 text-sm font-semibold"><%= c.nameofuser %></h1>
+                                        <p class="usercomment wrap-break-word text-sm text-zinc-200"><%= c.comment %></p>
                                     </div>
                                     <% c.replies.reverse().forEach((r) => { %>
-                                        <div class="flex gap-2 px-3 py-2 h-7 w-full items-center">
-                                            <h1 class="text-blue-500">→ <%= r.replier %></h1>
-                                            <p><%= r.reply %></p>
+                                        <div class="flex gap-2 px-3 py-1 w-full items-center bg-zinc-800/50">
+                                            <h1 class="text-blue-400 text-xs shrink-0">→ <%= r.replier %></h1>
+                                            <p class="text-xs text-zinc-300"><%= r.reply %></p>
                                         </div>
                                     <% }) %>
                                     <div class="reply px-3 py-2">
                                         <div class="flex items-center gap-2">
                                             <textarea name="reply" id="reply-<%= c._id %>"
-                                                placeholder="Reply"
-                                                class="replybox outline-none overflow-y-scroll resize-none w-full rounded-md h-11 border border-zinc-700 px-2 bg-transparent"></textarea>
+                                                placeholder="Reply..."
+                                                class="replybox outline-none resize-none w-full rounded-md h-9 border border-zinc-700 px-2 bg-zinc-800 text-sm"></textarea>
                                             <img src="images/send.svg"
                                                 onclick="reply('<%= post._id %>','<%= c._id %>','<%= userdata.username %>')"
-                                                class="w-7 h-7 outline-none rounded-full bg-white border-white border" alt="">
+                                                class="w-7 h-7 rounded-full bg-white border-white border shrink-0 hover:scale-[1.07] hover:cursor-pointer" alt="">
                                         </div>
                                     </div>
                                 </div>
                             <% }) %>
                         </div>
-                        <div class="flex mb-3 justify-center items-center gap-3">
-                            <textarea id="comment-<%= post._id %>" placeholder="Comment Creatively"
-                                class="w-full border outline-none pt-3 border-zinc-700 resize-none rounded-md px-2 bg-transparent"></textarea>
+                        <div class="flex items-center gap-3 pb-3 shrink-0">
+                            <textarea id="comment-<%= post._id %>" placeholder="Comment Creatively..."
+                                class="flex-1 border outline-none pt-3 border-zinc-700 resize-none rounded-md px-2 bg-zinc-800 h-11 text-sm"></textarea>
                             <button onclick="sendcomment(`<%= post._id %>`,'<%= userdata.username %>','<%= userdata._id %>')"
-                                class="w-16 rounded-md px-2" type="button">
-                                <img src="images/send.svg" class="w-11 hover:scale-[1.09] hover:cursor-pointer" alt="">
+                                class="shrink-0" type="button">
+                                <img src="images/send.svg" class="w-10 hover:scale-[1.09] hover:cursor-pointer" alt="">
                             </button>
                         </div>
                     </div>
 
                     <!-- ── SOL BOX OVERLAY ── -->
                     <div id="solbox-<%= post._id %>"
-                        class="hidden absolute z-50 bg-zinc-900/95 inset-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 flex flex-col justify-between sm:w-[60vw] lg:w-[30vw] px-3 border border-zinc-700 sm:h-[90%] rounded-none sm:rounded-xl">
-                        <div class="flex items-center gap-5 mt-3">
+                        class="hidden absolute inset-0 z-30 bg-zinc-900 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-[60vw] lg:w-[30vw] sm:h-[90%] sm:rounded-xl border-zinc-700 sm:border flex flex-col px-3">
+                        <div class="flex items-center gap-4 mt-4 mb-2 shrink-0">
                             <img src="images/back.svg" id="backsol-<%= post._id %>"
-                                class="w-5 my-2 hover:scale-[1.07] hover:cursor-pointer" alt="">
+                                class="w-5 hover:scale-[1.07] hover:cursor-pointer" alt="">
                             <p>Creator <strong class="text-yellow-300">Supporters</strong></p>
                         </div>
                         <div id="solsenders-<%= post._id %>"
-                            class="solsenders flex-1 flex flex-col overflow-y-scroll justify-start">
+                            class="solsenders flex-1 flex flex-col overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-2 py-2">
                             <% post.sol.reverse().forEach((s) => { %>
-                                <div class="senderdata border border-zinc-700 my-2 w-full h-[11vh] px-2 flex items-center justify-start gap-5 shrink-0">
-                                    <img src="images/nft_verified.svg" class="w-7" alt="">
-                                    <p><strong class="text-yellow-200"><%= s.amount %></strong> Sol Send By
+                                <div class="senderdata border border-zinc-700 rounded-md w-full h-[11vh] px-3 flex items-center gap-4 shrink-0">
+                                    <img src="images/nft_verified.svg" class="w-7 shrink-0" alt="">
+                                    <p class="text-sm"><strong class="text-yellow-200"><%= s.amount %></strong> Sol sent by
                                         <strong onclick="searcheduserprofile('<%= s.senderId %>')"
-                                            class="text-purple-300 hover:text-zinc-50 hover:cursor-pointer"><%= s.sender %></strong>
+                                            class="text-purple-300 hover:text-white hover:cursor-pointer"><%= s.sender %></strong>
                                     </p>
                                 </div>
                             <% }) %>
                         </div>
-                        <div class="h-[20vh] flex flex-col justify-center items-center gap-5 pb-2">
-                            <div class="solbtn flex gap-9">
-                                <button class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                        <div class="flex flex-col justify-center items-center gap-5 py-6 shrink-0">
+                            <div class="flex gap-7">
+                                <button class="amount-btn rounded-md w-12 h-12 border border-zinc-700 bg-transparent font-semibold hover:scale-[1.1] hover:cursor-pointer hover:border-purple-400"
                                     onclick="selectsol(this,0.5)">0.5</button>
-                                <button class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                <button class="amount-btn rounded-md w-12 h-12 border border-zinc-700 bg-transparent font-semibold hover:scale-[1.1] hover:cursor-pointer hover:border-purple-400"
                                     onclick="selectsol(this,1)">1</button>
-                                <button class="amount-btn rounded-md w-11 h-11 border border-zinc-700 bg-transparent px-1 hover:scale-[1.1] hover:cursor-pointer"
+                                <button class="amount-btn rounded-md w-12 h-12 border border-zinc-700 bg-transparent font-semibold hover:scale-[1.1] hover:cursor-pointer hover:border-purple-400"
                                     onclick="selectsol(this,2)">2</button>
                             </div>
                             <button id="sendbtn" data-id="<%= post._id %>"
                                 onclick="sendSolToCreator('<%= post.user.walletAddress %>','<%= post.user.username %>','<%= post._id %>','<%= userdata._id %>','<%= userdata.username %>')"
-                                class="getsendbtn rounded-md bg-purple-400 px-2 h-11 text-black font-semibold hover:scale-[1.07] hover:cursor-pointer">Send</button>
+                                class="getsendbtn rounded-md bg-purple-400 px-8 h-12 text-black font-bold hover:scale-[1.07] hover:cursor-pointer hover:bg-purple-300">Send SOL</button>
                         </div>
                     </div>
 
@@ -277,7 +284,7 @@
         </div>
 
         <!-- BOTTOM NAV (mobile only) -->
-        <div class="flex sm:hidden w-full justify-between px-5 h-[9%] items-center bg-zinc-900 border-t border-zinc-800">
+        <div class="flex sm:hidden w-full justify-between px-6 items-center bg-zinc-900 border-t border-zinc-800 shrink-0" style="height: env(safe-area-inset-bottom, 0px); min-height: 60px; padding-bottom: env(safe-area-inset-bottom, 8px);">
             <a href="/home"><img src="images/home.svg" class="rounded-full w-9" alt=""></a>
             <a href="/Vclips"><img src="images/Vclips.svg" class="w-6" alt=""></a>
             <a href="/post"><img src="images/post.svg" class="rounded-full w-9" alt=""></a>
